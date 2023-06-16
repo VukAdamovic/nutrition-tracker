@@ -52,18 +52,17 @@ public class StartActivity extends AppCompatActivity {
     private void checkAndCreateFile() throws IOException {
         File file = new File(getFilesDir(), "nalozi.txt");
         if (!file.exists()) {
-//            file.createNewFile();
-            FileOutputStream fout = openFileOutput("nalozi.txt", MODE_PRIVATE);
+            FileOutputStream out = openFileOutput("nalozi.txt", MODE_PRIVATE);
 
             String nalog1 = "nalog1@gmail.com ,nalog1 ,Nalog1\n";
             String nalog2 = "nalog2@gmail.com ,nalog2 ,Nalog2\n";
             String nalog3 = "nalog3@gmail.com ,nalog3 ,Nalog3\n";
 
-            fout.write(nalog1.getBytes());
-            fout.write(nalog2.getBytes());
-            fout.write(nalog3.getBytes());
+            out.write(nalog1.getBytes());
+            out.write(nalog2.getBytes());
+            out.write(nalog3.getBytes());
 
-            fout.close();
+            out.close();
         }
     }
 
