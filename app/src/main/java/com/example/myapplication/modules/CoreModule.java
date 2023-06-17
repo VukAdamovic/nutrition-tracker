@@ -19,15 +19,10 @@ import dagger.Provides;
 
 @Module
 public class CoreModule {
-    private final Application application;
-
-    public CoreModule(Application application) {
-        this.application = application;
-    }
 
     @Singleton
     @Provides
-    public Context provideContext() {
+    public Context provideContext(Application application) {
         return application;
     }
 
@@ -53,3 +48,4 @@ public class CoreModule {
                 .build();
     }
 }
+

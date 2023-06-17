@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -34,7 +35,7 @@ public class StartActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(getPackageName(),MODE_PRIVATE);
         Boolean alreadyLoggedIn = sharedPreferences.getBoolean(StartActivity.KEY_ALREADY_LOGGED_IN,false);
 
-        new Handler().postDelayed(new Runnable() {
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
                 if (!alreadyLoggedIn){
@@ -47,6 +48,7 @@ public class StartActivity extends AppCompatActivity {
                 finish();
             }
         },2300);
+
     }
 
     private void checkAndCreateFile() throws IOException {

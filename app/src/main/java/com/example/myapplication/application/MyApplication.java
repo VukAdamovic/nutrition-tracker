@@ -17,9 +17,7 @@ public class MyApplication extends Application {
     }
 
     private void initDagger() {
-        appComponent = DaggerAppComponent.builder()
-                .coreModule(new CoreModule(this))
-                .build();
+        appComponent = DaggerAppComponent.factory().create(this);
         appComponent.inject(this);
     }
 
