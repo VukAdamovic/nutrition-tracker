@@ -60,7 +60,6 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-common-java8:2.4.1'
 
     // Utility
-    implementation 'com.jakewharton.timber:timber:4.7.1'
 
     // Rx
     implementation 'io.reactivex.rxjava2:rxjava:2.2.9'

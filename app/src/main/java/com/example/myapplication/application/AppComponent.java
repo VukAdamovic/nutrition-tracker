@@ -2,6 +2,7 @@ package com.example.myapplication.application;
 
 import android.app.Application;
 
+import com.example.myapplication.data.repositories.UserRepository;
 import com.example.myapplication.modules.CoreModule;
 import com.example.myapplication.modules.UserModule;
 
@@ -15,10 +16,11 @@ import dagger.Component;
 public interface AppComponent {
     void inject(MyApplication app);
 
+    UserRepository provideUserRepository();
+
     @Component.Factory
     interface Factory {
         AppComponent create(@BindsInstance Application application);
     }
 }
-
 

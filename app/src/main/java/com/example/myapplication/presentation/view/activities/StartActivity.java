@@ -1,24 +1,27 @@
 package com.example.myapplication.presentation.view.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.myapplication.R;
+import com.example.myapplication.application.MyApplication;
+import com.example.myapplication.data.models.entities.UserEntity;
+import com.example.myapplication.data.repositories.UserRepository;
+import com.example.myapplication.presentation.event.MainViewModel;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.Objects;
 
 public class StartActivity extends AppCompatActivity {
 
     public static final String KEY_ALREADY_LOGGED_IN = "alreadyLoggedIn";
-
+    private MainViewModel mainViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,47 +29,40 @@ public class StartActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).hide();
         setContentView(R.layout.activity_splash_screen);
 
-        try {
-            checkAndCreateFile();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        SharedPreferences sharedPreferences = getSharedPreferences(getPackageName(),MODE_PRIVATE);
-        Boolean alreadyLoggedIn = sharedPreferences.getBoolean(StartActivity.KEY_ALREADY_LOGGED_IN,false);
-
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+//         Setup ViewModelProvider.Factory with Dagger
+        ViewModelProvider.Factory factory = new ViewModelProvider.Factory() {
+            @NonNull
             @Override
-            public void run() {
-                if (!alreadyLoggedIn){
-                    Intent intent = new Intent(StartActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                } else{
-                    Intent intent = new Intent(StartActivity.this, MainActivity.class);
-                    startActivity(intent);
+            public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
+                if (modelClass.isAssignableFrom(MainViewModel.class)) {
+                    UserRepository userRepository = ((MyApplication) getApplication()).getAppComponent().provideUserRepository();
+                    return (T) new MainViewModel(userRepository);
                 }
-                finish();
+                throw new IllegalArgumentException("Unknown ViewModel class");
             }
-        },2300);
+        };
 
+        mainViewModel = new ViewModelProvider(this, factory).get(MainViewModel.class);
+
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            Intent intent = new Intent(StartActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }, 2300);
+        initObservers();
     }
 
-    private void checkAndCreateFile() throws IOException {
-        File file = new File(getFilesDir(), "nalozi.txt");
-        if (!file.exists()) {
-            FileOutputStream out = openFileOutput("nalozi.txt", MODE_PRIVATE);
+    private void initObservers() {
+        UserEntity user1 = new UserEntity(0, "mitar", "12345");
+        UserEntity user2 = new UserEntity(0, "vuk", "12345");
 
-            String nalog1 = "nalog1@gmail.com ,nalog1 ,Nalog1\n";
-            String nalog2 = "nalog2@gmail.com ,nalog2 ,Nalog2\n";
-            String nalog3 = "nalog3@gmail.com ,nalog3 ,Nalog3\n";
+        mainViewModel.adduser(user1);
+        mainViewModel.adduser(user2);
 
-            out.write(nalog1.getBytes());
-            out.write(nalog2.getBytes());
-            out.write(nalog3.getBytes());
-
-            out.close();
-        }
+        new Handler().postDelayed(() -> {
+            long id = 1;
+            mainViewModel.getUserById(id);
+        }, 2000); // Delay fetching the user by 2 seconds
     }
-
-
 }
+

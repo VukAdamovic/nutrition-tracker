@@ -21,4 +21,3 @@ public class UserModule {
         return myDatabase.getUserDao();
     }
 }
-
