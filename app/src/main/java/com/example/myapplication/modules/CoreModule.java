@@ -34,8 +34,8 @@ public class CoreModule {
 
     @Singleton
     @Provides
-    public MyDatabase provideStudentDatabase(Context context) {
-        return Room.databaseBuilder(context, MyDatabase.class, "StudentsDb")
+    public MyDatabase provideDb(Context context) {
+        return Room.databaseBuilder(context, MyDatabase.class, "Db")
                 .fallbackToDestructiveMigration()
                 .build();
     }

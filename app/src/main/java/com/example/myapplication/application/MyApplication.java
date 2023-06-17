@@ -2,10 +2,6 @@ package com.example.myapplication.application;
 
 import android.app.Application;
 
-import com.example.myapplication.modules.CoreModule;
-
-import timber.log.Timber;
-
 public class MyApplication extends Application {
 
     private AppComponent appComponent;
@@ -25,6 +21,7 @@ public class MyApplication extends Application {
         return appComponent;
     }
 }
+
 
 
 
