@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,11 +13,19 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.myapplication.R;
 import com.example.myapplication.application.MyApplication;
+import com.example.myapplication.data.models.entities.MealEntity;
 import com.example.myapplication.data.models.entities.UserEntity;
+import com.example.myapplication.data.repositories.MealRepository;
 import com.example.myapplication.data.repositories.UserRepository;
 import com.example.myapplication.presentation.event.MainViewModel;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Objects;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class StartActivity extends AppCompatActivity {
 
@@ -36,7 +45,8 @@ public class StartActivity extends AppCompatActivity {
             public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
                 if (modelClass.isAssignableFrom(MainViewModel.class)) {
                     UserRepository userRepository = ((MyApplication) getApplication()).getAppComponent().provideUserRepository();
-                    return (T) new MainViewModel(userRepository);
+                    MealRepository mealRepository = ((MyApplication) getApplication()).getAppComponent().provideMealRepository();
+                    return (T) new MainViewModel(userRepository, mealRepository);
                 }
                 throw new IllegalArgumentException("Unknown ViewModel class");
             }
@@ -53,16 +63,53 @@ public class StartActivity extends AppCompatActivity {
     }
 
     private void initObservers() {
-        UserEntity user1 = new UserEntity(0, "mitar", "12345");
-        UserEntity user2 = new UserEntity(0, "vuk", "12345");
+//        mainViewModel.adduser(new UserEntity(0, "mitar", "12345"));
+//        mainViewModel.adduser(new UserEntity(0, "vuk", "12345"));
+//
+//        Date currentDate = new Date();
+//
+//        List<String> ingredients1 = new ArrayList<>();
+//        ingredients1.add("Ingredient 1");
+//        ingredients1.add("Ingredient 2");
+//
+//        MealEntity meal1 = new MealEntity(
+//                "Meal 1",
+//                "image_url_1",
+//                "Instructions for meal 1",
+//                "youtube_link_1",
+//                ingredients1,
+//                "Category 1",
+//                currentDate,
+//                200,
+//                1
+//        );
+//
+//        List<String> ingredients2 = new ArrayList<>();
+//        ingredients2.add("Ingredient 3");
+//        ingredients2.add("Ingredient 4");
+//
+//        MealEntity meal2 = new MealEntity(
+//                "Meal 2",
+//                "image_url_2",
+//                "Instructions for meal 2",
+//                "youtube_link_2",
+//                ingredients2,
+//                "Category 2",
+//                currentDate,
+//                300,
+//                1
+//        );
+//
+//        mainViewModel.insertMeal(meal1);
+//        mainViewModel.insertMeal(meal2);
+//        mainViewModel.deleteMeal(1);
 
-        mainViewModel.adduser(user1);
-        mainViewModel.adduser(user2);
 
-        new Handler().postDelayed(() -> {
-            long id = 1;
-            mainViewModel.getUserById(id);
-        }, 2000); // Delay fetching the user by 2 seconds
+        // Pretpostavka: Prikupite datum pripreme za prethodno ubačene objekte
+//        Date currentDate = new Date();
+//
+//        mainViewModel.getAllMealsByDate(currentDate);
+
     }
 }
 

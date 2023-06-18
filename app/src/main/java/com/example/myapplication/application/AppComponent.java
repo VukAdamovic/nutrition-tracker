@@ -2,8 +2,10 @@ package com.example.myapplication.application;
 
 import android.app.Application;
 
+import com.example.myapplication.data.repositories.MealRepository;
 import com.example.myapplication.data.repositories.UserRepository;
 import com.example.myapplication.modules.CoreModule;
+import com.example.myapplication.modules.MealModule;
 import com.example.myapplication.modules.UserModule;
 
 import javax.inject.Singleton;
@@ -12,11 +14,13 @@ import dagger.BindsInstance;
 import dagger.Component;
 
 @Singleton
-@Component(modules = {CoreModule.class, UserModule.class})
+@Component(modules = {CoreModule.class, UserModule.class, MealModule.class})
 public interface AppComponent {
     void inject(MyApplication app);
 
     UserRepository provideUserRepository();
+
+    MealRepository provideMealRepository();
 
     @Component.Factory
     interface Factory {
