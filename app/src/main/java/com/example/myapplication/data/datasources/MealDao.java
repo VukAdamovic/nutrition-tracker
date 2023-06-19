@@ -1,17 +1,13 @@
 package com.example.myapplication.data.datasources;
 
-import android.util.Log;
-
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
-import androidx.room.Transaction;
 import androidx.room.Update;
 
 import com.example.myapplication.data.models.entities.MealEntity;
 
-import java.util.Date;
 import java.util.List;
 
 import io.reactivex.Completable;
@@ -41,21 +37,4 @@ public  abstract class MealDao {
     // brisanje jela iz menija
     @Delete
     public abstract Completable deleteMeal(MealEntity mealEntity);
-
-
-    //Iz nekog razloga Lombok ne radi
-    @Transaction
-    public void getMealByIdAndUpdate(int id, String mealImageUrl, Date preparationDate) {
-        MealEntity mealEntity = getMealById(id);
-//        mealEntity.setMealImageUrl(mealImageUrl);
-//        mealEntity.setPreparationDate(preparationDate);
-        updateMeal(mealEntity);
-
-    }
-
-    @Transaction
-    public void getMealByIdAndDelete(int id) {
-        MealEntity mealEntity = getMealById(id);
-        deleteMeal(mealEntity);
-    }
 }

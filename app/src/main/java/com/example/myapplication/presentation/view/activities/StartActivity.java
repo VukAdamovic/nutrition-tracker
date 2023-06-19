@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,9 +22,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
 public class StartActivity extends AppCompatActivity {
 
@@ -63,46 +59,32 @@ public class StartActivity extends AppCompatActivity {
     }
 
     private void initObservers() {
-//        mainViewModel.adduser(new UserEntity(0, "mitar", "12345"));
-//        mainViewModel.adduser(new UserEntity(0, "vuk", "12345"));
-//
-//        Date currentDate = new Date();
-//
-//        List<String> ingredients1 = new ArrayList<>();
-//        ingredients1.add("Ingredient 1");
-//        ingredients1.add("Ingredient 2");
-//
-//        MealEntity meal1 = new MealEntity(
-//                "Meal 1",
-//                "image_url_1",
-//                "Instructions for meal 1",
-//                "youtube_link_1",
-//                ingredients1,
-//                "Category 1",
-//                currentDate,
-//                200,
-//                1
-//        );
-//
-//        List<String> ingredients2 = new ArrayList<>();
-//        ingredients2.add("Ingredient 3");
-//        ingredients2.add("Ingredient 4");
-//
-//        MealEntity meal2 = new MealEntity(
-//                "Meal 2",
-//                "image_url_2",
-//                "Instructions for meal 2",
-//                "youtube_link_2",
-//                ingredients2,
-//                "Category 2",
-//                currentDate,
-//                300,
-//                1
-//        );
-//
-//        mainViewModel.insertMeal(meal1);
-//        mainViewModel.insertMeal(meal2);
-//        mainViewModel.deleteMeal(1);
+        mainViewModel.adduser(new UserEntity(0, "mitar", "12345"));
+        mainViewModel.adduser(new UserEntity(0, "vuk", "12345"));
+
+        Date currentDate = new Date();
+
+        List<String> ingredients1 = new ArrayList<>();
+        ingredients1.add("Ingredient 1");
+        ingredients1.add("Ingredient 2");
+
+        MealEntity meal1 = new MealEntity(
+                "Meal 1",
+                "image_url_1",
+                "Instructions for meal 1",
+                "youtube_link_1",
+                ingredients1,
+                "Category 1",
+                currentDate,
+                200,
+                1
+        );
+
+        mainViewModel.insertMeal(meal1);
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            mainViewModel.deleteMeal(1);
+        }, 5000);  // 5 seconds delay
+
 
 
         // Pretpostavka: Prikupite datum pripreme za prethodno ubačene objekte
