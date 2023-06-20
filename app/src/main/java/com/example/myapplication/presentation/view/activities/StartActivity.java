@@ -16,7 +16,8 @@ import com.example.myapplication.data.models.entities.MealEntity;
 import com.example.myapplication.data.models.entities.UserEntity;
 import com.example.myapplication.data.repositories.local.MealRepository;
 import com.example.myapplication.data.repositories.local.UserRepository;
-import com.example.myapplication.data.repositories.remote.CategoryRepository;
+import com.example.myapplication.data.repositories.remote.category.CategoryRepository;
+import com.example.myapplication.data.repositories.remote.meal.MealRepositoryRemote;
 import com.example.myapplication.presentation.event.MainViewModel;
 
 import java.util.ArrayList;
@@ -45,7 +46,8 @@ public class StartActivity extends AppCompatActivity {
                     UserRepository userRepository = ((MyApplication) getApplication()).getAppComponent().provideUserRepository();
                     MealRepository mealRepository = ((MyApplication) getApplication()).getAppComponent().provideMealRepository();
                     CategoryRepository categoryRepository = ((MyApplication) getApplication()).getAppComponent().provideCategoryRepository();
-                    return (T) new MainViewModel(userRepository, mealRepository, categoryRepository);
+                    MealRepositoryRemote mealRepositoryRemote = ((MyApplication) getApplication()).getAppComponent().provideMealRepositoryRemote();
+                    return (T) new MainViewModel(userRepository, mealRepository, categoryRepository, mealRepositoryRemote);
                 }
                 throw new IllegalArgumentException("Unknown ViewModel class");
             }
@@ -62,7 +64,8 @@ public class StartActivity extends AppCompatActivity {
         }, 2300);
 
 //        mainViewModel.getMealsLastSevenDays(1, currentDate);
-        mainViewModel.getCategories();
+//        mainViewModel.getCategories();
+        mainViewModel.getMealsByCategory("Seafood");
     }
 
     private void initObservers() {

@@ -4,7 +4,8 @@ import android.app.Application;
 
 import com.example.myapplication.data.repositories.local.MealRepository;
 import com.example.myapplication.data.repositories.local.UserRepository;
-import com.example.myapplication.data.repositories.remote.CategoryRepository;
+import com.example.myapplication.data.repositories.remote.category.CategoryRepository;
+import com.example.myapplication.data.repositories.remote.meal.MealRepositoryRemote;
 import com.example.myapplication.modules.CategoryModule;
 import com.example.myapplication.modules.CoreModule;
 import com.example.myapplication.modules.MealModule;
@@ -25,6 +26,8 @@ public interface AppComponent {
     MealRepository provideMealRepository();
 
     CategoryRepository provideCategoryRepository();
+
+    MealRepositoryRemote provideMealRepositoryRemote();
 
     @Component.Factory
     interface Factory {

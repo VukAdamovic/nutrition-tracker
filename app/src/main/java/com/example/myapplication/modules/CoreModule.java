@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import androidx.room.Room;
 
 import com.example.myapplication.data.db.MyDatabase;
-import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 import com.squareup.moshi.adapters.Rfc3339DateJsonAdapter;
 
@@ -79,9 +78,4 @@ public class CoreModule {
     public static <T> T create(Class<T> serviceClass, Retrofit retrofit) {
         return retrofit.create(serviceClass);
     }
-
-    public <T> JsonAdapter<T> provideJsonAdapter(Moshi moshi, Class<T> type) {
-        return moshi.adapter(type);
-    }
-
 }

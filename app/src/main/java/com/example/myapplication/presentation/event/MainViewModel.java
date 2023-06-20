@@ -4,23 +4,23 @@ import android.util.Log;
 
 import androidx.lifecycle.ViewModel;
 
-import com.example.myapplication.data.models.domain.Category;
+import com.example.myapplication.data.models.api.domain.Category;
+import com.example.myapplication.data.models.api.domain.MealByCategory;
 import com.example.myapplication.data.models.entities.MealEntity;
 import com.example.myapplication.data.models.entities.UserEntity;
 import com.example.myapplication.data.repositories.local.MealRepository;
 import com.example.myapplication.data.repositories.local.UserRepository;
-import com.example.myapplication.data.repositories.remote.CategoryRepository;
+import com.example.myapplication.data.repositories.remote.category.CategoryRepository;
+import com.example.myapplication.data.repositories.remote.meal.MealRepositoryRemote;
 import com.example.myapplication.presentation.contract.MainContract;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
 public class MainViewModel extends ViewModel implements MainContract {
@@ -29,12 +29,14 @@ public class MainViewModel extends ViewModel implements MainContract {
     private UserRepository userRepository;
     private MealRepository mealRepository;
     private CategoryRepository categoryRepository;
+    private MealRepositoryRemote mealRepositoryRemote;
 
     @Inject
-    public MainViewModel(UserRepository userRepository, MealRepository mealRepository, CategoryRepository categoryRepository) {
+    public MainViewModel(UserRepository userRepository, MealRepository mealRepository, CategoryRepository categoryRepository, MealRepositoryRemote mealRepositoryRemote) {
         this.userRepository = userRepository;
         this.mealRepository = mealRepository;
         this.categoryRepository = categoryRepository;
+        this.mealRepositoryRemote = mealRepositoryRemote;
     }
 
     @Override
@@ -171,7 +173,7 @@ public class MainViewModel extends ViewModel implements MainContract {
     @Override
     public void getCategories() {
         subscriptions.add(
-                categoryRepository.getAll()
+                categoryRepository.getAllCategories()
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .doOnComplete(() -> Log.d("MainViewModel", "Fetch Complete"))
@@ -185,6 +187,26 @@ public class MainViewModel extends ViewModel implements MainContract {
                         )
         );
     }
+
+    @Override
+    public void getMealsByCategory(String category) {
+        subscriptions.add(
+                mealRepositoryRemote.getAllMealsByCategory(category)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnComplete(() -> Log.d("MainViewModel", "Fetch Complete"))
+                        .subscribe(
+                                meals -> {
+                                    Log.d("MainViewModel", "Meal: " + meals.size());
+//                                    for (MealByCategory meal : meals) {
+//                                        Log.d("MainViewModel", "Meal: " + meal.getName());
+//                                    }
+                                },
+                                throwable -> Log.e("MainViewModel", "Error: ", throwable)
+                        )
+        );
+    }
+
 
     @Override
     protected void onCleared() {

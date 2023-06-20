@@ -1,4 +1,4 @@
-package com.example.myapplication.data.models.api;
+package com.example.myapplication.data.models.api.category;
 
 import com.squareup.moshi.Json;
 

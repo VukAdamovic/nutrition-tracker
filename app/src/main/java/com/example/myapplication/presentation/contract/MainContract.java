@@ -2,7 +2,7 @@ package com.example.myapplication.presentation.contract;
 
 import androidx.lifecycle.LiveData;
 
-import com.example.myapplication.data.models.domain.Category;
+import com.example.myapplication.data.models.api.domain.Category;
 import com.example.myapplication.data.models.entities.MealEntity;
 import com.example.myapplication.data.models.entities.UserEntity;
 
@@ -24,4 +24,5 @@ public interface MainContract {
 
     LiveData<List<Category>> categories = null;
     void getCategories();
+    void getMealsByCategory(String category);
 }

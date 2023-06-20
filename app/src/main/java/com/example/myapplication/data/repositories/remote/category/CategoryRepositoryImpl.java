@@ -1,9 +1,9 @@
-package com.example.myapplication.data.repositories.remote;
+package com.example.myapplication.data.repositories.remote.category;
 
 import com.example.myapplication.data.datasources.remote.CategoryService;
-import com.example.myapplication.data.models.api.AllCategoriesResponse;
-import com.example.myapplication.data.models.api.CategoryResponse;
-import com.example.myapplication.data.models.domain.Category;
+import com.example.myapplication.data.models.api.category.AllCategoriesResponse;
+import com.example.myapplication.data.models.api.category.CategoryResponse;
+import com.example.myapplication.data.models.api.domain.Category;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +24,9 @@ public class CategoryRepositoryImpl implements CategoryRepository{
     }
 
     @Override
-    public Observable<List<Category>> getAll() {
+    public Observable<List<Category>> getAllCategories() {
         return categoryService
-                .getAll()
+                .getAllCategories()
                 .map(new Function<AllCategoriesResponse, List<Category>>() {
                     @Override
                     public List<Category> apply(AllCategoriesResponse allCategoriesResponse) throws Exception {

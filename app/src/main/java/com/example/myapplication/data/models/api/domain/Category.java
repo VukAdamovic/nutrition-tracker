@@ -1,4 +1,4 @@
-package com.example.myapplication.data.models.domain;
+package com.example.myapplication.data.models.api.domain;
 
 import lombok.Getter;
 import lombok.Setter;
