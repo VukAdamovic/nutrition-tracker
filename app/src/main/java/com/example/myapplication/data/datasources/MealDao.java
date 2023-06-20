@@ -18,13 +18,15 @@ public  abstract class MealDao {
 
 
     // pretraga jela - neka bude po datumu
-    @Query("SELECT * FROM meals WHERE preparationDate == :preparationDate")
-    public abstract Observable<List<MealEntity>> getAllMealsByDate(Long preparationDate);
-
+    @Query("SELECT * FROM meals WHERE user_id = :userId AND preparationDate BETWEEN :sevenDaysAgo AND :currentDate")
+    public abstract Observable<List<MealEntity>> getMealsLastSevenDays(int userId, Long currentDate, Long sevenDaysAgo);
 
     // dohvati jelo po id - ovo mi treba za update, delete
     @Query("SELECT * FROM meals WHERE id == :id")
     public abstract MealEntity getMealById(int id);
+
+    @Query("SELECT * FROM meals WHERE user_id == :userId")
+    public abstract Observable<List<MealEntity>> getMealsByUserId(int userId);
 
     // dodavanje jela u meni - CUVANJE
     @Insert

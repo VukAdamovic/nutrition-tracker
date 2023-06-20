@@ -11,11 +11,13 @@ import io.reactivex.Observable;
 
 public interface MealRepository {
 
-    Observable<List<MealEntity>> getAllMealsByDate(Long preparationDate);
-
     Completable insertMeal(MealEntity mealEntity);
 
     Completable updateMeal(int id, String mealImageUrl, Date preparationDate);
 
     Completable deleteMeal(int id);
+
+    Observable<List<MealEntity>> getMealsByUserId(int userId);
+
+    Observable<List<MealEntity>> getMealsLastSevenDays(int userId, Long currentDate, Long sevenDaysAgo);
 }

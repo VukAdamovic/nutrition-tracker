@@ -11,13 +11,13 @@ import com.example.myapplication.data.repositories.MealRepository;
 import com.example.myapplication.data.repositories.UserRepository;
 import com.example.myapplication.presentation.contract.MainContract;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class MainViewModel extends ViewModel implements MainContract {
@@ -72,26 +72,6 @@ public class MainViewModel extends ViewModel implements MainContract {
     }
 
     @Override
-    public void getAllMealsByDate(Date preparationDate) {
-        subscriptions.add(
-                mealRepository.getAllMealsByDate(DateConverter.dateToTimestamp(preparationDate))
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(
-                                meals -> {
-                                    // Ovdje rukujte s listom jela
-                                    Log.d("Pretvorio", DateConverter.dateToTimestamp(preparationDate).toString());
-                                    Log.d("MainViewModel Meals", "Received meals: " + meals);
-                                },
-                                throwable -> {
-                                    // Rukovanje greškom
-                                    Log.e("MainViewModel Meals", "Error: ", throwable);
-                                }
-                        )
-        );
-    }
-
-    @Override
     public void insertMeal(MealEntity mealEntity) {
         subscriptions.add(
                 mealRepository.insertMeal(mealEntity)
@@ -130,6 +110,61 @@ public class MainViewModel extends ViewModel implements MainContract {
                         )
         );
     }
+
+    @Override
+    public void getMealsByUserId(int userId) {
+        subscriptions.add(
+                mealRepository.getMealsByUserId(userId)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                meals -> {
+                                    for (MealEntity meal : meals) {
+                                        Log.d("MainViewModel Meal", "Meal: " + meal.getMealName());
+                                    }
+                                },
+                                throwable -> {
+                                    Log.e("MainViewModel Meals", "Error: ", throwable);
+                                }
+                        )
+        );
+    }
+
+    @Override
+    public void getMealsLastSevenDays(int userId, Date currentDate) {
+
+        // Get current date at 23:59:59
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(currentDate);
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 59);
+        Long currentTimestamp = calendar.getTimeInMillis();
+
+        // Get date seven days ago at 00:00:01
+        calendar.add(Calendar.DAY_OF_YEAR, -7);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 1);
+        Long sevenDaysAgoTimestamp = calendar.getTimeInMillis();
+
+        subscriptions.add(
+                mealRepository.getMealsLastSevenDays(userId, currentTimestamp, sevenDaysAgoTimestamp)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                meals -> {
+                                    for (MealEntity meal : meals) {
+                                        Log.d("MainViewModel Meal", "Meal: " + meal.getMealName());
+                                    }
+                                },
+                                throwable -> {
+                                    Log.e("MainViewModel Meals", "Error: ", throwable);
+                                }
+                        )
+        );
+    }
+
 
     @Override
     protected void onCleared() {

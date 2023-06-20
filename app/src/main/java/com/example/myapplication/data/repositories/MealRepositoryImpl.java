@@ -21,12 +21,6 @@ public class MealRepositoryImpl implements MealRepository{
         this.mealDao = mealDao;
     }
 
-
-    @Override
-    public Observable<List<MealEntity>> getAllMealsByDate(Long preparationDate) {
-        return this.mealDao.getAllMealsByDate(preparationDate);
-    }
-
     @Override
     public Completable insertMeal(MealEntity mealEntity) {
         return this.mealDao.insertMeal(mealEntity);
@@ -50,6 +44,16 @@ public class MealRepositoryImpl implements MealRepository{
                     this.mealDao.deleteMeal(mealEntity).subscribe();
                 })
                 .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<List<MealEntity>> getMealsByUserId(int userId) {
+        return this.mealDao.getMealsByUserId(userId);
+    }
+
+    @Override
+    public Observable<List<MealEntity>> getMealsLastSevenDays(int userId, Long currentDate, Long sevenDaysAgo) {
+        return this.mealDao.getMealsLastSevenDays(userId, currentDate, sevenDaysAgo);
     }
 
 }

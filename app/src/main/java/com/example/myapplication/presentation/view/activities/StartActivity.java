@@ -28,6 +28,8 @@ public class StartActivity extends AppCompatActivity {
     public static final String KEY_ALREADY_LOGGED_IN = "alreadyLoggedIn";
     private MainViewModel mainViewModel;
 
+    Date currentDate = new Date();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,19 +52,31 @@ public class StartActivity extends AppCompatActivity {
 
         mainViewModel = new ViewModelProvider(this, factory).get(MainViewModel.class);
 
+//        new Handler(Looper.getMainLooper()).postDelayed(this::initObservers, 2300);
+
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
             Intent intent = new Intent(StartActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
         }, 2300);
-        initObservers();
+
+        mainViewModel.getMealsLastSevenDays(1, currentDate);
+
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.add(Calendar.DAY_OF_YEAR, -8);
+//        calendar.set(Calendar.HOUR_OF_DAY, 0);
+//        calendar.set(Calendar.MINUTE, 0);
+//        calendar.set(Calendar.SECOND, 1);
+//        Long currentTimestamp = calendar.getTimeInMillis();
+//
+//        Log.d("Long pre 8 dana", String.valueOf(currentTimestamp));
     }
 
     private void initObservers() {
         mainViewModel.adduser(new UserEntity(0, "mitar", "12345"));
         mainViewModel.adduser(new UserEntity(0, "vuk", "12345"));
 
-        Date currentDate = new Date();
+
 
         List<String> ingredients1 = new ArrayList<>();
         ingredients1.add("Ingredient 1");
@@ -80,18 +94,33 @@ public class StartActivity extends AppCompatActivity {
                 1
         );
 
+        MealEntity meal2 = new MealEntity(
+                "Meal 2",
+                "image_url_2",
+                "Instructions for meal 2",
+                "youtube_link_2",
+                ingredients1,
+                "Category 2",
+                currentDate,
+                300,
+                1
+        );
+
+        MealEntity meal3 = new MealEntity(
+                "Meal 3",
+                "image_url_3",
+                "Instructions for meal 3",
+                "youtube_link_3",
+                ingredients1,
+                "Category 3",
+                currentDate,
+                300,
+                1
+        );
+
         mainViewModel.insertMeal(meal1);
-        new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            mainViewModel.deleteMeal(1);
-        }, 5000);  // 5 seconds delay
-
-
-
-        // Pretpostavka: Prikupite datum pripreme za prethodno ubačene objekte
-//        Date currentDate = new Date();
-//
-//        mainViewModel.getAllMealsByDate(currentDate);
-
+        mainViewModel.insertMeal(meal2);
+        mainViewModel.insertMeal(meal3);
     }
 }
 
