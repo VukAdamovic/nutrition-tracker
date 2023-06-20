@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 public class AllCategoriesResponse {
 
-    @Json(name = "allCategories")
+    @Json(name = "categories")
     private List<CategoryResponse> allCategories;
 
     public AllCategoriesResponse(List<CategoryResponse> allCategories) {
