@@ -1,6 +1,6 @@
 package com.example.myapplication.data.repositories;
 
-import com.example.myapplication.data.datasources.UserDao;
+import com.example.myapplication.data.datasources.local.UserDao;
 import com.example.myapplication.data.models.entities.UserEntity;
 import javax.inject.Inject;
 import io.reactivex.Completable;

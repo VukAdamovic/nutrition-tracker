@@ -1,6 +1,6 @@
 package com.example.myapplication.modules;
 
-import com.example.myapplication.data.datasources.MealDao;
+import com.example.myapplication.data.datasources.local.MealDao;
 import com.example.myapplication.data.db.MyDatabase;
 import com.example.myapplication.data.repositories.MealRepository;
 import com.example.myapplication.data.repositories.MealRepositoryImpl;

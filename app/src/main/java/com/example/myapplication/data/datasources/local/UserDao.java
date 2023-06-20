@@ -1,4 +1,4 @@
-package com.example.myapplication.data.datasources;
+package com.example.myapplication.data.datasources.local;
 
 import androidx.room.Dao;
 import androidx.room.Insert;

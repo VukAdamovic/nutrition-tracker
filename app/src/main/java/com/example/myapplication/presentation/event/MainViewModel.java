@@ -133,7 +133,6 @@ public class MainViewModel extends ViewModel implements MainContract {
     @Override
     public void getMealsLastSevenDays(int userId, Date currentDate) {
 
-        // Get current date at 23:59:59
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(currentDate);
         calendar.set(Calendar.HOUR_OF_DAY, 23);
@@ -141,7 +140,6 @@ public class MainViewModel extends ViewModel implements MainContract {
         calendar.set(Calendar.SECOND, 59);
         Long currentTimestamp = calendar.getTimeInMillis();
 
-        // Get date seven days ago at 00:00:01
         calendar.add(Calendar.DAY_OF_YEAR, -7);
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);

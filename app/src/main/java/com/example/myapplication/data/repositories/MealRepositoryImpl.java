@@ -1,6 +1,6 @@
 package com.example.myapplication.data.repositories;
 
-import com.example.myapplication.data.datasources.MealDao;
+import com.example.myapplication.data.datasources.local.MealDao;
 import com.example.myapplication.data.models.entities.MealEntity;
 
 import java.util.Date;
