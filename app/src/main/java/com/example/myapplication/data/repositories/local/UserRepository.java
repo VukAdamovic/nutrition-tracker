@@ -1,4 +1,4 @@
-package com.example.myapplication.data.repositories;
+package com.example.myapplication.data.repositories.local;
 
 import com.example.myapplication.data.models.entities.UserEntity;
 

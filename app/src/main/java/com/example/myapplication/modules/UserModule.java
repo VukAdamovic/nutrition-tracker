@@ -2,8 +2,8 @@ package com.example.myapplication.modules;
 
 import com.example.myapplication.data.datasources.local.UserDao;
 import com.example.myapplication.data.db.MyDatabase;
-import com.example.myapplication.data.repositories.UserRepository;
-import com.example.myapplication.data.repositories.UserRepositoryImpl;
+import com.example.myapplication.data.repositories.local.UserRepository;
+import com.example.myapplication.data.repositories.local.UserRepositoryImpl;
 
 import dagger.Module;
 import dagger.Provides;

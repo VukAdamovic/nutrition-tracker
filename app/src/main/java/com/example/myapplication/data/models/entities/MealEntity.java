@@ -3,6 +3,7 @@ package com.example.myapplication.data.models.entities;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import java.util.Date;
@@ -13,7 +14,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Entity(tableName = "meals",  foreignKeys = @ForeignKey(entity = UserEntity.class, parentColumns = "id", childColumns = "user_id"))
+@Entity(tableName = "meals",
+        foreignKeys = @ForeignKey(entity = UserEntity.class, parentColumns = "id", childColumns = "user_id"),
+        indices = @Index("user_id"))
 public class MealEntity {
 
     @PrimaryKey(autoGenerate = true)

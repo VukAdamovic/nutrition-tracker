@@ -14,8 +14,9 @@ import com.example.myapplication.R;
 import com.example.myapplication.application.MyApplication;
 import com.example.myapplication.data.models.entities.MealEntity;
 import com.example.myapplication.data.models.entities.UserEntity;
-import com.example.myapplication.data.repositories.MealRepository;
-import com.example.myapplication.data.repositories.UserRepository;
+import com.example.myapplication.data.repositories.local.MealRepository;
+import com.example.myapplication.data.repositories.local.UserRepository;
+import com.example.myapplication.data.repositories.remote.CategoryRepository;
 import com.example.myapplication.presentation.event.MainViewModel;
 
 import java.util.ArrayList;
@@ -36,7 +37,6 @@ public class StartActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).hide();
         setContentView(R.layout.activity_splash_screen);
 
-//         Setup ViewModelProvider.Factory with Dagger
         ViewModelProvider.Factory factory = new ViewModelProvider.Factory() {
             @NonNull
             @Override
@@ -44,7 +44,8 @@ public class StartActivity extends AppCompatActivity {
                 if (modelClass.isAssignableFrom(MainViewModel.class)) {
                     UserRepository userRepository = ((MyApplication) getApplication()).getAppComponent().provideUserRepository();
                     MealRepository mealRepository = ((MyApplication) getApplication()).getAppComponent().provideMealRepository();
-                    return (T) new MainViewModel(userRepository, mealRepository);
+                    CategoryRepository categoryRepository = ((MyApplication) getApplication()).getAppComponent().provideCategoryRepository();
+                    return (T) new MainViewModel(userRepository, mealRepository, categoryRepository);
                 }
                 throw new IllegalArgumentException("Unknown ViewModel class");
             }
@@ -60,16 +61,8 @@ public class StartActivity extends AppCompatActivity {
             finish();
         }, 2300);
 
-        mainViewModel.getMealsLastSevenDays(1, currentDate);
-
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.add(Calendar.DAY_OF_YEAR, -8);
-//        calendar.set(Calendar.HOUR_OF_DAY, 0);
-//        calendar.set(Calendar.MINUTE, 0);
-//        calendar.set(Calendar.SECOND, 1);
-//        Long currentTimestamp = calendar.getTimeInMillis();
-//
-//        Log.d("Long pre 8 dana", String.valueOf(currentTimestamp));
+//        mainViewModel.getMealsLastSevenDays(1, currentDate);
+        mainViewModel.getCategories();
     }
 
     private void initObservers() {

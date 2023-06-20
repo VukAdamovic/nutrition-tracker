@@ -4,20 +4,23 @@ import android.util.Log;
 
 import androidx.lifecycle.ViewModel;
 
-import com.example.myapplication.data.db.converters.DateConverter;
+import com.example.myapplication.data.models.domain.Category;
 import com.example.myapplication.data.models.entities.MealEntity;
 import com.example.myapplication.data.models.entities.UserEntity;
-import com.example.myapplication.data.repositories.MealRepository;
-import com.example.myapplication.data.repositories.UserRepository;
+import com.example.myapplication.data.repositories.local.MealRepository;
+import com.example.myapplication.data.repositories.local.UserRepository;
+import com.example.myapplication.data.repositories.remote.CategoryRepository;
 import com.example.myapplication.presentation.contract.MainContract;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
 public class MainViewModel extends ViewModel implements MainContract {
@@ -25,11 +28,13 @@ public class MainViewModel extends ViewModel implements MainContract {
     private CompositeDisposable subscriptions = new CompositeDisposable();
     private UserRepository userRepository;
     private MealRepository mealRepository;
+    private CategoryRepository categoryRepository;
 
     @Inject
-    public MainViewModel(UserRepository userRepository, MealRepository mealRepository) {
+    public MainViewModel(UserRepository userRepository, MealRepository mealRepository, CategoryRepository categoryRepository) {
         this.userRepository = userRepository;
         this.mealRepository = mealRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     @Override
@@ -163,6 +168,23 @@ public class MainViewModel extends ViewModel implements MainContract {
         );
     }
 
+    @Override
+    public void getCategories() {
+        subscriptions.add(
+                categoryRepository.getAll()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnComplete(() -> Log.d("MainViewModel", "Fetch Complete"))
+                        .subscribe(
+                                categories -> {
+                                    for (Category category : categories) {
+                                        Log.d("MainViewModel", "Category: " + category.getName());
+                                    }
+                                },
+                                throwable -> Log.e("MainViewModel", "Error: ", throwable)
+                        )
+        );
+    }
 
     @Override
     protected void onCleared() {

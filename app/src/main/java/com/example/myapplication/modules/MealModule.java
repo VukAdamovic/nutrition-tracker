@@ -2,8 +2,8 @@ package com.example.myapplication.modules;
 
 import com.example.myapplication.data.datasources.local.MealDao;
 import com.example.myapplication.data.db.MyDatabase;
-import com.example.myapplication.data.repositories.MealRepository;
-import com.example.myapplication.data.repositories.MealRepositoryImpl;
+import com.example.myapplication.data.repositories.local.MealRepository;
+import com.example.myapplication.data.repositories.local.MealRepositoryImpl;
 
 import dagger.Module;
 import dagger.Provides;
