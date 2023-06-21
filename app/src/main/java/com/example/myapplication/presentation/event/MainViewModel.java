@@ -286,6 +286,33 @@ public class MainViewModel extends ViewModel implements MainContract {
 
     }
 
+    @Override
+    public void getMealById(int id) {
+        subscriptions.add(
+                mealRepositoryRemote.getMealById(Integer.toString(id))
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnComplete(() -> Log.d("MainViewModel", "Fetch Complete"))
+                        .subscribe(
+                                meals -> {
+                                    for (MealSingle meal : meals) {
+                                        Log.d("MainViewModel", "Meal ID: " + meal.getId());
+                                        Log.d("MainViewModel", "Meal Name: " + meal.getMealName());
+                                        Log.d("MainViewModel", "Meal Image URL: " + meal.getMealImageUrl());
+                                        Log.d("MainViewModel", "Instructions: " + meal.getInstructions());
+                                        Log.d("MainViewModel", "YouTube Link: " + meal.getYouTubeLink());
+                                        Log.d("MainViewModel", "Ingredients and Measurements: " + meal.getIngredientsMeasurements());
+                                        Log.d("MainViewModel", "Category: " + meal.getCategory());
+                                        Log.d("MainViewModel", "Area: " + meal.getArea());
+                                        Log.d("MainViewModel", "Tags: " + meal.getTags());
+                                        Log.d("MainViewModel", "Calories: " + meal.getCalories());
+                                    }
+                                },
+                                throwable -> Log.e("MainViewModel", "Error: ", throwable)
+                        )
+        );
+    }
+
 
     @Override
     protected void onCleared() {

@@ -96,6 +96,31 @@ public class MealRepositoryRemoteImpl implements MealRepositoryRemote {
                 });
     }
 
+    @Override
+    public Observable<List<MealSingle>> getMealById(String id) {
+        return mealService
+                .getMealById(id)
+                .map(allMealsResponse -> {
+                    List<MealSingle> meals = new ArrayList<>();
+                    if (allMealsResponse != null && allMealsResponse.getAllMeals() != null) {
+                        for (SingleMealResponse singleMealResponse : allMealsResponse.getAllMeals()) {
+                            meals.add(new MealSingle(
+                                    singleMealResponse.getIdMeal(),
+                                    singleMealResponse.getStrMeal(),
+                                    singleMealResponse.getStrMealThumb(),
+                                    singleMealResponse.getStrInstructions(),
+                                    singleMealResponse.getStrYoutube(),
+                                    createIngredientsMeasurementsList(singleMealResponse),
+                                    singleMealResponse.getStrCategory(),
+                                    singleMealResponse.getStrArea(),
+                                    Arrays.asList(singleMealResponse.getStrTags().split(",")),
+                                    0
+                            ));
+                        }
+                    }
+                    return meals;
+                });
+    }
 
 
     //Privatne metode

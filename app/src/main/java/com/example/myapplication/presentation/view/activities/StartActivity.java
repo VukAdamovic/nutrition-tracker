@@ -71,6 +71,7 @@ public class StartActivity extends AppCompatActivity {
 
         //mainViewModel.getMealsByIngredient("chicken_breast"); // ovaj treba da testiras
         //mainViewModel.getEveryMeal(""); // ovaj treba da testiras
+        //mainViewModel.getMealById(52772); // ovaj treba da testiras
     }
 
     private void initObservers() {
