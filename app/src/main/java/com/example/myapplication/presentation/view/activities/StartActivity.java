@@ -65,7 +65,8 @@ public class StartActivity extends AppCompatActivity {
 
 //        mainViewModel.getMealsLastSevenDays(1, currentDate);
 //        mainViewModel.getCategories();
-        mainViewModel.getMealsByCategory("Seafood");
+//        mainViewModel.getMealsByCategory("Seafood");
+        mainViewModel.getMealsByName("Arrabiata");
     }
 
     private void initObservers() {

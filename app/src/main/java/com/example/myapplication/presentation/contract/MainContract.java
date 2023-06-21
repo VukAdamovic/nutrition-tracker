@@ -23,6 +23,9 @@ public interface MainContract {
     // Category api calls
 
     LiveData<List<Category>> categories = null;
+
     void getCategories();
     void getMealsByCategory(String category);
+
+    void getMealsByName(String mealName);
 }

@@ -5,7 +5,6 @@ import android.util.Log;
 import androidx.lifecycle.ViewModel;
 
 import com.example.myapplication.data.models.api.domain.Category;
-import com.example.myapplication.data.models.api.domain.MealByCategory;
 import com.example.myapplication.data.models.entities.MealEntity;
 import com.example.myapplication.data.models.entities.UserEntity;
 import com.example.myapplication.data.repositories.local.MealRepository;
@@ -192,6 +191,25 @@ public class MainViewModel extends ViewModel implements MainContract {
     public void getMealsByCategory(String category) {
         subscriptions.add(
                 mealRepositoryRemote.getAllMealsByCategory(category)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnComplete(() -> Log.d("MainViewModel", "Fetch Complete"))
+                        .subscribe(
+                                meals -> {
+                                    Log.d("MainViewModel", "Meal: " + meals.size());
+//                                    for (MealByCategory meal : meals) {
+//                                        Log.d("MainViewModel", "Meal: " + meal.getName());
+//                                    }
+                                },
+                                throwable -> Log.e("MainViewModel", "Error: ", throwable)
+                        )
+        );
+    }
+
+    @Override
+    public void getMealsByName(String mealName) {
+        subscriptions.add(
+                mealRepositoryRemote.getMealsByName(mealName)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .doOnComplete(() -> Log.d("MainViewModel", "Fetch Complete"))
