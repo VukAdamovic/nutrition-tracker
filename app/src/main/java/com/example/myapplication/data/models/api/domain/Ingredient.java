@@ -9,11 +9,11 @@ public class Ingredient {
 
     private int id;
 
-    private int name;
+    private String name;
 
     private String description;
 
-    public Ingredient(String id, int name, String description) {
+    public Ingredient(String id, String name, String description) {
         this.id = Integer.parseInt(id);
         this.name = name;
         this.description = description;

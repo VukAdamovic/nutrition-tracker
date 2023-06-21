@@ -1,7 +1,6 @@
 package com.example.myapplication.data.repositories.remote.ingredient;
 
 import com.example.myapplication.data.datasources.remote.IngredientService;
-import com.example.myapplication.data.models.api.domain.Category;
 import com.example.myapplication.data.models.api.domain.Ingredient;
 import com.example.myapplication.data.models.api.ingredient.AllIngredientsResponse;
 import com.example.myapplication.data.models.api.ingredient.IngredientResponse;
@@ -33,10 +32,10 @@ public class IngredientRepositoryImpl implements IngredientRepository{
                         List<Ingredient> ingredients = new ArrayList<>();
                         if(allIngredientsResponse != null && allIngredientsResponse.getAllIngredients() != null){
                             for (IngredientResponse ingredientResponse : allIngredientsResponse.getAllIngredients()) {
-                                ingredients.add(new Category(
+                                ingredients.add(new Ingredient(
                                         ingredientResponse.getIdIngredient(),
                                         ingredientResponse.getStrIngredient(),
-                                        ingredientResponse.getStrDescription()
+                                        (ingredientResponse.getStrDescription() == null) ? "": ingredientResponse.getStrDescription()
                                 ));
                             }
                         }

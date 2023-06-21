@@ -64,7 +64,7 @@ public class MealRepositoryRemoteImpl implements MealRepositoryRemote {
                                     createIngredientsMeasurementsList(singleMealResponse),
                                     singleMealResponse.getStrCategory(),
                                     singleMealResponse.getStrArea(),
-                                    Arrays.asList(singleMealResponse.getStrTags().split(",")),
+                                    (singleMealResponse.getStrTags() == null) ? new ArrayList<>(): Arrays.asList(singleMealResponse.getStrTags().split(",")),
                                     0
                             ));
                         }
@@ -113,7 +113,7 @@ public class MealRepositoryRemoteImpl implements MealRepositoryRemote {
                                     createIngredientsMeasurementsList(singleMealResponse),
                                     singleMealResponse.getStrCategory(),
                                     singleMealResponse.getStrArea(),
-                                    Arrays.asList(singleMealResponse.getStrTags().split(",")),
+                                    (singleMealResponse.getStrTags() == null) ? new ArrayList<>(): Arrays.asList(singleMealResponse.getStrTags().split(",")),
                                     0
                             ));
                         }
@@ -131,7 +131,7 @@ public class MealRepositoryRemoteImpl implements MealRepositoryRemote {
             String ingredient = getIngredientValue(singleMealResponse, i);
             String measurement = getMeasurementValue(singleMealResponse, i);
 
-            if (ingredient != null && measurement != null && !ingredient.equals("") && !measurement.equals("")) {
+            if (ingredient != null && measurement != null && !ingredient.equals("") && !measurement.equals(" ")) {
                 String ingredientMeasurement = measurement + " " + ingredient;
                 ingredientsMeasurements.add(ingredientMeasurement);
             }

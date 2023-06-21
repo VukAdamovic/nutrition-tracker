@@ -18,10 +18,13 @@ public class IngredientResponse {
     @Json(name = "strDescription")
     private String strDescription;
 
+    @Json(name = "strType")
+    private String strType;
 
-    public IngredientResponse(String idIngredient, String strIngredient, String strDescription) {
+    public IngredientResponse(String idIngredient, String strIngredient, String strDescription, String strType) {
         this.idIngredient = idIngredient;
         this.strIngredient = strIngredient;
         this.strDescription = strDescription;
+        this.strType = strType;
     }
 }

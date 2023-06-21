@@ -265,7 +265,8 @@ public class MainViewModel extends ViewModel implements MainContract {
     }
 
     @Override
-    public void getEveryMeal(String emptyString) {
+    public void getEveryMeal() {
+        String emptyString = "";
         subscriptions.add(
                 mealRepositoryRemote.getMealsByName(emptyString)
                         .subscribeOn(Schedulers.io())
