@@ -17,6 +17,7 @@ import com.example.myapplication.data.models.entities.UserEntity;
 import com.example.myapplication.data.repositories.local.MealRepository;
 import com.example.myapplication.data.repositories.local.UserRepository;
 import com.example.myapplication.data.repositories.remote.category.CategoryRepository;
+import com.example.myapplication.data.repositories.remote.ingredient.IngredientRepository;
 import com.example.myapplication.data.repositories.remote.meal.MealRepositoryRemote;
 import com.example.myapplication.presentation.event.MainViewModel;
 
@@ -47,7 +48,8 @@ public class StartActivity extends AppCompatActivity {
                     MealRepository mealRepository = ((MyApplication) getApplication()).getAppComponent().provideMealRepository();
                     CategoryRepository categoryRepository = ((MyApplication) getApplication()).getAppComponent().provideCategoryRepository();
                     MealRepositoryRemote mealRepositoryRemote = ((MyApplication) getApplication()).getAppComponent().provideMealRepositoryRemote();
-                    return (T) new MainViewModel(userRepository, mealRepository, categoryRepository, mealRepositoryRemote);
+                    IngredientRepository ingredientRepository = ((MyApplication) getApplication()).getAppComponent().provideIngredientRepository();
+                    return (T) new MainViewModel(userRepository, mealRepository, categoryRepository, mealRepositoryRemote, ingredientRepository);
                 }
                 throw new IllegalArgumentException("Unknown ViewModel class");
             }
@@ -72,6 +74,7 @@ public class StartActivity extends AppCompatActivity {
         //mainViewModel.getMealsByIngredient("chicken_breast"); // ovaj treba da testiras
         //mainViewModel.getEveryMeal(""); // ovaj treba da testiras
         //mainViewModel.getMealById(52772); // ovaj treba da testiras
+        //mainViewModel.getAllIngredients("list"); // ovaj treba da testiras   kada ukucas list vraca sve
     }
 
     private void initObservers() {

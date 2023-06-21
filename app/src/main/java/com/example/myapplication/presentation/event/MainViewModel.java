@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.lifecycle.ViewModel;
 
 import com.example.myapplication.data.models.api.domain.Category;
+import com.example.myapplication.data.models.api.domain.Ingredient;
 import com.example.myapplication.data.models.api.domain.MealFiltered;
 import com.example.myapplication.data.models.api.domain.MealSingle;
 import com.example.myapplication.data.models.entities.MealEntity;
@@ -12,6 +13,7 @@ import com.example.myapplication.data.models.entities.UserEntity;
 import com.example.myapplication.data.repositories.local.MealRepository;
 import com.example.myapplication.data.repositories.local.UserRepository;
 import com.example.myapplication.data.repositories.remote.category.CategoryRepository;
+import com.example.myapplication.data.repositories.remote.ingredient.IngredientRepository;
 import com.example.myapplication.data.repositories.remote.meal.MealRepositoryRemote;
 import com.example.myapplication.presentation.contract.MainContract;
 
@@ -32,12 +34,16 @@ public class MainViewModel extends ViewModel implements MainContract {
     private CategoryRepository categoryRepository;
     private MealRepositoryRemote mealRepositoryRemote;
 
+    private IngredientRepository ingredientRepository;
+
     @Inject
-    public MainViewModel(UserRepository userRepository, MealRepository mealRepository, CategoryRepository categoryRepository, MealRepositoryRemote mealRepositoryRemote) {
+    public MainViewModel(UserRepository userRepository, MealRepository mealRepository, CategoryRepository categoryRepository,
+                         MealRepositoryRemote mealRepositoryRemote, IngredientRepository ingredientRepository) {
         this.userRepository = userRepository;
         this.mealRepository = mealRepository;
         this.categoryRepository = categoryRepository;
         this.mealRepositoryRemote = mealRepositoryRemote;
+        this.ingredientRepository = ingredientRepository;
     }
 
     @Override
@@ -306,6 +312,25 @@ public class MainViewModel extends ViewModel implements MainContract {
                                         Log.d("MainViewModel", "Area: " + meal.getArea());
                                         Log.d("MainViewModel", "Tags: " + meal.getTags());
                                         Log.d("MainViewModel", "Calories: " + meal.getCalories());
+                                    }
+                                },
+                                throwable -> Log.e("MainViewModel", "Error: ", throwable)
+                        )
+        );
+    }
+
+    @Override
+    public void getAllIngredients(String s) {
+        subscriptions.add(
+                ingredientRepository.getAllIngredients(s)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnComplete(() -> Log.d("MainViewModel", "Fetch Complete"))
+                        .subscribe(
+                                ingredients -> {
+                                    for (Ingredient ingredient : ingredients) {
+                                        Log.d("MainViewModel", "Ingredient: " + ingredient.getId() + ", " +
+                                                ingredient.getName() + ", " + ingredient.getDescription());
                                     }
                                 },
                                 throwable -> Log.e("MainViewModel", "Error: ", throwable)
