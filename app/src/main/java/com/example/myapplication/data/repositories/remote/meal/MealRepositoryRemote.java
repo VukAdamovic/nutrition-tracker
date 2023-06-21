@@ -14,4 +14,7 @@ public interface MealRepositoryRemote {
     Observable<List<MealSingle>> getMealsByName(String mealName);
 
     Observable<List<MealFiltered>> getMealsByIngredient(String ingredientName);
+
+
+
 }

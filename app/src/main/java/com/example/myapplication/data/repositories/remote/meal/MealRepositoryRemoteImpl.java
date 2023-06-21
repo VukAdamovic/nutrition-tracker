@@ -98,8 +98,6 @@ public class MealRepositoryRemoteImpl implements MealRepositoryRemote {
 
 
 
-
-
     //Privatne metode
 
     private List<String> createIngredientsMeasurementsList(SingleMealResponse singleMealResponse) {

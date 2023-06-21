@@ -67,7 +67,10 @@ public class StartActivity extends AppCompatActivity {
 //        mainViewModel.getCategories();
 //        mainViewModel.getMealsByCategory("Seafood");
 //        mainViewModel.getMealsByName("Arrabiata");
-        mainViewModel.getMealsByIngredient("chicken_breast");
+
+
+        //mainViewModel.getMealsByIngredient("chicken_breast"); // ovaj treba da testiras
+        //mainViewModel.getEveryMeal(""); // ovaj treba da testiras
     }
 
     private void initObservers() {

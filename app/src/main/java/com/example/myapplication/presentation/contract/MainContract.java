@@ -30,4 +30,6 @@ public interface MainContract {
     void getMealsByName(String mealName);
 
     void getMealsByIngredient(String ingredientName);
+
+    void getEveryMeal(String emptyString);  //namerno sam je nazavo ovako jer se buni kad nazovem getAllMeal nzm sto
 }

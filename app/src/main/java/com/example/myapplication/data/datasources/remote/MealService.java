@@ -19,4 +19,7 @@ public interface MealService {
     Observable<AllMealsFilteredResponse> getMealsByIngredient(@Query("i") String ingredientName);
 
 
+
+
+
 }
