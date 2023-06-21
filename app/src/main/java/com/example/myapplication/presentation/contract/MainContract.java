@@ -28,4 +28,6 @@ public interface MainContract {
     void getMealsByCategory(String category);
 
     void getMealsByName(String mealName);
+
+    void getMealsByIngredient(String ingredientName);
 }

@@ -5,13 +5,13 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class MealByCategory {
+public class MealFiltered {
 
     private int id;
     private String thumbnail;
     private String name;
 
-    public MealByCategory(String id, String thumbnail, String name) {
+    public MealFiltered(String id, String thumbnail, String name) {
         this.id = Integer.parseInt(id);
         this.thumbnail = thumbnail;
         this.name = name;

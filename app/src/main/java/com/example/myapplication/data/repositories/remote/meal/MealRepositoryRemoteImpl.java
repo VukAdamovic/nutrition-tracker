@@ -1,11 +1,11 @@
 package com.example.myapplication.data.repositories.remote.meal;
 
 import com.example.myapplication.data.datasources.remote.MealService;
-import com.example.myapplication.data.models.api.domain.MealByCategory;
+import com.example.myapplication.data.models.api.domain.MealFiltered;
 import com.example.myapplication.data.models.api.domain.MealSingle;
 import com.example.myapplication.data.models.api.meal.SingleMealResponse;
-import com.example.myapplication.data.models.api.meal_by_category.AllMealsByCategoryResponse;
-import com.example.myapplication.data.models.api.meal_by_category.MealByCategoryResponse;
+import com.example.myapplication.data.models.api.meal_filtered.AllMealsFilteredResponse;
+import com.example.myapplication.data.models.api.meal_filtered.MealFilteredResponse;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,19 +26,19 @@ public class MealRepositoryRemoteImpl implements MealRepositoryRemote {
     }
 
     @Override
-    public Observable<List<MealByCategory>> getAllMealsByCategory(String category) {
+    public Observable<List<MealFiltered>> getAllMealsByCategory(String category) {
         return mealService
                 .getAllMealsByCategory(category)
-                .map(new Function<AllMealsByCategoryResponse, List<MealByCategory>>() {
+                .map(new Function<AllMealsFilteredResponse, List<MealFiltered>>() {
                     @Override
-                    public List<MealByCategory> apply(AllMealsByCategoryResponse allMealsByCategoryResponse) throws Exception {
-                        List<MealByCategory> meals = new ArrayList<>();
-                        if(allMealsByCategoryResponse != null && allMealsByCategoryResponse.getAllMeals() != null){
-                            for (MealByCategoryResponse mealByCategoryResponse : allMealsByCategoryResponse.getAllMeals()) {
-                                meals.add(new MealByCategory(
-                                        mealByCategoryResponse.getId(),
-                                        mealByCategoryResponse.getThumbnail(),
-                                        mealByCategoryResponse.getName()
+                    public List<MealFiltered> apply(AllMealsFilteredResponse allMealsFilteredResponse) throws Exception {
+                        List<MealFiltered> meals = new ArrayList<>();
+                        if(allMealsFilteredResponse != null && allMealsFilteredResponse.getAllMeals() != null){
+                            for (MealFilteredResponse mealFilteredResponse : allMealsFilteredResponse.getAllMeals()) {
+                                meals.add(new MealFiltered(
+                                        mealFilteredResponse.getId(),
+                                        mealFilteredResponse.getThumbnail(),
+                                        mealFilteredResponse.getName()
                                 ));
                             }
                         }
@@ -72,6 +72,30 @@ public class MealRepositoryRemoteImpl implements MealRepositoryRemote {
                     return meals;
                 });
     }
+
+    //Testiraj ovu metodu
+    @Override
+    public Observable<List<MealFiltered>> getMealsByIngredient(String ingredientName) {
+        return mealService
+                .getMealsByIngredient(ingredientName)
+                .map(new Function<AllMealsFilteredResponse, List<MealFiltered>>() {
+                    @Override
+                    public List<MealFiltered> apply(AllMealsFilteredResponse allMealsFilteredResponse) throws Exception {
+                        List<MealFiltered> meals = new ArrayList<>();
+                        if(allMealsFilteredResponse != null && allMealsFilteredResponse.getAllMeals() != null){
+                            for (MealFilteredResponse mealFilteredResponse : allMealsFilteredResponse.getAllMeals()) {
+                                meals.add(new MealFiltered(
+                                        mealFilteredResponse.getId(),
+                                        mealFilteredResponse.getThumbnail(),
+                                        mealFilteredResponse.getName()
+                                ));
+                            }
+                        }
+                        return meals;
+                    }
+                });
+    }
+
 
 
 

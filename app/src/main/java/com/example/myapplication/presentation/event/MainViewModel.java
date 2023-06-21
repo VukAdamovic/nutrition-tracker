@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.lifecycle.ViewModel;
 
 import com.example.myapplication.data.models.api.domain.Category;
+import com.example.myapplication.data.models.api.domain.MealFiltered;
 import com.example.myapplication.data.models.api.domain.MealSingle;
 import com.example.myapplication.data.models.entities.MealEntity;
 import com.example.myapplication.data.models.entities.UserEntity;
@@ -227,6 +228,26 @@ public class MainViewModel extends ViewModel implements MainContract {
                                         Log.d("MainViewModel", "Area: " + meal.getArea());
                                         Log.d("MainViewModel", "Tags: " + meal.getTags());
                                         Log.d("MainViewModel", "Calories: " + meal.getCalories());
+                                    }
+                                },
+                                throwable -> Log.e("MainViewModel", "Error: ", throwable)
+                        )
+        );
+    }
+
+    @Override
+    public void getMealsByIngredient(String ingredientName) {
+        subscriptions.add(
+                mealRepositoryRemote.getMealsByIngredient(ingredientName)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnComplete(() -> Log.d("MainViewModel", "Fetch Complete"))
+                        .subscribe(
+                                meals -> {
+//                                    Log.d("MainViewModel", "Meal: " + meals.size());
+                                    for (MealFiltered meal : meals) {
+                                        Log.d("MainViewModel", "Meal: " + meal.getName() + ", " +
+                                                meal.getThumbnail() + ", " + meal.getId());
                                     }
                                 },
                                 throwable -> Log.e("MainViewModel", "Error: ", throwable)
