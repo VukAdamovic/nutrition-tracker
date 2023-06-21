@@ -1,23 +1,19 @@
 package com.example.myapplication.data.repositories.remote.meal;
 
-import android.util.Log;
-
 import com.example.myapplication.data.datasources.remote.MealService;
 import com.example.myapplication.data.models.api.domain.MealByCategory;
-import com.example.myapplication.data.models.api.domain.SingleMeal;
-import com.example.myapplication.data.models.api.meal.AllMealsResponse;
+import com.example.myapplication.data.models.api.domain.MealSingle;
 import com.example.myapplication.data.models.api.meal.SingleMealResponse;
 import com.example.myapplication.data.models.api.meal_by_category.AllMealsByCategoryResponse;
 import com.example.myapplication.data.models.api.meal_by_category.MealByCategoryResponse;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
-import io.reactivex.Single;
 import io.reactivex.functions.Function;
 
 public class MealRepositoryRemoteImpl implements MealRepositoryRemote {
@@ -52,14 +48,14 @@ public class MealRepositoryRemoteImpl implements MealRepositoryRemote {
     }
 
     @Override
-    public Observable<List<SingleMeal>> getMealsByName(String mealName) {
+    public Observable<List<MealSingle>> getMealsByName(String mealName) {
         return mealService
                 .getMealByName(mealName)
                 .map(allMealsResponse -> {
-                    List<SingleMeal> meals = new ArrayList<>();
+                    List<MealSingle> meals = new ArrayList<>();
                     if (allMealsResponse != null && allMealsResponse.getAllMeals() != null) {
                         for (SingleMealResponse singleMealResponse : allMealsResponse.getAllMeals()) {
-                            meals.add(new SingleMeal(
+                            meals.add(new MealSingle(
                                     singleMealResponse.getIdMeal(),
                                     singleMealResponse.getStrMeal(),
                                     singleMealResponse.getStrMealThumb(),
@@ -67,7 +63,9 @@ public class MealRepositoryRemoteImpl implements MealRepositoryRemote {
                                     singleMealResponse.getStrYoutube(),
                                     createIngredientsMeasurementsList(singleMealResponse),
                                     singleMealResponse.getStrCategory(),
-                                    0 // calories - treba popuniti
+                                    singleMealResponse.getStrArea(),
+                                    Arrays.asList(singleMealResponse.getStrTags().split(",")),
+                                    0
                             ));
                         }
                     }
@@ -86,7 +84,7 @@ public class MealRepositoryRemoteImpl implements MealRepositoryRemote {
             String ingredient = getIngredientValue(singleMealResponse, i);
             String measurement = getMeasurementValue(singleMealResponse, i);
 
-            if (ingredient != null && measurement != null) {
+            if (ingredient != null && measurement != null && !ingredient.equals("") && !measurement.equals("")) {
                 String ingredientMeasurement = measurement + " " + ingredient;
                 ingredientsMeasurements.add(ingredientMeasurement);
             }
