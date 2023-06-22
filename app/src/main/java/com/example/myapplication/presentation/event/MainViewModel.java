@@ -16,7 +16,12 @@ import com.example.myapplication.data.repositories.remote.category.CategoryRepos
 import com.example.myapplication.data.repositories.remote.ingredient.IngredientRepository;
 import com.example.myapplication.data.repositories.remote.meal.MealRepositoryRemote;
 import com.example.myapplication.presentation.contract.MainContract;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -33,7 +38,6 @@ public class MainViewModel extends ViewModel implements MainContract {
     private MealRepository mealRepository;
     private CategoryRepository categoryRepository;
     private MealRepositoryRemote mealRepositoryRemote;
-
     private IngredientRepository ingredientRepository;
 
     @Inject
@@ -236,8 +240,11 @@ public class MainViewModel extends ViewModel implements MainContract {
                                         Log.d("MainViewModel", "Category: " + meal.getCategory());
                                         Log.d("MainViewModel", "Area: " + meal.getArea());
                                         Log.d("MainViewModel", "Tags: " + meal.getTags());
-                                        Log.d("MainViewModel", "Calories: " + meal.getCalories());
+
+
                                     }
+
+
                                 },
                                 throwable -> Log.e("MainViewModel", "Error: ", throwable)
                         )

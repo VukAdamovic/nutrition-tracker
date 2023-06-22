@@ -4,6 +4,8 @@ import com.example.myapplication.data.datasources.remote.IngredientService;
 import com.example.myapplication.data.repositories.remote.ingredient.IngredientRepository;
 import com.example.myapplication.data.repositories.remote.ingredient.IngredientRepositoryImpl;
 
+import javax.inject.Named;
+
 import dagger.Module;
 import dagger.Provides;
 import retrofit2.Retrofit;
@@ -17,7 +19,7 @@ public class IngredientModule {
     }
 
     @Provides
-    public IngredientService provideIngredientService(Retrofit retrofit) {
+    public IngredientService provideIngredientService(@Named("mealdb")Retrofit retrofit) {
         return retrofit.create(IngredientService.class);
     }
 }

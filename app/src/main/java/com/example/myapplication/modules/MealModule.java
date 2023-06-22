@@ -8,6 +8,8 @@ import com.example.myapplication.data.repositories.local.MealRepositoryImpl;
 import com.example.myapplication.data.repositories.remote.meal.MealRepositoryRemote;
 import com.example.myapplication.data.repositories.remote.meal.MealRepositoryRemoteImpl;
 
+import javax.inject.Named;
+
 import dagger.Module;
 import dagger.Provides;
 import retrofit2.Retrofit;
@@ -31,7 +33,7 @@ public class MealModule {
     }
 
     @Provides
-    public MealService provideMealService(Retrofit retrofit) {
+    public MealService provideMealService(@Named("mealdb")Retrofit retrofit) {
         return retrofit.create(MealService.class);
     }
 }

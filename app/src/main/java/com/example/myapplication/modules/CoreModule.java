@@ -13,6 +13,7 @@ import com.squareup.moshi.adapters.Rfc3339DateJsonAdapter;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -66,9 +67,22 @@ public class CoreModule {
 
     @Singleton
     @Provides
+    @Named("mealdb")
     public Retrofit provideRetrofit(Moshi moshi, OkHttpClient httpClient) {
         return new Retrofit.Builder()
                 .baseUrl("https://www.themealdb.com/api/json/v1/1/")
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(MoshiConverterFactory.create(moshi).asLenient())
+                .client(httpClient)
+                .build();
+    }
+
+    @Singleton
+    @Provides
+    @Named("ninja")
+    public Retrofit provideRetrofitNinja(Moshi moshi, OkHttpClient httpClient) {
+        return new Retrofit.Builder()
+                .baseUrl("https://api.api-ninjas.com/v1/")
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(MoshiConverterFactory.create(moshi).asLenient())
                 .client(httpClient)

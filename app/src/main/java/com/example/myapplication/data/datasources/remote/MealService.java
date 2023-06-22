@@ -1,7 +1,6 @@
 package com.example.myapplication.data.datasources.remote;
 
 import com.example.myapplication.data.models.api.meal.AllMealsResponse;
-import com.example.myapplication.data.models.api.meal.SingleMealResponse;
 import com.example.myapplication.data.models.api.meal_filtered.AllMealsFilteredResponse;
 
 import io.reactivex.Observable;
@@ -21,7 +20,4 @@ public interface MealService {
 
     @GET("lookup.php")
     Observable<AllMealsResponse> getMealById(@Query("i") String id);
-
-
-
 }

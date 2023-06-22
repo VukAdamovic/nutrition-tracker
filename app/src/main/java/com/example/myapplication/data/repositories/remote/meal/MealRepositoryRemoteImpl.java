@@ -6,7 +6,12 @@ import com.example.myapplication.data.models.api.domain.MealSingle;
 import com.example.myapplication.data.models.api.meal.SingleMealResponse;
 import com.example.myapplication.data.models.api.meal_filtered.AllMealsFilteredResponse;
 import com.example.myapplication.data.models.api.meal_filtered.MealFilteredResponse;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -123,7 +128,7 @@ public class MealRepositoryRemoteImpl implements MealRepositoryRemote {
     }
 
 
-    //Privatne metode
+//    Privatne metode
 
     private List<String> createIngredientsMeasurementsList(SingleMealResponse singleMealResponse) {
         List<String> ingredientsMeasurements = new ArrayList<>();
