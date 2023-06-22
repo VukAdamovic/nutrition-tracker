@@ -61,6 +61,7 @@ public class CoreModule {
         httpClient.readTimeout(30, TimeUnit.SECONDS);
         httpClient.connectTimeout(30, TimeUnit.SECONDS);
         httpClient.writeTimeout(30, TimeUnit.SECONDS);
+        httpClient.addInterceptor(new LoggingInterceptor());
 
         return httpClient.build();
     }

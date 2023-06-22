@@ -1,5 +1,7 @@
 package com.example.myapplication.data.repositories.remote.calories;
 
+import android.util.Log;
+
 import com.example.myapplication.data.datasources.remote.CalorieService;
 import com.example.myapplication.data.models.api.calories.CalorieResponse;
 
