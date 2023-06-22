@@ -12,9 +12,8 @@ class NinjaHeaderInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         Request originalRequest = chain.request();
 
-        // Create a new request with the added headers
         Request modifiedRequest = originalRequest.newBuilder()
-                .header("X-Api-Key", "tTqErRB9K+QadXhxzMknfg==4yDrM7Nm4vcpTcrJ")  // Add your Ninja headers here
+                .header("X-Api-Key", "tTqErRB9K+QadXhxzMknfg==4yDrM7Nm4vcpTcrJ")
                 .build();
 
         return chain.proceed(modifiedRequest);
