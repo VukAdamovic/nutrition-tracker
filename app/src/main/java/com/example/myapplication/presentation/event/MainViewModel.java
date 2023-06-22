@@ -355,7 +355,6 @@ public class MainViewModel extends ViewModel implements MainContract {
                     calorieRepository.getCaloriesForMeal(ingredient)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
-                            .doOnComplete(() -> Log.d("MainViewModel", "Calorie Set Complete"))
                             .subscribe(
                                     calories -> {
                                         Log.d("MainViewModel", "Calories (" + ingredient + "): " + calories);
