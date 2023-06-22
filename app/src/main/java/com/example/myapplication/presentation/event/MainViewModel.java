@@ -243,8 +243,7 @@ public class MainViewModel extends ViewModel implements MainContract {
                                         Log.d("MainViewModel", "Category: " + meal.getCategory());
                                         Log.d("MainViewModel", "Area: " + meal.getArea());
                                         Log.d("MainViewModel", "Tags: " + meal.getTags());
-
-
+                                        getCaloriesForMeal(meal);
                                     }
 
 
@@ -295,6 +294,7 @@ public class MainViewModel extends ViewModel implements MainContract {
                                         Log.d("MainViewModel", "Area: " + meal.getArea());
                                         Log.d("MainViewModel", "Tags: " + meal.getTags());
                                         Log.d("MainViewModel", "Calories: " + meal.getCalories());
+                                        getCaloriesForMeal(meal);
                                     }
                                 },
                                 throwable -> Log.e("MainViewModel", "Error: ", throwable)
@@ -358,9 +358,10 @@ public class MainViewModel extends ViewModel implements MainContract {
                             .doOnComplete(() -> Log.d("MainViewModel", "Calorie Set Complete"))
                             .subscribe(
                                     calories -> {
-                                        Log.d("MainViewModel", "Calories: " + calories));
+                                        Log.d("MainViewModel", "Calories: " + calories);
                                         meal.setCalories(calories);
-                                    }
+                                    },
+                                    throwable -> Log.e("MainViewModel", "Error: ", throwable)
                             )
             );
         }

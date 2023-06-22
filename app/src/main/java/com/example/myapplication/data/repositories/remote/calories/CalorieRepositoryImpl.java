@@ -24,7 +24,7 @@ public class CalorieRepositoryImpl implements CalorieRepository {
                 .map(new Function<CalorieResponse, Double>() {
                     @Override
                     public Double apply(CalorieResponse calorieResponse) throws Exception {
-                        return Double.parseDouble(calorieResponse.getCalories);
+                        return Double.parseDouble(calorieResponse.getCalories());
                     }
                 });
     }

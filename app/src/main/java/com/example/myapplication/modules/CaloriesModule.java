@@ -6,9 +6,11 @@ import com.example.myapplication.data.repositories.remote.calories.CalorieReposi
 
 import javax.inject.Named;
 
+import dagger.Module;
 import dagger.Provides;
 import retrofit2.Retrofit;
 
+@Module
 public class CaloriesModule {
 
     @Provides
