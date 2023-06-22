@@ -1,9 +1,11 @@
 package com.example.myapplication.data.repositories.remote.calories;
 
+import android.util.Log;
+
 import com.example.myapplication.data.datasources.remote.CalorieService;
-import com.example.myapplication.data.models.api.calories.AllCaloriesResponse;
 import com.example.myapplication.data.models.api.calories.CalorieResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -21,20 +23,21 @@ public class CalorieRepositoryImpl implements CalorieRepository {
 
     @Override
     public Observable<Double> getCaloriesForMeal(String query) {
+        Log.d("CalorieRepositoryImpl", "Query: " + query);
         return calorieService
                 .getCaloriesForMeal(query)
-                .map(new Function<AllCaloriesResponse, Double>() {
+                .map(new Function<List<CalorieResponse>, Double>() {
                     @Override
-                    public Double apply(AllCaloriesResponse allCaloriesResponse) throws Exception {
-                        List<CalorieResponse> items = allCaloriesResponse.getItems();
-                        if (items != null && !items.isEmpty()) {
-                            CalorieResponse calorieResponse = items.get(0);
-                            return Double.parseDouble(calorieResponse.getCalories());
+                    public Double apply(List<CalorieResponse> calorieResponses) throws Exception {
+                        if (!calorieResponses.isEmpty()) {
+                            return Double.parseDouble(calorieResponses.get(0).getCalories());
                         } else {
-                            throw new Exception("Invalid response format: empty items");
+                            return 0.0;
                         }
                     }
                 });
     }
+
+
 }
 
