@@ -2,6 +2,8 @@ package com.example.myapplication.presentation.event;
 
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.myapplication.data.models.api.domain.Category;
@@ -20,6 +22,7 @@ import com.example.myapplication.presentation.contract.MainContract;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -27,7 +30,11 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class MainViewModel extends ViewModel implements MainContract {
 
     private CompositeDisposable subscriptions = new CompositeDisposable();
@@ -183,6 +190,15 @@ public class MainViewModel extends ViewModel implements MainContract {
 
     //--- Api Calls ---//
 
+    private MutableLiveData<List<Category>> allCategories = new MutableLiveData<>();
+    private MutableLiveData<List<MealFiltered>> allFilteredMealsByCategory = new MutableLiveData<>();
+    private MutableLiveData<List<MealSingle>> allMealsByName = new MutableLiveData<>();
+    private MutableLiveData<List<MealFiltered>> allFilteredMealsByIngredient = new MutableLiveData<>();
+    private MutableLiveData<List<MealSingle>> allMeals = new MutableLiveData<>();
+    private MutableLiveData<List<MealSingle>> singleMealById = new MutableLiveData<>();
+    private MutableLiveData<List<Ingredient>> allIngredients = new MutableLiveData<>();
+
+
     @Override
     public void getCategories() {
         subscriptions.add(
@@ -192,9 +208,7 @@ public class MainViewModel extends ViewModel implements MainContract {
                         .doOnComplete(() -> Log.d("MainViewModel", "Fetch Complete"))
                         .subscribe(
                                 categories -> {
-                                    for (Category category : categories) {
-                                        Log.d("MainViewModel", "Category: " + category.getName());
-                                    }
+                                    allCategories.setValue(categories); // Postavljanje vrednosti allCategories na listu kategorija
                                 },
                                 throwable -> Log.e("MainViewModel", "Error: ", throwable)
                         )
@@ -210,10 +224,7 @@ public class MainViewModel extends ViewModel implements MainContract {
                         .doOnComplete(() -> Log.d("MainViewModel", "Fetch Complete"))
                         .subscribe(
                                 meals -> {
-                                    Log.d("MainViewModel", "Meal: " + meals.size());
-//                                    for (MealByCategory meal : meals) {
-//                                        Log.d("MainViewModel", "Meal: " + meal.getName());
-//                                    }
+                                    allFilteredMealsByCategory.setValue(meals); // Postavljanje vrednosti allCategories na listu kategorija
                                 },
                                 throwable -> Log.e("MainViewModel", "Error: ", throwable)
                         )
@@ -229,9 +240,10 @@ public class MainViewModel extends ViewModel implements MainContract {
                         .doOnComplete(() -> Log.d("MainViewModel", "Fetch Complete"))
                         .subscribe(
                                 meals -> {
-                                    for (MealSingle meal : meals) {
-                                        getCaloriesForMeal(meal);
-                                    }
+//                                    for (MealSingle meal : meals) {
+//                                        getCaloriesForMeal(meal);
+//                                    }
+                                    allMealsByName.setValue(meals);
                                 },
                                 throwable -> Log.e("MainViewModel", "Error: ", throwable)
                         )
@@ -247,11 +259,7 @@ public class MainViewModel extends ViewModel implements MainContract {
                         .doOnComplete(() -> Log.d("MainViewModel", "Fetch Complete"))
                         .subscribe(
                                 meals -> {
-//                                    Log.d("MainViewModel", "Meal: " + meals.size());
-                                    for (MealFiltered meal : meals) {
-                                        Log.d("MainViewModel", "Meal: " + meal.getName() + ", " +
-                                                meal.getThumbnail() + ", " + meal.getId());
-                                    }
+                                    allFilteredMealsByIngredient.setValue(meals);
                                 },
                                 throwable -> Log.e("MainViewModel", "Error: ", throwable)
                         )
@@ -260,23 +268,32 @@ public class MainViewModel extends ViewModel implements MainContract {
 
     @Override
     public void getEveryMeal() {
-        String emptyString = "";
         subscriptions.add(
-                mealRepositoryRemote.getMealsByName(emptyString)
+                categoryRepository.getAllCategories()
+                        .flatMapIterable(categories -> categories) // Pretvara listu kategorija u pojedinačne kategorije
+                        .concatMap(category ->
+                                mealRepositoryRemote.getAllMealsByCategory(category.getName())
+                                        .flatMapIterable(meals -> meals) // Pretvara listu obroka u pojedinačne obroke
+                                        .concatMap(meal ->
+                                                mealRepositoryRemote.getMealById(Integer.toString(meal.getId()))
+                                                        .map(meals -> meals.get(0)) // Izdvaja prvi obrok iz rezultata
+                                        )
+                        )
+                        .toList() // Pretvara pojedinačne obroke u listu obroka
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .doOnComplete(() -> Log.d("MainViewModel", "Fetch Complete"))
                         .subscribe(
                                 meals -> {
-                                    for (MealSingle meal : meals) {
-                                        getCaloriesForMeal(meal);
-                                    }
+                                    allMeals.setValue(meals); // Postavljanje vrednosti allMeals na listu obroka
+                                    Log.d("MainViewModel", "Fetch Complete");
                                 },
                                 throwable -> Log.e("MainViewModel", "Error: ", throwable)
                         )
         );
-
     }
+
+
+
 
     @Override
     public void getMealById(int id) {
@@ -290,6 +307,7 @@ public class MainViewModel extends ViewModel implements MainContract {
                                     for (MealSingle meal : meals) {
                                         getCaloriesForMeal(meal);
                                     }
+                                    singleMealById.setValue(meals);
                                 },
                                 throwable -> Log.e("MainViewModel", "Error: ", throwable)
                         )
@@ -297,7 +315,7 @@ public class MainViewModel extends ViewModel implements MainContract {
     }
 
     @Override
-    public void getAllIngredients(String s) {
+    public void getIngredients(String s) {
         subscriptions.add(
                 ingredientRepository.getAllIngredients(s)
                         .subscribeOn(Schedulers.io())
@@ -305,10 +323,7 @@ public class MainViewModel extends ViewModel implements MainContract {
                         .doOnComplete(() -> Log.d("MainViewModel", "Fetch Complete"))
                         .subscribe(
                                 ingredients -> {
-                                    for (Ingredient ingredient : ingredients) {
-                                        Log.d("MainViewModel", "Ingredient: " + ingredient.getId() + ", " +
-                                                ingredient.getName() + ", " + ingredient.getDescription());
-                                    }
+                                   allIngredients.setValue(ingredients);
                                 },
                                 throwable -> Log.e("MainViewModel", "Error: ", throwable)
                         )
