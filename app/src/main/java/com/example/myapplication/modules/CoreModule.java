@@ -56,6 +56,7 @@ public class CoreModule {
 
     @Singleton
     @Provides
+    @Named("mealdb")
     public OkHttpClient provideOkHttpClient() {
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         httpClient.readTimeout(30, TimeUnit.SECONDS);
@@ -68,8 +69,21 @@ public class CoreModule {
 
     @Singleton
     @Provides
+    @Named("ninja")
+    public OkHttpClient provideOkHttpClientNinja() {
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        httpClient.readTimeout(30, TimeUnit.SECONDS);
+        httpClient.connectTimeout(30, TimeUnit.SECONDS);
+        httpClient.writeTimeout(30, TimeUnit.SECONDS);
+        httpClient.addInterceptor(new NinjaHeaderInterceptor());  // Add the header interceptor
+
+        return httpClient.build();
+    }
+
+    @Singleton
+    @Provides
     @Named("mealdb")
-    public Retrofit provideRetrofit(Moshi moshi, OkHttpClient httpClient) {
+    public Retrofit provideRetrofit(Moshi moshi, @Named("mealdb")OkHttpClient httpClient) {
         return new Retrofit.Builder()
                 .baseUrl("https://www.themealdb.com/api/json/v1/1/")
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -81,7 +95,7 @@ public class CoreModule {
     @Singleton
     @Provides
     @Named("ninja")
-    public Retrofit provideRetrofitNinja(Moshi moshi, OkHttpClient httpClient) {
+    public Retrofit provideRetrofitNinja(Moshi moshi, @Named("ninja") OkHttpClient httpClient) {
         return new Retrofit.Builder()
                 .baseUrl("https://api.api-ninjas.com/v1/")
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
