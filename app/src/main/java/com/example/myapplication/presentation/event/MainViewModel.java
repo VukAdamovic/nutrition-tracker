@@ -17,17 +17,13 @@ import com.example.myapplication.data.repositories.remote.category.CategoryRepos
 import com.example.myapplication.data.repositories.remote.ingredient.IngredientRepository;
 import com.example.myapplication.data.repositories.remote.meal.MealRepositoryRemote;
 import com.example.myapplication.presentation.contract.MainContract;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
 
 import javax.inject.Inject;
 
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
@@ -234,19 +230,8 @@ public class MainViewModel extends ViewModel implements MainContract {
                         .subscribe(
                                 meals -> {
                                     for (MealSingle meal : meals) {
-                                        Log.d("MainViewModel", "Meal ID: " + meal.getId());
-                                        Log.d("MainViewModel", "Meal Name: " + meal.getMealName());
-                                        Log.d("MainViewModel", "Meal Image URL: " + meal.getMealImageUrl());
-                                        Log.d("MainViewModel", "Instructions: " + meal.getInstructions());
-                                        Log.d("MainViewModel", "YouTube Link: " + meal.getYouTubeLink());
-                                        Log.d("MainViewModel", "Ingredients and Measurements: " + meal.getIngredientsMeasurements());
-                                        Log.d("MainViewModel", "Category: " + meal.getCategory());
-                                        Log.d("MainViewModel", "Area: " + meal.getArea());
-                                        Log.d("MainViewModel", "Tags: " + meal.getTags());
                                         getCaloriesForMeal(meal);
                                     }
-
-
                                 },
                                 throwable -> Log.e("MainViewModel", "Error: ", throwable)
                         )
@@ -284,16 +269,6 @@ public class MainViewModel extends ViewModel implements MainContract {
                         .subscribe(
                                 meals -> {
                                     for (MealSingle meal : meals) {
-                                        Log.d("MainViewModel", "Meal ID: " + meal.getId());
-                                        Log.d("MainViewModel", "Meal Name: " + meal.getMealName());
-                                        Log.d("MainViewModel", "Meal Image URL: " + meal.getMealImageUrl());
-                                        Log.d("MainViewModel", "Instructions: " + meal.getInstructions());
-                                        Log.d("MainViewModel", "YouTube Link: " + meal.getYouTubeLink());
-                                        Log.d("MainViewModel", "Ingredients and Measurements: " + meal.getIngredientsMeasurements());
-                                        Log.d("MainViewModel", "Category: " + meal.getCategory());
-                                        Log.d("MainViewModel", "Area: " + meal.getArea());
-                                        Log.d("MainViewModel", "Tags: " + meal.getTags());
-                                        Log.d("MainViewModel", "Calories: " + meal.getCalories());
                                         getCaloriesForMeal(meal);
                                     }
                                 },
@@ -313,16 +288,7 @@ public class MainViewModel extends ViewModel implements MainContract {
                         .subscribe(
                                 meals -> {
                                     for (MealSingle meal : meals) {
-                                        Log.d("MainViewModel", "Meal ID: " + meal.getId());
-                                        Log.d("MainViewModel", "Meal Name: " + meal.getMealName());
-                                        Log.d("MainViewModel", "Meal Image URL: " + meal.getMealImageUrl());
-                                        Log.d("MainViewModel", "Instructions: " + meal.getInstructions());
-                                        Log.d("MainViewModel", "YouTube Link: " + meal.getYouTubeLink());
-                                        Log.d("MainViewModel", "Ingredients and Measurements: " + meal.getIngredientsMeasurements());
-                                        Log.d("MainViewModel", "Category: " + meal.getCategory());
-                                        Log.d("MainViewModel", "Area: " + meal.getArea());
-                                        Log.d("MainViewModel", "Tags: " + meal.getTags());
-                                        Log.d("MainViewModel", "Calories: " + meal.getCalories());
+                                        getCaloriesForMeal(meal);
                                     }
                                 },
                                 throwable -> Log.e("MainViewModel", "Error: ", throwable)
@@ -350,21 +316,33 @@ public class MainViewModel extends ViewModel implements MainContract {
     }
 
     private void getCaloriesForMeal(MealSingle meal) {
-        for (String ingredient : meal.getIngredientsMeasurements()) {
-            subscriptions.add(
-                    calorieRepository.getCaloriesForMeal(ingredient)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(
-                                    calories -> {
-                                        Log.d("MainViewModel", "Calories (" + ingredient + "): " + calories);
-                                        meal.setCalories(calories);
-                                    },
-                                    throwable -> Log.e("MainViewModel", "Error: ", throwable)
-                            )
-            );
-        }
+        subscriptions.add(
+                Observable.fromIterable(meal.getIngredientsMeasurements())
+                .flatMap(ingredient -> calorieRepository.getCaloriesForMeal(ingredient)
+                        .subscribeOn(Schedulers.io())
+                        .onErrorReturnItem(0.0)) // Return 0.0 in case of error
+                .reduce(Double::sum)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        totalCalories -> {
+                            meal.setCalories(totalCalories);
+                            Log.d("MainViewModel", "Meal ID: " + meal.getId());
+                            Log.d("MainViewModel", "Meal Name: " + meal.getMealName());
+                            Log.d("MainViewModel", "Meal Image URL: " + meal.getMealImageUrl());
+                            Log.d("MainViewModel", "Instructions: " + meal.getInstructions());
+                            Log.d("MainViewModel", "YouTube Link: " + meal.getYouTubeLink());
+                            Log.d("MainViewModel", "Ingredients and Measurements: " + meal.getIngredientsMeasurements());
+                            Log.d("MainViewModel", "Category: " + meal.getCategory());
+                            Log.d("MainViewModel", "Area: " + meal.getArea());
+                            Log.d("MainViewModel", "Tags: " + meal.getTags());
+                            Log.d("MainViewModel", "Calories: " + meal.getCalories());
+                        },
+                        throwable -> Log.e("MainViewModel", "Error calculating calories: ", throwable)
+                )
+        );
     }
+
+
 
     @Override
     protected void onCleared() {
