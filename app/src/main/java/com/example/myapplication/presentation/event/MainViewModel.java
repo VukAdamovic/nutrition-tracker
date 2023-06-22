@@ -358,7 +358,7 @@ public class MainViewModel extends ViewModel implements MainContract {
                             .doOnComplete(() -> Log.d("MainViewModel", "Calorie Set Complete"))
                             .subscribe(
                                     calories -> {
-                                        Log.d("MainViewModel", "Calories: " + calories);
+                                        Log.d("MainViewModel", "Calories (" + ingredient + "): " + calories);
                                         meal.setCalories(calories);
                                     },
                                     throwable -> Log.e("MainViewModel", "Error: ", throwable)

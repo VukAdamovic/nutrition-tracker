@@ -23,7 +23,6 @@ public class CalorieRepositoryImpl implements CalorieRepository {
 
     @Override
     public Observable<Double> getCaloriesForMeal(String query) {
-        Log.d("CalorieRepositoryImpl", "Query: " + query);
         return calorieService
                 .getCaloriesForMeal(query)
                 .map(new Function<List<CalorieResponse>, Double>() {
