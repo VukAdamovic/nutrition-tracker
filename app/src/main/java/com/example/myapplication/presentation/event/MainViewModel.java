@@ -12,6 +12,7 @@ import com.example.myapplication.data.models.entities.MealEntity;
 import com.example.myapplication.data.models.entities.UserEntity;
 import com.example.myapplication.data.repositories.local.MealRepository;
 import com.example.myapplication.data.repositories.local.UserRepository;
+import com.example.myapplication.data.repositories.remote.calories.CalorieRepository;
 import com.example.myapplication.data.repositories.remote.category.CategoryRepository;
 import com.example.myapplication.data.repositories.remote.ingredient.IngredientRepository;
 import com.example.myapplication.data.repositories.remote.meal.MealRepositoryRemote;
@@ -39,15 +40,17 @@ public class MainViewModel extends ViewModel implements MainContract {
     private CategoryRepository categoryRepository;
     private MealRepositoryRemote mealRepositoryRemote;
     private IngredientRepository ingredientRepository;
+    private CalorieRepository calorieRepository;
 
     @Inject
     public MainViewModel(UserRepository userRepository, MealRepository mealRepository, CategoryRepository categoryRepository,
-                         MealRepositoryRemote mealRepositoryRemote, IngredientRepository ingredientRepository) {
+                         MealRepositoryRemote mealRepositoryRemote, IngredientRepository ingredientRepository, CalorieRepository calorieRepository) {
         this.userRepository = userRepository;
         this.mealRepository = mealRepository;
         this.categoryRepository = categoryRepository;
         this.mealRepositoryRemote = mealRepositoryRemote;
         this.ingredientRepository = ingredientRepository;
+        this.calorieRepository = calorieRepository;
     }
 
     @Override
@@ -346,6 +349,22 @@ public class MainViewModel extends ViewModel implements MainContract {
         );
     }
 
+    private void getCaloriesForMeal(MealSingle meal) {
+        for (String ingredient : meal.getIngredientsMeasurements()) {
+            subscriptions.add(
+                    calorieRepository.getCaloriesForMeal(ingredient)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .doOnComplete(() -> Log.d("MainViewModel", "Calorie Set Complete"))
+                            .subscribe(
+                                    calories -> {
+                                        Log.d("MainViewModel", "Calories: " + calories));
+                                        meal.setCalories(calories);
+                                    }
+                            )
+            );
+        }
+    }
 
     @Override
     protected void onCleared() {

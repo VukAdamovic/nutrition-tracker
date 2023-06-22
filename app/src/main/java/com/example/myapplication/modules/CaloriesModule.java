@@ -1,8 +1,8 @@
 package com.example.myapplication.modules;
 
-import com.example.myapplication.data.datasources.remote.CaloriesService;
-import com.example.myapplication.data.repositories.remote.calories.CaloriesRepository;
-import com.example.myapplication.data.repositories.remote.calories.CaloriesRepositoryImpl;
+import com.example.myapplication.data.datasources.remote.CalorieService;
+import com.example.myapplication.data.repositories.remote.calories.CalorieRepository;
+import com.example.myapplication.data.repositories.remote.calories.CalorieRepositoryImpl;
 
 import javax.inject.Named;
 
@@ -12,12 +12,12 @@ import retrofit2.Retrofit;
 public class CaloriesModule {
 
     @Provides
-    public CaloriesRepository provideCaloriesRepository(CaloriesService caloriesService) {
-        return new CaloriesRepositoryImpl(caloriesService);
+    public CalorieRepository provideCalorieRepository(CalorieService calorieService) {
+        return new CalorieRepositoryImpl(calorieService);
     }
 
     @Provides
-    public CaloriesService provideCaloriesService(@Named("ninja") Retrofit retrofit) {
-        return retrofit.create(CaloriesService.class);
+    public CalorieService provideCalorieService(@Named("ninja") Retrofit retrofit) {
+        return retrofit.create(CalorieService.class);
     }
 }

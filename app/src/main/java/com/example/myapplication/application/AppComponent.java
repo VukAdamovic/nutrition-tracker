@@ -4,7 +4,7 @@ import android.app.Application;
 
 import com.example.myapplication.data.repositories.local.MealRepository;
 import com.example.myapplication.data.repositories.local.UserRepository;
-import com.example.myapplication.data.repositories.remote.calories.CaloriesRepository;
+import com.example.myapplication.data.repositories.remote.calories.CalorieRepository;
 import com.example.myapplication.data.repositories.remote.category.CategoryRepository;
 import com.example.myapplication.data.repositories.remote.ingredient.IngredientRepository;
 import com.example.myapplication.data.repositories.remote.meal.MealRepositoryRemote;
@@ -35,7 +35,7 @@ public interface AppComponent {
 
     IngredientRepository provideIngredientRepository();
 
-    CaloriesRepository provideCaloriesRepository();
+    CalorieRepository provideCalorieRepository();
 
     @Component.Factory
     interface Factory {

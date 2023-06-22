@@ -6,8 +6,8 @@ import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
-public interface CaloriesService {
+public interface CalorieService {
 
     @GET("nutrition")
-    Observable<CalorieResponse> getAllCategories(@Query("query") String query);
+    Observable<CalorieResponse> getCaloriesForMeal(@Query("query") String query);
 }

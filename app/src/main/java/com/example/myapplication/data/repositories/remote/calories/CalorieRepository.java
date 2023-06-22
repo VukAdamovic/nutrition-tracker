@@ -2,7 +2,7 @@ package com.example.myapplication.data.repositories.remote.calories;
 
 import io.reactivex.Observable;
 
-public interface CaloriesRepository {
+public interface CalorieRepository {
 
-    Observable<Integer> getCaloriesForMeal();
+    Observable<Double> getCaloriesForMeal(String query);
 }
