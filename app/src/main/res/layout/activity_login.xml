@@ -8,10 +8,10 @@
     android:alpha="1">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="261dp"
         android:layout_height="338dp"
         android:layout_marginStart="65dp"
-        android:layout_marginTop="253dp"
         android:layout_marginEnd="65dp"
         android:layout_marginBottom="253dp"
         android:alpha="1"
@@ -20,8 +20,7 @@
         android:outlineProvider="bounds"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintStart_toStartOf="parent">
 
 
         <EditText
@@ -83,6 +82,22 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="85dp"
+        android:layout_marginTop="68dp"
+        android:layout_marginEnd="85dp"
+        android:layout_marginBottom="80dp"
+        android:fontFamily="@font/codaextrabold"
+        android:text="NutriTrack"
+        android:textColor="@color/our_white"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
