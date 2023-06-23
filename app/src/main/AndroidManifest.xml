@@ -26,6 +26,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".presentation.view.activities.LoginActivity" />
+        <activity android:name=".presentation.view.activities.MainActivity"/>
 
     </application>
 

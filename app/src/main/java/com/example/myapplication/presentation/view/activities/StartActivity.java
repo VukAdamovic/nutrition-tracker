@@ -1,10 +1,12 @@
 package com.example.myapplication.presentation.view.activities;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +25,8 @@ import com.example.myapplication.data.repositories.remote.calories.CalorieReposi
 import com.example.myapplication.data.repositories.remote.category.CategoryRepository;
 import com.example.myapplication.data.repositories.remote.ingredient.IngredientRepository;
 import com.example.myapplication.data.repositories.remote.meal.MealRepositoryRemote;
+import com.example.myapplication.databinding.ActivityMainBinding;
+import com.example.myapplication.databinding.ActivitySplashScreenBinding;
 import com.example.myapplication.presentation.event.MainViewModel;
 
 import java.util.Date;
@@ -34,12 +38,15 @@ public class StartActivity extends AppCompatActivity {
     private MainViewModel mainViewModel;
 
     Date currentDate = new Date();
+    ActivitySplashScreenBinding binding;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        binding = ActivitySplashScreenBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         Objects.requireNonNull(getSupportActionBar()).hide();
-        setContentView(R.layout.activity_splash_screen);
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
             Intent intent = new Intent(StartActivity.this, LoginActivity.class);
