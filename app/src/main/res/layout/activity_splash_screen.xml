@@ -3,33 +3,36 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/our_purple">
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="350dp"
+        android:layout_height="350dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginEnd="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topView"
-        app:layout_constraintBottom_toTopOf="@+id/bottomView"
-        app:srcCompat="@drawable/nutrition_tracker_high_res" />
-
-    <View
-        android:id="@+id/topView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="#3b2662"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/imageView" />
+        app:srcCompat="@drawable/nutrition_tracker" />
 
-    <View
-        android:id="@+id/bottomView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="#1c1d3b"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
-        app:layout_constraintBottom_toBottomOf="parent" />
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="173dp"
+        android:layout_marginEnd="173dp"
+        android:layout_marginBottom="300dp"
+        android:fontFamily="@font/codaextrabold"
+        android:text="NutriTrack"
+        android:textColor="@color/our_white"
+        android:textSize="42sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+

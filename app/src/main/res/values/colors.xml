@@ -8,13 +8,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="space_cadet">#FF1C1D3B</color>
-    <color name="jet">#FF3A3236</color>
-    <color name="dark_purple">#FF231725</color>
-    <color name="pigment_green">#FF0BB455</color>
-    <color name="vermilion">#FFE23E3A</color>
-    <color name="purpureus">#FF8F4AA0</color>
-    <color name="dark_cyan">#FF039799</color>
-    <color name="gamboge">#FFF49E2A</color>
-    <color name="parchment">#FFF5EBD2</color>
+    <color name ="our_purple">#654671</color>
+    <color name ="our_white">#D9D9D9</color>
+
+
+
 </resources>

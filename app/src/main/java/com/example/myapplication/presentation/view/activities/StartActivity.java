@@ -41,6 +41,12 @@ public class StartActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).hide();
         setContentView(R.layout.activity_splash_screen);
 
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            Intent intent = new Intent(StartActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }, 1000);
+
         ViewModelProvider.Factory factory = new ViewModelProvider.Factory() {
             @NonNull
             @Override
@@ -62,11 +68,7 @@ public class StartActivity extends AppCompatActivity {
 
 //        new Handler(Looper.getMainLooper()).postDelayed(this::initObservers, 2300);
 
-        new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            Intent intent = new Intent(StartActivity.this, LoginActivity.class);
-            startActivity(intent);
-            finish();
-        }, 2300);
+
 
 //        mainViewModel.getMealsLastSevenDays(1, currentDate);
 
@@ -77,7 +79,7 @@ public class StartActivity extends AppCompatActivity {
 //        mainViewModel.getMealById(52772);
 //        mainViewModel.getIngredients("list");
 
-        mainViewModel.getEveryMeal();
+//        mainViewModel.getEveryMeal();
 
 
 
