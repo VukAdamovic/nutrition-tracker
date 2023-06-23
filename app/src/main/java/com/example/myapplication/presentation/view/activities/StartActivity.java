@@ -38,7 +38,7 @@ public class StartActivity extends AppCompatActivity {
     private MainViewModel mainViewModel;
 
     Date currentDate = new Date();
-    ActivitySplashScreenBinding binding;
+    private ActivitySplashScreenBinding binding;
 
 
     @Override

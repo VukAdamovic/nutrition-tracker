@@ -15,7 +15,7 @@ import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
 
-    ActivityLoginBinding binding;
+    private ActivityLoginBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
