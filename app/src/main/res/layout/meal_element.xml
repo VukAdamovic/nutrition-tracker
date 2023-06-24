@@ -21,9 +21,9 @@
             android:id="@+id/imageView3"
             android:layout_width="128dp"
             android:layout_height="128dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginStart="10dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
+            android:layout_marginStart="1dp"
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView

@@ -1,19 +1,21 @@
 package com.example.myapplication.presentation.view.fragments.adapters;
 
 import android.app.Activity;
+import android.graphics.Outline;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewOutlineProvider;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
 import com.example.myapplication.data.models.api.domain.MealFiltered;
+
 import java.util.List;
 
 public class MealAdapter extends RecyclerView.Adapter<MealAdapter.MealViewHolder>{
@@ -55,6 +57,15 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.MealViewHolder
         public void bind(MealFiltered mealFiltered){
             ImageView imageView = itemView.findViewById(R.id.imageView3);
             TextView mealNameTextView = itemView.findViewById(R.id.textView7);
+
+            imageView.setClipToOutline(true);
+            imageView.setOutlineProvider(new ViewOutlineProvider() {
+                @Override
+                public void getOutline(View view, Outline outline) {
+                    // Use view.getContext().getResources()
+                    outline.setRoundRect(0, 0, view.getWidth(), view.getHeight(), 10 * view.getContext().getResources().getDisplayMetrics().density);
+                }
+            });
 
             Glide.with(itemView)
                     .load(mealFiltered.getThumbnail())
