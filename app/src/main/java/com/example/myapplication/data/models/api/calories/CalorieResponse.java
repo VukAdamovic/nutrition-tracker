@@ -12,7 +12,11 @@ public class CalorieResponse {
     @Json(name = "calories")
     private String calories;
 
-    public CalorieResponse(String calories) {
+    @Json(name = "name")
+    private String name;
+
+    public CalorieResponse(String calories, String name) {
         this.calories = calories;
+        this.name = name;
     }
 }
