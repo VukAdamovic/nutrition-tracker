@@ -72,13 +72,13 @@ public class StartActivity extends AppCompatActivity {
         mainViewModel = new ViewModelProvider(this, factory).get(MainViewModel.class);
 
         initObservers();
-        mainViewModel.getMealById(53063);
+//        mainViewModel.getMealsByCategory("Seafood");
 //        new Handler(Looper.getMainLooper()).postDelayed(this::initObservers, 2300);
 
 //        mainViewModel.getMealsLastSevenDays(1, currentDate);
 //        mainViewModel.getMealsByCategory("Seafood");
 //        mainViewModel.getMealsByName("Onion");
-//        mainViewModel.getMealsByIngredient("chicken_breast");
+        mainViewModel.getMealsByIngredient("chicken_breast");
 //        mainViewModel.getMealById(52772);
 //        mainViewModel.getIngredients("list");
 //        mainViewModel.getEveryMeal()
@@ -94,22 +94,41 @@ public class StartActivity extends AppCompatActivity {
         });
 
         mainViewModel.getAllFilteredMealsByCategory().observe(this, meals -> {
-            size += meals.size();
-            for (MealFiltered meal : meals) {
-                    mainViewModel.getMealById(meal.getId());
+            for (MealFiltered mealFiltered : meals) {
+                Log.d("MainViewModel", "Meal Name: " + mealFiltered.getName());
+                mainViewModel.getMealById(mealFiltered.getId());
+            }
+        });
+
+        mainViewModel.getAllFilteredMealsByIngredient().observe(this, meals -> {
+            for (MealFiltered mealFiltered : meals) {
+                Log.d("MainViewModel", "Meal Name: " + mealFiltered.getName());
+                mainViewModel.getMealById(mealFiltered.getId());
+            }
+        });
+
+        mainViewModel.getAllMealsByName().observe(this, meals -> {
+            for (MealSingle mealSingle : meals) {
+                mainViewModel.getCaloriesForMeal(mealSingle);
+            }
+        });
+
+        mainViewModel.getSingleMealById().observe(this, meals -> {
+            for (MealSingle mealSingle : meals) {
+                mainViewModel.getCaloriesForMeal(mealSingle);
             }
         });
 
         mainViewModel.getCurrentMealWithCalories().observe(this, meal -> {
-            Log.d("MainViewModel", "Meal ID: " + meal.getId());
+//            Log.d("MainViewModel", "Meal ID: " + meal.getId());
             Log.d("MainViewModel", "Meal Name: " + meal.getMealName());
-            Log.d("MainViewModel", "Meal Image URL: " + meal.getMealImageUrl());
+//            Log.d("MainViewModel", "Meal Image URL: " + meal.getMealImageUrl());
 //            Log.d("MainViewModel", "Instructions: " + meal.getInstructions());
-            Log.d("MainViewModel", "YouTube Link: " + meal.getYouTubeLink());
-            Log.d("MainViewModel", "Ingredients Measurements: " + meal.getIngredientsMeasurements());
-            Log.d("MainViewModel", "Category: " + meal.getCategory());
-            Log.d("MainViewModel", "Area: " + meal.getArea());
-            Log.d("MainViewModel", "Tags: " + meal.getTags());
+//            Log.d("MainViewModel", "YouTube Link: " + meal.getYouTubeLink());
+//            Log.d("MainViewModel", "Ingredients Measurements: " + meal.getIngredientsMeasurements());
+//            Log.d("MainViewModel", "Category: " + meal.getCategory());
+//            Log.d("MainViewModel", "Area: " + meal.getArea());
+//            Log.d("MainViewModel", "Tags: " + meal.getTags());
             Log.d("MainViewModel", "Calories: " + meal.getCalories());
             Log.d("MainViewModel", "------------------------------------------------------" );
 

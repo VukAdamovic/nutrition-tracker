@@ -193,6 +193,7 @@ public class MainViewModel extends ViewModel implements MainContract {
     private MutableLiveData<List<MealSingle>> allMealsByName = new MutableLiveData<>();
     private MutableLiveData<List<MealFiltered>> allFilteredMealsByIngredient = new MutableLiveData<>();
     private MutableLiveData<List<MealSingle>> allMeals = new MutableLiveData<>();
+    private MutableLiveData<List<MealSingle>> singleMealById = new MutableLiveData<>();
     private MutableLiveData<MealSingle> currentMealWithCalories = new MutableLiveData<>();
     private MutableLiveData<List<Ingredient>> allIngredients = new MutableLiveData<>();
 
@@ -206,7 +207,7 @@ public class MainViewModel extends ViewModel implements MainContract {
                         .doOnComplete(() -> Log.d("MainViewModel", "Fetch Complete"))
                         .subscribe(
                                 categories -> {
-                                    allCategories.setValue(categories);
+                                    allCategories.setValue(categories); // Postavljanje vrednosti allCategories na listu kategorija
                                 },
                                 throwable -> Log.e("MainViewModel", "Error: ", throwable)
                         )
@@ -240,10 +241,6 @@ public class MainViewModel extends ViewModel implements MainContract {
                                 meals -> {
                                     if (meals != null) {
                                         allMealsByName.setValue(meals);
-                                        for (MealSingle meal : meals) {
-                                            Log.d("MainViewModel", "Meal Name: " + meal.getMealName());
-                                            Log.d("MainViewModel", "Meal Name: " + meal.getCalories());
-                                        }
                                     }
                                 },
                                 throwable -> Log.e("MainViewModel", "Error: ", throwable)
@@ -276,7 +273,7 @@ public class MainViewModel extends ViewModel implements MainContract {
                         .doOnComplete(() -> Log.d("MainViewModel", "Fetch Complete"))
                         .subscribe(
                                 meals -> {
-                                    getCaloriesForMeal(meals.get(0));
+                                    singleMealById.setValue(meals);
                                 },
                                 throwable -> Log.e("MainViewModel", "Error: ", throwable)
                         )

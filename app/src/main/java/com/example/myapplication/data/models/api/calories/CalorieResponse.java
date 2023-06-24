@@ -15,8 +15,12 @@ public class CalorieResponse {
     @Json(name = "name")
     private String name;
 
-    public CalorieResponse(String calories, String name) {
+    @Json(name ="serving_size_g")
+    private String serving_size;
+
+    public CalorieResponse(String calories, String name, String serving_size) {
         this.calories = calories;
         this.name = name;
+        this.serving_size = serving_size;
     }
 }
