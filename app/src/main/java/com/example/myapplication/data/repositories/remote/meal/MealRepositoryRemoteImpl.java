@@ -137,7 +137,14 @@ public class MealRepositoryRemoteImpl implements MealRepositoryRemote {
             String measurement = getMeasurementValue(singleMealResponse, i);
 
             if (ingredient != null && measurement != null && !ingredient.equals("") && !measurement.equals(" ")) {
-                String ingredientMeasurement =  measurement.replace(" ", "") + " " + ingredient;
+                if (measurement.contains("ml")) measurement.replace(" ", "");
+                if (ingredient.contains(",")) ingredient.replace(",", "");
+                if (measurement.contains("kg")) {
+                    double kg = Double.parseDouble(measurement.replace("kg", "").trim());
+                    double g = kg * 1000;
+                    measurement = g + "g";
+                }
+                String ingredientMeasurement =  measurement.trim() + " " + ingredient;
                 ingredientsMeasurements.add(ingredientMeasurement);
             }
         }

@@ -121,7 +121,7 @@ public class StartActivity extends AppCompatActivity {
 
         mainViewModel.getCurrentMealWithCalories().observe(this, meal -> {
 //            Log.d("MainViewModel", "Meal ID: " + meal.getId());
-            Log.d("MainViewModel", "Meal Name: " + meal.getMealName());
+//            Log.d("MainViewModel", "Meal Name: " + meal.getMealName());
 //            Log.d("MainViewModel", "Meal Image URL: " + meal.getMealImageUrl());
 //            Log.d("MainViewModel", "Instructions: " + meal.getInstructions());
 //            Log.d("MainViewModel", "YouTube Link: " + meal.getYouTubeLink());
@@ -129,8 +129,9 @@ public class StartActivity extends AppCompatActivity {
 //            Log.d("MainViewModel", "Category: " + meal.getCategory());
 //            Log.d("MainViewModel", "Area: " + meal.getArea());
 //            Log.d("MainViewModel", "Tags: " + meal.getTags());
-            Log.d("MainViewModel", "Calories: " + meal.getCalories());
-            Log.d("MainViewModel", "------------------------------------------------------" );
+//            Log.d("MainViewModel", "Ingredients: " + meal.getIngredientsMeasurements());
+//            Log.d("MainViewModel", "Calories: " + meal.getCalories());
+//            Log.d("MainViewModel", "------------------------------------------------------" );
 
 //            List<MealSingle> currentMeals = mainViewModel.getAllMeals().getValue();
 //
