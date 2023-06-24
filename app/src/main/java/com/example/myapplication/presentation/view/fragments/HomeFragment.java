@@ -20,7 +20,7 @@ import com.example.myapplication.presentation.view.fragments.home_fragments.Sear
 
 public class HomeFragment extends Fragment {
 
-    FragmentHomeBinding binding;
+    private FragmentHomeBinding binding;
 
 
     public HomeFragment() {
@@ -52,13 +52,17 @@ public class HomeFragment extends Fragment {
         menu.setOnClickListener(v->{
             replaceFragment(new MenuFragment());
         });
+
+
+
     }
 
-    private void replaceFragment(Fragment fragment) {
+    public void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getChildFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frameLayout2, fragment);
         fragmentTransaction.commit();
     }
+
 
 }

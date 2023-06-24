@@ -9,15 +9,24 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.myapplication.R;
+import com.example.myapplication.data.models.api.domain.Category;
 import com.example.myapplication.databinding.FragmentSearchBinding;
 
 
 public class SearchFragment extends Fragment {
 
-    FragmentSearchBinding binding;
+    private FragmentSearchBinding binding;
+
+    private Category category;
+
+
 
     public SearchFragment() {
         // Required empty public constructor
+    }
+
+    public SearchFragment(Category category){
+        this.category = category;
     }
 
     @Override

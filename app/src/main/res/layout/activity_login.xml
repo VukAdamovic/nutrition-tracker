@@ -74,9 +74,8 @@
             android:layout_marginBottom="66dp"
             android:alpha="1"
             android:background="@drawable/custom_button"
-            android:fontFamily="@font/codaregular"
-            android:text="Log In"
             android:textColor="@color/our_white"
+            android:text="Log In"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
