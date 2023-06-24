@@ -33,11 +33,7 @@ public class CalorieRepositoryImpl implements CalorieRepository {
                     public Double apply(List<CalorieResponse> calorieResponses) {
                         if (calorieResponses != null && !calorieResponses.isEmpty()) {
                             double total = 0.0;
-                            Log.d("Calories", "Ingredients: " + ingredient);
                             for (CalorieResponse calorieResponse : calorieResponses) {
-                                Log.d("Calories", "Name: " + calorieResponse.getName());
-                                Log.d("Calories", "Calories: " + calorieResponse.getCalories());
-                                Log.d("Calories", "---------------------------------------------");
                                 total += Double.parseDouble(calorieResponse.getCalories());
                             }
                             return total;
