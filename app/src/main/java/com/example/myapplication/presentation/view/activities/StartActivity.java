@@ -1,12 +1,10 @@
 package com.example.myapplication.presentation.view.activities;
 
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,7 +14,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.myapplication.R;
 import com.example.myapplication.application.MyApplication;
 import com.example.myapplication.data.models.api.domain.Category;
-import com.example.myapplication.data.models.api.domain.Ingredient;
 import com.example.myapplication.data.models.api.domain.MealFiltered;
 import com.example.myapplication.data.models.api.domain.MealSingle;
 import com.example.myapplication.data.repositories.local.MealRepository;
@@ -25,21 +22,21 @@ import com.example.myapplication.data.repositories.remote.calories.CalorieReposi
 import com.example.myapplication.data.repositories.remote.category.CategoryRepository;
 import com.example.myapplication.data.repositories.remote.ingredient.IngredientRepository;
 import com.example.myapplication.data.repositories.remote.meal.MealRepositoryRemote;
-import com.example.myapplication.databinding.ActivityMainBinding;
 import com.example.myapplication.databinding.ActivitySplashScreenBinding;
 import com.example.myapplication.presentation.event.MainViewModel;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 public class StartActivity extends AppCompatActivity {
 
     public static final String KEY_ALREADY_LOGGED_IN = "alreadyLoggedIn";
     private MainViewModel mainViewModel;
-
     Date currentDate = new Date();
+    int size = 0;
     private ActivitySplashScreenBinding binding;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,12 +44,13 @@ public class StartActivity extends AppCompatActivity {
         binding = ActivitySplashScreenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         Objects.requireNonNull(getSupportActionBar()).hide();
+        setContentView(R.layout.activity_splash_screen);
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
             Intent intent = new Intent(StartActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
-        }, 1000);
+        }, 2000);
 
         ViewModelProvider.Factory factory = new ViewModelProvider.Factory() {
             @NonNull
@@ -73,116 +71,109 @@ public class StartActivity extends AppCompatActivity {
 
         mainViewModel = new ViewModelProvider(this, factory).get(MainViewModel.class);
 
+        initObservers();
+        mainViewModel.getMealById(53063);
 //        new Handler(Looper.getMainLooper()).postDelayed(this::initObservers, 2300);
 
-
-
 //        mainViewModel.getMealsLastSevenDays(1, currentDate);
-
-//        mainViewModel.getCategories();
 //        mainViewModel.getMealsByCategory("Seafood");
-//        mainViewModel.getMealsByName("Arrabiata");
+//        mainViewModel.getMealsByName("Onion");
 //        mainViewModel.getMealsByIngredient("chicken_breast");
 //        mainViewModel.getMealById(52772);
 //        mainViewModel.getIngredients("list");
-
-//        mainViewModel.getEveryMeal();
-
-
-
-
-
-
-
-        initObservers();
-
-
-
-
-
-
+//        mainViewModel.getEveryMeal()
 
     }
-
 
     private void initObservers() {
         mainViewModel.getAllCategories().observe(this, categories -> {
             for (Category category : categories) {
-                Log.d("MainViewModel", "Category ID: " + category.getId());
-                Log.d("MainViewModel", "Category Name: " + category.getName());
-                Log.d("MainViewModel", "Category Thumbnail: " + category.getThumbnail());
-                Log.d("MainViewModel", "Category Description: " + category.getDescription());
+                mainViewModel.getMealsByCategory(category.getName());
+                break;
             }
         });
 
         mainViewModel.getAllFilteredMealsByCategory().observe(this, meals -> {
+            size += meals.size();
             for (MealFiltered meal : meals) {
-                Log.d("MainViewModel", "Meal ID: " + meal.getId());
-                Log.d("MainViewModel", "Meal Thumbnail: " + meal.getThumbnail());
-                Log.d("MainViewModel", "Meal Name: " + meal.getName());
+                    mainViewModel.getMealById(meal.getId());
             }
         });
 
-        mainViewModel.getAllMealsByName().observe(this, meals -> {
-            for (MealSingle meal : meals) {
-                Log.d("MainViewModel", "Meal ID: " + meal.getId());
-                Log.d("MainViewModel", "Meal Name: " + meal.getMealName());
-                Log.d("MainViewModel", "Meal Image URL: " + meal.getMealImageUrl());
-                Log.d("MainViewModel", "Instructions: " + meal.getInstructions());
-                Log.d("MainViewModel", "YouTube Link: " + meal.getYouTubeLink());
-                Log.d("MainViewModel", "Ingredients Measurements: " + meal.getIngredientsMeasurements());
-                Log.d("MainViewModel", "Category: " + meal.getCategory());
-                Log.d("MainViewModel", "Area: " + meal.getArea());
-                Log.d("MainViewModel", "Tags: " + meal.getTags());
-                Log.d("MainViewModel", "Calories: " + meal.getCalories());
-            }
-        });
+        mainViewModel.getCurrentMealWithCalories().observe(this, meal -> {
+            Log.d("MainViewModel", "Meal ID: " + meal.getId());
+            Log.d("MainViewModel", "Meal Name: " + meal.getMealName());
+            Log.d("MainViewModel", "Meal Image URL: " + meal.getMealImageUrl());
+//            Log.d("MainViewModel", "Instructions: " + meal.getInstructions());
+            Log.d("MainViewModel", "YouTube Link: " + meal.getYouTubeLink());
+            Log.d("MainViewModel", "Ingredients Measurements: " + meal.getIngredientsMeasurements());
+            Log.d("MainViewModel", "Category: " + meal.getCategory());
+            Log.d("MainViewModel", "Area: " + meal.getArea());
+            Log.d("MainViewModel", "Tags: " + meal.getTags());
+            Log.d("MainViewModel", "Calories: " + meal.getCalories());
+            Log.d("MainViewModel", "------------------------------------------------------" );
 
-        mainViewModel.getAllFilteredMealsByIngredient().observe(this, meals -> {
-            for (MealFiltered meal : meals) {
-                Log.d("MainViewModel", "Meal ID: " + meal.getId());
-                Log.d("MainViewModel", "Meal Thumbnail: " + meal.getThumbnail());
-                Log.d("MainViewModel", "Meal Name: " + meal.getName());
-            }
+//            List<MealSingle> currentMeals = mainViewModel.getAllMeals().getValue();
+//
+//            if(currentMeals == null) {
+//                currentMeals = new ArrayList<>();
+//            }
+//
+//            currentMeals.add(meal);
+//            mainViewModel.getAllMeals().setValue(currentMeals);
         });
 
         mainViewModel.getAllMeals().observe(this, meals -> {
-            for (MealSingle meal : meals) {
-                Log.d("MainViewModel", "Meal ID: " + meal.getId());
-                Log.d("MainViewModel", "Meal Name: " + meal.getMealName());
-                Log.d("MainViewModel", "Meal Image URL: " + meal.getMealImageUrl());
-                Log.d("MainViewModel", "Instructions: " + meal.getInstructions());
-                Log.d("MainViewModel", "YouTube Link: " + meal.getYouTubeLink());
-                Log.d("MainViewModel", "Ingredients Measurements: " + meal.getIngredientsMeasurements());
-                Log.d("MainViewModel", "Category: " + meal.getCategory());
-                Log.d("MainViewModel", "Area: " + meal.getArea());
-                Log.d("MainViewModel", "Tags: " + meal.getTags());
-                Log.d("MainViewModel", "Calories: " + meal.getCalories());
-            }
+//            MealSingle lastMeal = meals.get(meals.size() - 1);
+            Log.d("MainViewModel", "Size: " + meals.size());
+//            Log.d("MainViewModel", "Meal ID: " + lastMeal.getId());
+//            Log.d("MainViewModel", "Meal Name: " + lastMeal.getMealName());
+//            Log.d("MainViewModel", "Meal Image URL: " + lastMeal.getMealImageUrl());
+//            Log.d("MainViewModel", "Instructions: " + lastMeal.getInstructions());
+//            Log.d("MainViewModel", "YouTube Link: " + lastMeal.getYouTubeLink());
+//            Log.d("MainViewModel", "Ingredients Measurements: " + lastMeal.getIngredientsMeasurements());
+//            Log.d("MainViewModel", "Category: " + lastMeal.getCategory());
+//            Log.d("MainViewModel", "Area: " + lastMeal.getArea());
+//            Log.d("MainViewModel", "Tags: " + lastMeal.getTags());
+//            Log.d("MainViewModel", "Calories: " + lastMeal.getCalories());
+//            Log.d("MainViewModel", "------------------------------------------------------" );
         });
 
-        mainViewModel.getSingleMealById().observe(this, meals -> {
-            for (MealSingle meal : meals) {
-                Log.d("MainViewModel", "Meal ID: " + meal.getId());
-                Log.d("MainViewModel", "Meal Name: " + meal.getMealName());
-                Log.d("MainViewModel", "Meal Image URL: " + meal.getMealImageUrl());
-                Log.d("MainViewModel", "Instructions: " + meal.getInstructions());
-                Log.d("MainViewModel", "YouTube Link: " + meal.getYouTubeLink());
-                Log.d("MainViewModel", "Ingredients Measurements: " + meal.getIngredientsMeasurements());
-                Log.d("MainViewModel", "Category: " + meal.getCategory());
-                Log.d("MainViewModel", "Area: " + meal.getArea());
-                Log.d("MainViewModel", "Tags: " + meal.getTags());
-                Log.d("MainViewModel", "Calories: " + meal.getCalories());
-            }
-        });
 
-        mainViewModel.getAllIngredients().observe(this, ingredients -> {
-            for (Ingredient ingredient : ingredients) {
-                Log.d("MainViewModel", "Ingredient ID: " + ingredient.getId());
-                Log.d("MainViewModel", "Ingredient Name: " + ingredient.getName());
-                Log.d("MainViewModel", "Ingredient Description: " + ingredient.getDescription());
-            }
-        });
+//
+//        mainViewModel.getAllMealsByName().observe(this, meals -> {
+//            for (MealSingle meal : meals) {
+//                Log.d("MainViewModel", "Meal ID: " + meal.getId());
+//                Log.d("MainViewModel", "Meal Name: " + meal.getMealName());
+//                Log.d("MainViewModel", "Meal Image URL: " + meal.getMealImageUrl());
+//                Log.d("MainViewModel", "Instructions: " + meal.getInstructions());
+//                Log.d("MainViewModel", "YouTube Link: " + meal.getYouTubeLink());
+//                Log.d("MainViewModel", "Ingredients Measurements: " + meal.getIngredientsMeasurements());
+//                Log.d("MainViewModel", "Category: " + meal.getCategory());
+//                Log.d("MainViewModel", "Area: " + meal.getArea());
+//                Log.d("MainViewModel", "Tags: " + meal.getTags());
+//                Log.d("MainViewModel", "Calories: " + meal.getCalories());
+//            }
+//        });
+//
+//        mainViewModel.getAllFilteredMealsByIngredient().observe(this, meals -> {
+//            for (MealFiltered meal : meals) {
+//                Log.d("MainViewModel", "Meal ID: " + meal.getId());
+//                Log.d("MainViewModel", "Meal Thumbnail: " + meal.getThumbnail());
+//                Log.d("MainViewModel", "Meal Name: " + meal.getName());
+//            }
+//        });
+//
+//
+
+//
+//        mainViewModel.getAllIngredients().observe(this, ingredients -> {
+//            for (Ingredient ingredient : ingredients) {
+//                Log.d("MainViewModel", "Ingredient ID: " + ingredient.getId());
+//                Log.d("MainViewModel", "Ingredient Name: " + ingredient.getName());
+//                Log.d("MainViewModel", "Ingredient Description: " + ingredient.getDescription());
+//            }
+//        });
 
 
     }
@@ -238,4 +229,3 @@ public class StartActivity extends AppCompatActivity {
 //        mainViewModel.insertMeal(meal3);
 //    }
 }
-

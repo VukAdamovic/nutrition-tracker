@@ -1,5 +1,6 @@
 package com.example.myapplication.presentation.contract;
 
+import com.example.myapplication.data.models.api.domain.MealSingle;
 import com.example.myapplication.data.models.entities.MealEntity;
 import com.example.myapplication.data.models.entities.UserEntity;
 
@@ -26,9 +27,9 @@ public interface MainContract {
 
     void getMealsByIngredient(String ingredientName);
 
-    void getEveryMeal();  //namerno sam je nazavo ovako jer se buni kad nazovem getAllMeal nzm sto
-
     void getMealById(int id);
 
     void getIngredients(String s);
+
+    void getCaloriesForMeal(MealSingle meal);
 }
