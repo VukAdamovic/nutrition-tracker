@@ -40,7 +40,7 @@ public class MenuFragment extends Fragment {
 
     private void initListeners(){
         RecyclerView recyclerView = binding.menuRecycleView;
-        SavedMealAdapter savedMealAdapter = new SavedMealAdapter(getSampleList());
+        SavedMealAdapter savedMealAdapter = new SavedMealAdapter(getSampleList(), getParentFragment());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(savedMealAdapter);

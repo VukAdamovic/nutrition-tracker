@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
 import com.example.myapplication.data.models.api.domain.Category;
+import com.example.myapplication.presentation.view.dialogs.CategoryDialog;
 import com.example.myapplication.presentation.view.fragments.HomeFragment;
 import com.example.myapplication.presentation.view.fragments.home_fragments.CategoriesFragment;
 import com.example.myapplication.presentation.view.fragments.home_fragments.SearchFragment;
@@ -82,8 +83,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             slika.setImageResource(R.drawable.background);
             textViewName.setText(category.getName());
             moreBtn.setOnClickListener(v->{
-                Toast.makeText((v.getContext()).getApplicationContext(), "Kliknuo si na more", Toast.LENGTH_SHORT).show();
-            });
+                // Kreirajte novu instancu CategoryDialog
+                CategoryDialog dialog = new CategoryDialog(category.getId());
+
+
+                // Prikazivanje dijaloga
+                FragmentManager fragmentManager = parentFragment.getChildFragmentManager();
+                dialog.show(fragmentManager, "category_dialog");            });
 
         }
     }
