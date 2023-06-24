@@ -23,23 +23,23 @@
             android:layout_height="128dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:layout_weight="1"
+            android:layout_marginStart="10dp"
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
             android:id="@+id/textView7"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp"
-            android:layout_weight="5"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
             android:fontFamily="@font/codaregular"
             android:text="MealName"
             android:textAlignment="center"
             android:textColor="@color/our_white"
-            android:textSize="13sp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"/>
+            android:textSize="13sp"/>
 
     </LinearLayout>
 

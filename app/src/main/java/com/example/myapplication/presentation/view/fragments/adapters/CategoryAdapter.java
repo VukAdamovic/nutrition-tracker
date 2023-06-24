@@ -1,13 +1,17 @@
 package com.example.myapplication.presentation.view.fragments.adapters;
 
+import android.content.DialogInterface;
+import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroupOverlay;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -81,15 +85,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
                     .load(category.getThumbnail())
                     .into(slika);
             textViewName.setText(category.getName());
+
             moreBtn.setOnClickListener(v->{
-                // Kreirajte novu instancu CategoryDialog
                 CategoryDialog dialog = new CategoryDialog(category);
 
-                // Prikazivanje dijaloga
                 FragmentManager fragmentManager = parentFragment.getChildFragmentManager();
                 dialog.show(fragmentManager, "category_dialog");
             });
-
         }
     }
 }

@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
 import com.example.myapplication.data.models.api.domain.MealFiltered;
 import java.util.List;
@@ -55,7 +56,9 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.MealViewHolder
             ImageView imageView = itemView.findViewById(R.id.imageView3);
             TextView mealNameTextView = itemView.findViewById(R.id.textView7);
 
-            imageView.setImageResource(R.drawable.background);
+            Glide.with(itemView)
+                    .load(mealFiltered.getThumbnail())
+                    .into(imageView);
             mealNameTextView.setText(mealFiltered.getName());
         }
     }
