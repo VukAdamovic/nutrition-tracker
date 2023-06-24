@@ -4,19 +4,19 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.DialogFragment;
 
 import com.example.myapplication.R;
+import com.example.myapplication.data.models.api.domain.Category;
 
 public class CategoryDialog extends DialogFragment {
 
-    private int id;
+    private Category category;
 
-    public CategoryDialog(int id) {
-        this.id = id;
+    public CategoryDialog(Category category) {
+        this.category = category;
     }
 
     @Override
@@ -27,6 +27,8 @@ public class CategoryDialog extends DialogFragment {
         TextView textViewCategory = view.findViewById(R.id.textView9);
         TextView textViewDescription = view.findViewById(R.id.textView10);
 
+        textViewCategory.setText(category.getName());
+        textViewDescription.setText(category.getDescription());
 
         // Dodajte logiku za dugme "X" koje zatvara dijalog
         TextView textViewClose = view.findViewById(R.id.textView11);

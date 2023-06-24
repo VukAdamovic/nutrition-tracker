@@ -4,30 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.myapplication.R;
-import com.example.myapplication.application.MyApplication;
-import com.example.myapplication.data.models.api.domain.Category;
-import com.example.myapplication.data.models.api.domain.MealFiltered;
-import com.example.myapplication.data.models.api.domain.MealSingle;
-import com.example.myapplication.data.repositories.local.MealRepository;
-import com.example.myapplication.data.repositories.local.UserRepository;
-import com.example.myapplication.data.repositories.remote.calories.CalorieRepository;
-import com.example.myapplication.data.repositories.remote.category.CategoryRepository;
-import com.example.myapplication.data.repositories.remote.ingredient.IngredientRepository;
-import com.example.myapplication.data.repositories.remote.meal.MealRepositoryRemote;
 import com.example.myapplication.databinding.ActivitySplashScreenBinding;
-import com.example.myapplication.presentation.event.MainViewModel;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 
 public class StartActivity extends AppCompatActivity {
@@ -49,9 +31,6 @@ public class StartActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }, 2000);
-
-
-
 
 //        mainViewModel.getMealsByCategory("Seafood");
 //        new Handler(Looper.getMainLooper()).postDelayed(this::initObservers, 2300);

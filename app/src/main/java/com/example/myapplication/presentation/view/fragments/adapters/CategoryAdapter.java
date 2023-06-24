@@ -6,19 +6,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
 import com.example.myapplication.data.models.api.domain.Category;
 import com.example.myapplication.presentation.view.dialogs.CategoryDialog;
 import com.example.myapplication.presentation.view.fragments.HomeFragment;
-import com.example.myapplication.presentation.view.fragments.home_fragments.CategoriesFragment;
 import com.example.myapplication.presentation.view.fragments.home_fragments.SearchFragment;
 
 import java.util.List;
@@ -79,17 +77,18 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             TextView textViewName = itemView.findViewById(R.id.textView4);
             Button moreBtn = itemView.findViewById(R.id.button2);
 
-//            slika.setImageURI(category.getThumbnail());
-            slika.setImageResource(R.drawable.background);
+            Glide.with(itemView)
+                    .load(category.getThumbnail())
+                    .into(slika);
             textViewName.setText(category.getName());
             moreBtn.setOnClickListener(v->{
                 // Kreirajte novu instancu CategoryDialog
-                CategoryDialog dialog = new CategoryDialog(category.getId());
-
+                CategoryDialog dialog = new CategoryDialog(category);
 
                 // Prikazivanje dijaloga
                 FragmentManager fragmentManager = parentFragment.getChildFragmentManager();
-                dialog.show(fragmentManager, "category_dialog");            });
+                dialog.show(fragmentManager, "category_dialog");
+            });
 
         }
     }
