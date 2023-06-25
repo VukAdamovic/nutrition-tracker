@@ -1,19 +1,16 @@
 package com.example.myapplication.presentation.view.fragments.home_fragments;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.example.myapplication.R;
 import com.example.myapplication.data.models.entities.MealEntity;
 import com.example.myapplication.databinding.FragmentMenuBinding;
-import com.example.myapplication.presentation.view.fragments.adapters.MealAdapter;
 import com.example.myapplication.presentation.view.fragments.adapters.SavedMealAdapter;
 
 import java.util.ArrayList;
@@ -25,9 +22,7 @@ public class MenuFragment extends Fragment {
 
     private FragmentMenuBinding binding;
 
-    public MenuFragment() {
-        // Required empty public constructor
-    }
+    public MenuFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

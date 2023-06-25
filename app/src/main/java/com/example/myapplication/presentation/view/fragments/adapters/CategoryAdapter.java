@@ -1,17 +1,13 @@
 package com.example.myapplication.presentation.view.fragments.adapters;
 
-import android.content.DialogInterface;
-import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroupOverlay;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,11 +21,11 @@ import com.example.myapplication.presentation.view.fragments.home_fragments.Sear
 
 import java.util.List;
 
-public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>{
+public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
 
-    private List<Category> categories;
+    private final List<Category> categories;
 
-    private Fragment parentFragment;
+    private final Fragment parentFragment;
 
     public CategoryAdapter(List<Category> categories, Fragment parentFragment) {
         this.categories = categories;
@@ -40,7 +36,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     @Override
     public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.category_element, parent, false);
-        return new CategoryViewHolder(view,parentFragment);
+        return new CategoryViewHolder(view, parentFragment);
     }
 
     @Override
@@ -54,28 +50,21 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         return categories.size();
     }
 
-    public class CategoryViewHolder extends RecyclerView.ViewHolder{
+    public class CategoryViewHolder extends RecyclerView.ViewHolder {
 
         private Category category;
 
         public CategoryViewHolder(@NonNull View itemView, Fragment parentFragment) {
             super(itemView);
 
-            itemView.setOnClickListener(v->{
-
-                if (parentFragment != null && parentFragment instanceof HomeFragment) {
+            itemView.setOnClickListener(v -> {
+                if (parentFragment instanceof HomeFragment) {
                     ((HomeFragment) parentFragment).replaceFragment(new SearchFragment(category));
                 }
-//                FragmentManager fragmentManager = ((AppCompatActivity)v.getContext()).getSupportFragmentManager();
-//                fragmentManager.beginTransaction()
-//                        .replace(R.id.frameLayout2, new SearchFragment(category))
-//                        .commit();
-
-                // gore trabas da pustis za odredjeni id category
             });
         }
 
-        public void bind(Category category){
+        public void bind(Category category) {
             this.category = category;
             ImageView slika = itemView.findViewById(R.id.imageView2);
             TextView textViewName = itemView.findViewById(R.id.textView4);
@@ -86,7 +75,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
                     .into(slika);
             textViewName.setText(category.getName());
 
-            moreBtn.setOnClickListener(v->{
+            moreBtn.setOnClickListener(v -> {
                 CategoryDialog dialog = new CategoryDialog(category);
 
                 FragmentManager fragmentManager = parentFragment.getChildFragmentManager();

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.R;
 import com.example.myapplication.data.models.entities.MealEntity;
 import com.example.myapplication.presentation.view.dialogs.SavedMealDialog;
+import com.example.myapplication.presentation.view.dialogs.UpdateSavedMealDialog;
 
 import java.util.List;
 
@@ -69,6 +70,12 @@ public class SavedMealAdapter extends RecyclerView.Adapter<SavedMealAdapter.Save
             TextView mealNameTextView = itemView.findViewById(R.id.textView8);
             Button updateBtn = itemView.findViewById(R.id.button5);
             Button deleteBtn = itemView.findViewById(R.id.button6);
+
+            updateBtn.setOnClickListener(v -> {
+                UpdateSavedMealDialog dialog = new UpdateSavedMealDialog(mealEntity);
+
+                dialog.show(parentFragment.getChildFragmentManager(), "UpdateSavedMealDialog");
+            });
 
             imageView.setImageResource(R.drawable.background);
             mealNameTextView.setText(mealEntity.getMealName());
