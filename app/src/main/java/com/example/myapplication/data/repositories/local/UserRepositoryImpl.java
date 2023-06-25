@@ -5,6 +5,7 @@ import com.example.myapplication.data.models.entities.UserEntity;
 import javax.inject.Inject;
 import io.reactivex.Completable;
 import io.reactivex.Single;
+import io.reactivex.schedulers.Schedulers;
 
 public class UserRepositoryImpl implements UserRepository {
 
@@ -29,5 +30,16 @@ public class UserRepositoryImpl implements UserRepository {
     public Completable insertUser(UserEntity user) {
         return userDao.insertUser(user);
     }
+
+    @Override
+    public Completable updateUser(int idUser, String password) {
+        return this.userDao.getById(idUser)
+                .flatMapCompletable(userEntity -> {
+                    userEntity.setPassword(password);
+                    return this.userDao.updateUser(userEntity);
+                })
+                .subscribeOn(Schedulers.io());
+    }
+
 }
 

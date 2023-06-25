@@ -11,6 +11,8 @@ public interface MainContract {
     void getUserById(long id);
     void getUserByUsernameAndPassword(String username, String password);
     void adduser(UserEntity userEntity);
+
+    void updateUser(int userId, String password);
     void insertMeal(MealEntity mealEntity);
     void updateMeal(int id, String mealImageUrl, Date preparationDate);
     void deleteMeal(int id);

@@ -12,5 +12,7 @@ public interface UserRepository {
     Single<UserEntity> getUserByUsernameAndPassword(String username, String password);
 
     Completable insertUser(UserEntity user);
+
+    Completable updateUser(int idUser,String password);
 }
 

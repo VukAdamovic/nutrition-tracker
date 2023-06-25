@@ -54,6 +54,8 @@ public class MainViewModel extends ViewModel implements MainContract {
         this.calorieRepository = calorieRepository;
     }
 
+
+
     @Override
     public void getUserById(long id) {
         subscriptions.add(
@@ -67,6 +69,8 @@ public class MainViewModel extends ViewModel implements MainContract {
         );
     }
 
+
+    private MutableLiveData<UserEntity> activeUser = new MutableLiveData<>();
     @Override
     public void getUserByUsernameAndPassword(String username, String password) {
         subscriptions.add(
@@ -74,8 +78,8 @@ public class MainViewModel extends ViewModel implements MainContract {
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
-                                user -> Log.d("MainViewModel", "User: " + user.toString()),
-                                throwable -> Log.e("MainViewModel", "Error: ", throwable)
+                                user -> activeUser.setValue(user),
+                                throwable -> activeUser.setValue(null)
                         )
         );
     }
@@ -88,6 +92,19 @@ public class MainViewModel extends ViewModel implements MainContract {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
                                 () -> Log.d("MainViewModel", "User added successfully"),
+                                throwable -> Log.e("MainViewModel", "Error: ", throwable)
+                        )
+        );
+    }
+
+    @Override
+    public void updateUser(int userId, String password) {
+        subscriptions.add(
+                userRepository.updateUser(userId, password)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                () -> Log.d("MainViewModel", "User updated successfully"),
                                 throwable -> Log.e("MainViewModel", "Error: ", throwable)
                         )
         );

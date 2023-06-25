@@ -3,7 +3,9 @@ package com.example.myapplication.data.datasources.local;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
+import com.example.myapplication.data.models.entities.MealEntity;
 import com.example.myapplication.data.models.entities.UserEntity;
 
 import io.reactivex.Completable;
@@ -20,4 +22,10 @@ public abstract class UserDao {
 
     @Insert
     public abstract Completable insertUser(UserEntity user);
+
+    //Sifra promena
+    @Update
+    public abstract Completable updateUser(UserEntity userEntity);
+
+
 }

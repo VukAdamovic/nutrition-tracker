@@ -17,6 +17,7 @@ import com.example.myapplication.data.models.api.domain.Category;
 import com.example.myapplication.data.models.api.domain.Ingredient;
 import com.example.myapplication.data.models.api.domain.MealFiltered;
 import com.example.myapplication.data.models.api.domain.MealSingle;
+import com.example.myapplication.data.models.entities.UserEntity;
 import com.example.myapplication.data.repositories.local.MealRepository;
 import com.example.myapplication.data.repositories.local.UserRepository;
 import com.example.myapplication.data.repositories.remote.calories.CalorieRepository;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     public static MainViewModel mainViewModel;
     private ActivityMainBinding binding;
 
+    //Api
     public static MutableLiveData<List<Category>> allCategoriesLiveData;
     public static MutableLiveData<List<MealFiltered>> allFilteredMealsByCategoryLiveData;
     public static MutableLiveData<List<MealFiltered>> allFilteredMealsByIngredientLiveData;
@@ -109,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
         allMealsLiveData = mainViewModel.getAllMeals();
         allIngredientsLiveData = mainViewModel.getAllIngredients();
     }
+
 
     private void replaceFragment(Fragment fragment){
         FragmentManager fragmentManager = getSupportFragmentManager();
