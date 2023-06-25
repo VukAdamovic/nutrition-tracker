@@ -192,6 +192,7 @@ public class MainViewModel extends ViewModel implements MainContract {
     private MutableLiveData<List<MealFiltered>> allFilteredMealsByCategory = new MutableLiveData<>();
     private MutableLiveData<List<MealSingle>> allMealsByName = new MutableLiveData<>();
     private MutableLiveData<List<MealFiltered>> allFilteredMealsByIngredient = new MutableLiveData<>();
+
     private MutableLiveData<List<MealSingle>> allMeals = new MutableLiveData<>();
     private MutableLiveData<List<MealSingle>> singleMealById = new MutableLiveData<>();
     private MutableLiveData<MealSingle> currentMealWithCalories = new MutableLiveData<>();

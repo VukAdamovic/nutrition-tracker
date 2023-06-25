@@ -21,6 +21,11 @@ import com.example.myapplication.presentation.view.fragments.SingleMealFragment;
 
 import java.util.List;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class MealAdapter extends RecyclerView.Adapter<MealAdapter.MealViewHolder>{
 
     private List<MealFiltered> mealFilteredList;

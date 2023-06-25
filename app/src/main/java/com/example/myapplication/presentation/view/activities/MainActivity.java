@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.myapplication.R;
 import com.example.myapplication.application.MyApplication;
 import com.example.myapplication.data.models.api.domain.Category;
+import com.example.myapplication.data.models.api.domain.Ingredient;
 import com.example.myapplication.data.models.api.domain.MealFiltered;
 import com.example.myapplication.data.models.api.domain.MealSingle;
 import com.example.myapplication.data.repositories.local.MealRepository;
@@ -45,6 +46,9 @@ public class MainActivity extends AppCompatActivity {
     public static MutableLiveData<List<MealSingle>> singleMealByIdLiveData;
     public static MutableLiveData<MealSingle> currentMealWithCaloriesLiveData;
     public static MutableLiveData<List<MealSingle>> allMealsLiveData;
+    public static MutableLiveData<List<Ingredient>> allIngredientsLiveData;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
         singleMealByIdLiveData = mainViewModel.getSingleMealById();
         currentMealWithCaloriesLiveData = mainViewModel.getCurrentMealWithCalories();
         allMealsLiveData = mainViewModel.getAllMeals();
+        allIngredientsLiveData = mainViewModel.getAllIngredients();
     }
 
     private void replaceFragment(Fragment fragment){
