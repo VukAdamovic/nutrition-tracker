@@ -19,6 +19,7 @@
             android:fontFamily="@font/codaextrabold"
             android:text="X"
             android:textColor="@color/our_white"
+            android:textSize="26sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.94"
             app:layout_constraintStart_toStartOf="parent"

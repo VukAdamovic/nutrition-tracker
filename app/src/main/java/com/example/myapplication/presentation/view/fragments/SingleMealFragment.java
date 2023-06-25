@@ -45,6 +45,7 @@ public class SingleMealFragment extends Fragment {
 
     private void initListeners(){
         TextView exit = binding.textView31;
+
         exit.setOnClickListener(v -> {
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             fragmentManager.popBackStack(); // Uklonite fragment sa steka povratka
@@ -60,6 +61,8 @@ public class SingleMealFragment extends Fragment {
         });
 
         MainActivity.currentMealWithCaloriesLiveData.observe(this, mealSingle -> {
+
+
             binding.textView32.setText(mealSingle.getMealName());
 
             ImageView imageView = binding.imageView6;
@@ -87,9 +90,20 @@ public class SingleMealFragment extends Fragment {
             binding.button7.setOnClickListener(v->{
 
             });
-
-
-
         });
     }
+
+//    @Override
+//    public void onDetach() {
+//        super.onDetach();
+//        binding.textView32.setText("");
+//        binding.textView34.setText("");
+//        binding.textView36.setText("");
+//        binding.textView38.setText("");
+//        binding.textView40.setText("");
+//        binding.textView42.setText("");
+//        binding.textView44.setText("");
+//        binding.textView46.setText("");
+//    }
+
 }
