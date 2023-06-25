@@ -1,7 +1,6 @@
 package com.example.myapplication.presentation.view.activities;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -71,9 +70,6 @@ public class MainActivity extends AppCompatActivity {
             }
             return true;
         });
-
-
-
     }
 
     private void initViewModel() {
@@ -107,83 +103,6 @@ public class MainActivity extends AppCompatActivity {
         singleMealByIdLiveData = mainViewModel.getSingleMealById();
         currentMealWithCaloriesLiveData = mainViewModel.getCurrentMealWithCalories();
         allMealsLiveData = mainViewModel.getAllMeals();
-
-
-//        allCategoriesLiveData.observe(this, categories -> {
-//            for (Category category : categories) {
-//                mainViewModel.getMealsByCategory(category.getName());
-//                break;
-//            }
-//        });
-//
-//        allFilteredMealsByCategoryLiveData.observe(this, meals -> {
-//            for (MealFiltered mealFiltered : meals) {
-//                Log.d("MainViewModel", "Meal Name: " + mealFiltered.getName());
-//                mainViewModel.getMealById(mealFiltered.getId());
-//            }
-//        });
-//
-//        allFilteredMealsByIngredientLiveData.observe(this, meals -> {
-//            for (MealFiltered mealFiltered : meals) {
-//                Log.d("MainViewModel", "Meal Name: " + mealFiltered.getName());
-//                mainViewModel.getMealById(mealFiltered.getId());
-//            }
-//        });
-//
-//        allMealsByNameLiveData.observe(this, meals -> {
-//            for (MealSingle mealSingle : meals) {
-//                mainViewModel.getCaloriesForMeal(mealSingle);
-//            }
-//        });
-//
-//        singleMealByIdLiveData.observe(this, meals -> {
-//            for (MealSingle mealSingle : meals) {
-//                mainViewModel.getCaloriesForMeal(mealSingle);
-//            }
-//        });
-
-//        currentMealWithCaloriesLiveData.observe(this, meal -> {
-//            Log.d("MainViewModel", "Meal ID: " + meal.getId());
-//            Log.d("MainViewModel", "Meal Name: " + meal.getMealName());
-//            Log.d("MainViewModel", "Meal Image URL: " + meal.getMealImageUrl());
-//            Log.d("MainViewModel", "Instructions: " + meal.getInstructions());
-//            Log.d("MainViewModel", "YouTube Link: " + meal.getYouTubeLink());
-//            Log.d("MainViewModel", "Ingredients Measurements: " + meal.getIngredientsMeasurements());
-//            Log.d("MainViewModel", "Category: " + meal.getCategory());
-//            Log.d("MainViewModel", "Area: " + meal.getArea());
-//            Log.d("MainViewModel", "Tags: " + meal.getTags());
-//            Log.d("MainViewModel", "Ingredients: " + meal.getIngredientsMeasurements());
-//            Log.d("MainViewModel", "Calories: " + meal.getCalories());
-//            Log.d("MainViewModel", "------------------------------------------------------" );
-
-//            List<MealSingle> currentMeals = mainViewModel.getAllMeals().getValue();
-//
-//            if(currentMeals == null) {
-//                currentMeals = new ArrayList<>();
-//            }
-//
-//            currentMeals.add(meal);
-//            mainViewModel.getAllMeals().setValue(currentMeals);
-//        });
-
-//        allMealsLiveData.observe(this, meals -> {
-//            MealSingle lastMeal = meals.get(meals.size() - 1);
-//            Log.d("MainViewModel", "Size: " + meals.size());
-//            Log.d("MainViewModel", "Meal ID: " + lastMeal.getId());
-//            Log.d("MainViewModel", "Meal Name: " + lastMeal.getMealName());
-//            Log.d("MainViewModel", "Meal Image URL: " + lastMeal.getMealImageUrl());
-//            Log.d("MainViewModel", "Instructions: " + lastMeal.getInstructions());
-//            Log.d("MainViewModel", "YouTube Link: " + lastMeal.getYouTubeLink());
-//            Log.d("MainViewModel", "Ingredients Measurements: " + lastMeal.getIngredientsMeasurements());
-//            Log.d("MainViewModel", "Category: " + lastMeal.getCategory());
-//            Log.d("MainViewModel", "Area: " + lastMeal.getArea());
-//            Log.d("MainViewModel", "Tags: " + lastMeal.getTags());
-//            Log.d("MainViewModel", "Calories: " + lastMeal.getCalories());
-//            Log.d("MainViewModel", "------------------------------------------------------" );
-//        });
-
-
-
     }
 
     private void replaceFragment(Fragment fragment){
@@ -192,7 +111,4 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.frameLayout, fragment);
         fragmentTransaction.commit();
     }
-
-
-
 }

@@ -257,7 +257,9 @@ public class MainViewModel extends ViewModel implements MainContract {
                         .doOnComplete(() -> Log.d("MainViewModel", "Fetch Complete"))
                         .subscribe(
                                 meals -> {
-                                    allFilteredMealsByIngredient.setValue(meals);
+                                    if (meals != null) {
+                                        allFilteredMealsByIngredient.setValue(meals);
+                                    }
                                 },
                                 throwable -> Log.e("MainViewModel", "Error: ", throwable)
                         )

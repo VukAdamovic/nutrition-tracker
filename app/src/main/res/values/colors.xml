@@ -11,9 +11,6 @@
     <color name ="our_purple">#654671</color>
     <color name ="our_white">#D9D9D9</color>
     <color name="our_red">#E23E3A</color>
-    <color name="blured_dark">#BF1E1E1E</color>
-
-
-
-
+    <color name="blurred_dark">#BF1E1E1E</color>
+    <color name="dim_color">#80000000</color>
 </resources>
