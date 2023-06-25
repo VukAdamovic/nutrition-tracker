@@ -101,14 +101,14 @@ public class SearchFragment extends Fragment {
 
     private void initObservers() {
         MainActivity.allFilteredMealsByCategoryLiveData.observe(this, meals -> {
-            MealAdapter mealAdapter = new MealAdapter(meals, requireActivity());
+            MealAdapter mealAdapter = new MealAdapter(meals, requireActivity().getSupportFragmentManager());
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setAdapter(mealAdapter);
         });
 
         MainActivity.allFilteredMealsByIngredientLiveData.observe(this, meals -> {
-            MealAdapter mealAdapter = new MealAdapter(meals, requireActivity());
+            MealAdapter mealAdapter = new MealAdapter(meals, requireActivity().getSupportFragmentManager());
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setAdapter(mealAdapter);
@@ -119,7 +119,7 @@ public class SearchFragment extends Fragment {
             for (MealSingle mealSingle : meals) {
                 mealFilteredList.add(new MealFiltered(String.valueOf(mealSingle.getId()), mealSingle.getMealImageUrl(), mealSingle.getMealName()));
             }
-            MealAdapter mealAdapter = new MealAdapter(mealFilteredList, requireActivity());
+            MealAdapter mealAdapter = new MealAdapter(mealFilteredList, requireActivity().getSupportFragmentManager());
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setAdapter(mealAdapter);
