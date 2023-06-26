@@ -35,6 +35,7 @@ import com.example.myapplication.presentation.view.fragments.HomeFragment;
 import com.example.myapplication.presentation.view.fragments.PlanFragment;
 import com.example.myapplication.presentation.view.fragments.SettingsFragment;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -78,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).hide();
         replaceFragment(new HomeFragment());
 
+        MainActivity.mainViewModel.getMealsLastSevenDays(sharedPreferences.getInt("USER_ID",-1), new Date());
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.home) {

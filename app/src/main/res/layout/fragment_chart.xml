@@ -23,6 +23,7 @@
             android:fontFamily="@font/codaextrabold"
             android:text="Statistic in Last Seven Days"
             android:textAlignment="center"
+            android:gravity="center"
             android:textColor="@color/our_white"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -34,7 +35,7 @@
             android:id="@+id/barChart1"
             android:layout_width="match_parent"
             android:layout_height="350dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView3">

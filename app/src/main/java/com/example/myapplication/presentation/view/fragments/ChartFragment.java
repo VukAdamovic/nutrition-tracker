@@ -4,12 +4,15 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.myapplication.R;
 import com.example.myapplication.data.models.entities.MealEntity;
 import com.example.myapplication.databinding.FragmentChartBinding;
 import com.example.myapplication.presentation.view.activities.MainActivity;
@@ -48,8 +51,8 @@ public class ChartFragment extends Fragment {
 
     private PieChart chartNumCalories;
 
-    private List<PieEntry> numMeals = new ArrayList<>();
-    private List<PieEntry> caloriesMeals = new ArrayList<>();
+    private List<PieEntry> numMeals;
+    private List<PieEntry> caloriesMeals;
 
 
 
@@ -71,6 +74,8 @@ public class ChartFragment extends Fragment {
 
         chartNumMeals = binding.barChart1;
         chartNumCalories = binding.barChart2;
+        numMeals = new ArrayList<>();
+        caloriesMeals = new ArrayList<>();
 
         MainActivity mainActivity = (MainActivity) requireActivity();
         MainActivity.mainViewModel.getMealsLastSevenDays(mainActivity.sharedPreferences.getInt("USER_ID",-1), new Date());
@@ -176,6 +181,7 @@ public class ChartFragment extends Fragment {
             chartNumMeals.setCenterTextSize(10f);
             chartNumMeals.getDescription().setEnabled(false);
             chartNumMeals.getLegend().setEnabled(false);
+            chartNumMeals.setTouchEnabled(false);
 
             //inicijalizacija za donji chart
             PieDataSet pieDataSet2 = new PieDataSet(caloriesMeals, "Number of meals per day");
@@ -196,11 +202,7 @@ public class ChartFragment extends Fragment {
             chartNumCalories.setCenterTextSize(10f);
             chartNumCalories.getDescription().setEnabled(false);
             chartNumCalories.getLegend().setEnabled(false);
-
-
+            chartNumCalories.setTouchEnabled(false);
         });
     }
-
-
-
 }
