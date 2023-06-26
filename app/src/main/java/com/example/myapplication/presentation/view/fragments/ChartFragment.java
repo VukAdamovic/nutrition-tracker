@@ -31,6 +31,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -45,11 +46,10 @@ public class ChartFragment extends Fragment {
 
     private PieChart chartNumMeals;
 
-    private BarChart chartNumCalories;
-
+    private PieChart chartNumCalories;
 
     private List<PieEntry> numMeals = new ArrayList<>();
-    private List<BarEntry> caloriesMeals = new ArrayList<>();
+    private List<PieEntry> caloriesMeals = new ArrayList<>();
 
 
 
@@ -104,6 +104,26 @@ public class ChartFragment extends Fragment {
 
             DateTimeFormatter format = DateTimeFormatter.ofPattern("EEE");
 
+            Comparator<String> dayOfWeekComparator = new Comparator<String>() {
+                @Override
+                public int compare(String day1, String day2) {
+                    String[] weekDays = {"pon", "uto", "sre", "čet", "pet", "sub", "ned"};
+                    int index1 = -1;
+                    int index2 = -1;
+                    for (int i = 0; i < weekDays.length; i++) {
+                        if (weekDays[i].equals(day1)) {
+                            index1 = i;
+                        }
+                        if (weekDays[i].equals(day2)) {
+                            index2 = i;
+                        }
+                    }
+                    return Integer.compare(index1, index2);
+                }
+            };
+
+            Map<String, List<MealEntity>> sortedMealsByDate = new TreeMap<>(dayOfWeekComparator);
+
             for (LocalDate date = danPreTrenutnog; date.isAfter(sedamDanaUnazad); date = date.minusDays(1)) {
                 String formattedDate = date.format(format);
 
@@ -112,40 +132,70 @@ public class ChartFragment extends Fragment {
                 }
             }
 
-            Log.d("Hash Mapa za sve dane", mealsByDate.keySet() + " " + mealsByDate);
+            sortedMealsByDate.putAll(mealsByDate);
 
-            // Iteriranje kroz sortiranu hash mapu i dodavanje PieEntry-ja u listu numMeals
-            for (Map.Entry<String, List<MealEntity>> entry : mealsByDate.entrySet()) {
+
+            //Gore je sve za logiku ovde punis pieChart-ove za borj jela
+
+            for (Map.Entry<String, List<MealEntity>> entry : sortedMealsByDate.entrySet()) {
                 String date = entry.getKey();
                 List<MealEntity> meals = entry.getValue();
                 int mealCount = meals.size();
 
-                numMeals.add(new PieEntry(1, date + "\n" + mealCount));
+                double totalCalories = 0;
+                for (MealEntity meal : meals) {
+                    totalCalories += meal.getCalories();
+                }
+                totalCalories = Math.round(totalCalories); // Zaokruživanje na najbliži ceo broj
+                caloriesMeals.add(new PieEntry(1, date.toUpperCase() + " - " + totalCalories));
+                numMeals.add(new PieEntry(1, date.toUpperCase() + " - " + mealCount));
             }
 
 
+            List<Integer> colors = new ArrayList<>();
+            colors.add(Color.parseColor("#FF6200EE"));
+            colors.add(Color.parseColor("#FF8B14"));
+            colors.add(Color.parseColor("#FF00695C"));
 
+            //Inicijalizacija za gornji chart
             PieDataSet pieDataSet = new PieDataSet(numMeals, "Number of meals");
-            pieDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+            pieDataSet.setColors(colors);
             pieDataSet.setSliceSpace(2f);  // Postavljanje razmaka između sektora
-            pieDataSet.setSelectionShift(8f);  // Postavljanje pomeraja za odabir sektora
+            pieDataSet.setSelectionShift(10f);  // Postavljanje pomeraja za odabir sektora
             pieDataSet.setValueTextColor(Color.WHITE);
-            pieDataSet.setValueTextSize(16f);
+            pieDataSet.setValueTextSize(4f);
             pieDataSet.setDrawValues(false);  // Isključivanje prikaza vrednosti
-
-
 
             PieData pieData = new PieData(pieDataSet);
             pieData.setValueTextSize(12f);
             pieData.setValueTextColor(Color.WHITE);
 
-
             chartNumMeals.setData(pieData);
-            chartNumMeals.setCenterText("Number of meals");
+            chartNumMeals.setCenterText("Meals per day");
             chartNumMeals.setCenterTextColor(Color.GRAY);
             chartNumMeals.setCenterTextSize(10f);
-            chartNumMeals.getDescription().setEnabled(false); // Isključuje prikaz opisa
-            chartNumMeals.getLegend().setEnabled(false); // Isključuje prikaz legende
+            chartNumMeals.getDescription().setEnabled(false);
+            chartNumMeals.getLegend().setEnabled(false);
+
+            //inicijalizacija za donji chart
+            PieDataSet pieDataSet2 = new PieDataSet(caloriesMeals, "Number of meals per day");
+            pieDataSet2.setColors(colors);
+            pieDataSet2.setSliceSpace(2f);
+            pieDataSet2.setSelectionShift(10f);
+            pieDataSet2.setValueTextColor(Color.WHITE);
+            pieDataSet2.setValueTextSize(4f);
+            pieDataSet2.setDrawValues(false);
+
+            PieData pieData2 = new PieData(pieDataSet2);
+            pieData2.setValueTextSize(12f);
+            pieData2.setValueTextColor(Color.WHITE);
+
+            chartNumCalories.setData(pieData2);
+            chartNumCalories.setCenterText("Calories per day");
+            chartNumCalories.setCenterTextColor(Color.GRAY);
+            chartNumCalories.setCenterTextSize(10f);
+            chartNumCalories.getDescription().setEnabled(false);
+            chartNumCalories.getLegend().setEnabled(false);
 
 
         });
