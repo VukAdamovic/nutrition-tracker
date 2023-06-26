@@ -20,4 +20,8 @@ public interface MealService {
 
     @GET("lookup.php")
     Observable<AllMealsResponse> getMealById(@Query("i") String id);
+
+    @GET("filter.php")
+    Observable<AllMealsFilteredResponse> getMealsByArea(@Query("a") String area);
+
 }

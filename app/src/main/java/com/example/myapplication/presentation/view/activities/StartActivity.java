@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.application.MyApplication;
 import com.example.myapplication.databinding.ActivitySplashScreenBinding;
-import com.example.myapplication.presentation.event.MainViewModel;
 
 import java.util.Objects;
 
@@ -21,8 +20,6 @@ public class StartActivity extends AppCompatActivity {
 
 
     private ActivitySplashScreenBinding binding;
-
-    private MainViewModel mainViewModel;
 
     @Inject
     public SharedPreferences sharedPreferences;

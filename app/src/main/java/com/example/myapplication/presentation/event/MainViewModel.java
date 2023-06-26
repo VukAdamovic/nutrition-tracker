@@ -13,6 +13,7 @@ import com.example.myapplication.data.models.entities.MealEntity;
 import com.example.myapplication.data.models.entities.UserEntity;
 import com.example.myapplication.data.repositories.local.MealRepository;
 import com.example.myapplication.data.repositories.local.UserRepository;
+import com.example.myapplication.data.repositories.remote.area.AreaRepository;
 import com.example.myapplication.data.repositories.remote.calories.CalorieRepository;
 import com.example.myapplication.data.repositories.remote.category.CategoryRepository;
 import com.example.myapplication.data.repositories.remote.ingredient.IngredientRepository;
@@ -42,23 +43,29 @@ public class MainViewModel extends ViewModel implements MainContract {
     private MealRepositoryRemote mealRepositoryRemote;
     private IngredientRepository ingredientRepository;
     private CalorieRepository calorieRepository;
+    private AreaRepository areaRepository;
 
     private MutableLiveData<List<MealEntity>> allMealsByUserId = new MutableLiveData<>();
 
     @Inject
     public MainViewModel(UserRepository userRepository, MealRepository mealRepository, CategoryRepository categoryRepository,
-                         MealRepositoryRemote mealRepositoryRemote, IngredientRepository ingredientRepository, CalorieRepository calorieRepository) {
+                         MealRepositoryRemote mealRepositoryRemote, IngredientRepository ingredientRepository, CalorieRepository calorieRepository, AreaRepository areaRepository) {
         this.userRepository = userRepository;
         this.mealRepository = mealRepository;
         this.categoryRepository = categoryRepository;
         this.mealRepositoryRemote = mealRepositoryRemote;
         this.ingredientRepository = ingredientRepository;
         this.calorieRepository = calorieRepository;
+        this.areaRepository = areaRepository;
     }
 
 
 
     private MutableLiveData<UserEntity> activeUser = new MutableLiveData<>();
+
+    private MutableLiveData<List<String>> areas = new MutableLiveData<>();
+
+    private MutableLiveData<List<MealFiltered>> mealsByAreaFiltered = new MutableLiveData<>();
 
 
     @Override
@@ -167,6 +174,32 @@ public class MainViewModel extends ViewModel implements MainContract {
                                 throwable -> {
                                     Log.e("MainViewModel Meals", "Error: ", throwable);
                                 }
+                        )
+        );
+    }
+
+    @Override
+    public void fetchAreas() {
+        subscriptions.add(
+                areaRepository.fetchAreas()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                allArea -> areas.setValue(allArea),
+                                throwable -> Log.e("MainViewModel Meals", "Error: ", throwable)
+                        )
+        );
+    }
+
+    @Override
+    public void getMealsByArea(String area) {
+        subscriptions.add(
+                mealRepositoryRemote.getMealsByArea(area)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                meals -> mealsByAreaFiltered.setValue(meals),
+                                throwable -> Log.e("MainViewModel Meals", "Error: ", throwable)
                         )
         );
     }

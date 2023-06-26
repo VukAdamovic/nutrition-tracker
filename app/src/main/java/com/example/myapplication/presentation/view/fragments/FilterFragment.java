@@ -179,6 +179,7 @@ public class FilterFragment extends Fragment implements FilterAdapter.OnTagClick
             binding.radioButton.setChecked(false);
             binding.radioButton2.setChecked(true);
             binding.radioButton3.setChecked(false);
+            MainActivity.mainViewModel.fetchAreas();
         });
 
         binding.radioButton3.setOnClickListener(v -> { //ingredient
@@ -249,6 +250,13 @@ public class FilterFragment extends Fragment implements FilterAdapter.OnTagClick
             filterRecycleView.setAdapter(filterAdapter);
         });
 
+        MainActivity.areas.observe(this, areas -> {
+            FilterAdapter filterAdapter = new FilterAdapter(null, areas, null, null, this);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+            filterRecycleView.setLayoutManager(layoutManager);
+            filterRecycleView.setAdapter(filterAdapter);
+        });
+
         //- dodaj ovde za areo ovaj gornji recycler view
 
         //-------------------------------------------------------------------------//
@@ -281,6 +289,32 @@ public class FilterFragment extends Fragment implements FilterAdapter.OnTagClick
         });
 
         MainActivity.allFilteredMealsByIngredientLiveData.observe(this, meals -> {
+            mealAdapter = new MealAdapter(meals, requireActivity().getSupportFragmentManager());
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+            mealRecycleView.setLayoutManager(layoutManager);
+            mealRecycleView.setAdapter(mealAdapter);
+
+            List<String> uniqueTags = new ArrayList<>();
+
+            for(MealFiltered mealFiltered : meals) {
+                MainActivity.mainViewModel.getMealById(mealFiltered.getId());
+
+                MainActivity.singleMealByIdLiveData.observe(this, mealSingles -> {
+                    MealSingle mealSingle = mealSingles.get(0);
+                    for(String tag : mealSingle.getTags()){
+                        if(!uniqueTags.contains(tag) && !tag.equals("") && !tag.equals(" ")){
+                            uniqueTags.add(tag);
+                        }
+                    }
+                    FilterAdapter filterAdapter = new FilterAdapter(null, null, null, uniqueTags, this);
+                    LinearLayoutManager layoutManager2 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+                    tagsRecycleView.setLayoutManager(layoutManager2);
+                    tagsRecycleView.setAdapter(filterAdapter);
+                });
+            }
+        });
+
+        MainActivity.mealsByAreaLiveData.observe(this, meals -> {
             mealAdapter = new MealAdapter(meals, requireActivity().getSupportFragmentManager());
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
             mealRecycleView.setLayoutManager(layoutManager);

@@ -23,6 +23,7 @@ import com.example.myapplication.data.models.entities.MealEntity;
 import com.example.myapplication.data.models.entities.UserEntity;
 import com.example.myapplication.data.repositories.local.MealRepository;
 import com.example.myapplication.data.repositories.local.UserRepository;
+import com.example.myapplication.data.repositories.remote.area.AreaRepository;
 import com.example.myapplication.data.repositories.remote.calories.CalorieRepository;
 import com.example.myapplication.data.repositories.remote.category.CategoryRepository;
 import com.example.myapplication.data.repositories.remote.ingredient.IngredientRepository;
@@ -56,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
     public static MutableLiveData<List<MealSingle>> allMealsLiveData;
     public static MutableLiveData<List<Ingredient>> allIngredientsLiveData;
     public static MutableLiveData<List<MealEntity>> mealsByUserId;
+    public static MutableLiveData<List<String>> areas;
+    public static MutableLiveData<List<MealFiltered>> mealsByAreaLiveData;
 
     //remote
 
@@ -109,7 +112,8 @@ public class MainActivity extends AppCompatActivity {
                     MealRepositoryRemote mealRepositoryRemote = ((MyApplication) getApplication()).getAppComponent().provideMealRepositoryRemote();
                     IngredientRepository ingredientRepository = ((MyApplication) getApplication()).getAppComponent().provideIngredientRepository();
                     CalorieRepository calorieRepository = ((MyApplication) getApplication()).getAppComponent().provideCalorieRepository();
-                    return (T) new MainViewModel(userRepository, mealRepository, categoryRepository, mealRepositoryRemote, ingredientRepository, calorieRepository);
+                    AreaRepository areaRepository = ((MyApplication) getApplication()).getAppComponent().provideAreaRepository();
+                    return (T) new MainViewModel(userRepository, mealRepository, categoryRepository, mealRepositoryRemote, ingredientRepository, calorieRepository, areaRepository);
                 }
                 throw new IllegalArgumentException("Unknown ViewModel class");
             }
@@ -129,12 +133,13 @@ public class MainActivity extends AppCompatActivity {
         currentMealWithCaloriesLiveData = mainViewModel.getCurrentMealWithCalories();
         allMealsLiveData = mainViewModel.getAllMeals();
         allIngredientsLiveData = mainViewModel.getAllIngredients();
+        areas = mainViewModel.getAreas();
+        mealsByAreaLiveData = mainViewModel.getMealsByAreaFiltered();
 
         //local
         activeUser = mainViewModel.getActiveUser();
         mealsByUserId = mainViewModel.getAllMealsByUserId();
         mealsInLastSevenDays = mainViewModel.getMealsInLastSevenDays();
-
     }
 
 

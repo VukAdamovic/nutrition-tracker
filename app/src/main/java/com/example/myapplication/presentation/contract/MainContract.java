@@ -34,4 +34,8 @@ public interface MainContract {
     void getIngredients(String s);
 
     void getCaloriesForMeal(MealSingle meal);
+
+    void fetchAreas();
+
+    void getMealsByArea(String area);
 }
