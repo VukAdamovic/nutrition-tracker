@@ -171,6 +171,8 @@ public class MainViewModel extends ViewModel implements MainContract {
         );
     }
 
+    private MutableLiveData<List<MealEntity>> mealsInLastSevenDays = new MutableLiveData<>();
+
     @Override
     public void getMealsLastSevenDays(int userId, Date currentDate) {
 
@@ -193,9 +195,7 @@ public class MainViewModel extends ViewModel implements MainContract {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
                                 meals -> {
-                                    for (MealEntity meal : meals) {
-                                        Log.d("MainViewModel Meal", "Meal: " + meal.getMealName());
-                                    }
+                                    mealsInLastSevenDays.setValue(meals);
                                 },
                                 throwable -> {
                                     Log.e("MainViewModel Meals", "Error: ", throwable);

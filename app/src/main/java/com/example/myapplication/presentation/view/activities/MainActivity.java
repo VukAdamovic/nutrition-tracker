@@ -60,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static MutableLiveData<UserEntity> activeUser;
 
+    public static MutableLiveData<List<MealEntity>> mealsInLastSevenDays;
+
     @Inject
     public SharedPreferences sharedPreferences;
 
@@ -129,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
         //local
         activeUser = mainViewModel.getActiveUser();
         mealsByUserId = mainViewModel.getAllMealsByUserId();
+        mealsInLastSevenDays = mainViewModel.getMealsInLastSevenDays();
 
     }
 
