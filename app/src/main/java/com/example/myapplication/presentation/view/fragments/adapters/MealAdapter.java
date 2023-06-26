@@ -56,6 +56,11 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.MealViewHolder
         return mealFilteredList.size();
     }
 
+    public void setMealFilteredList(List<MealFiltered> meals) {
+        this.mealFilteredList = meals;
+    }
+
+
     public class MealViewHolder extends RecyclerView.ViewHolder {
 
         private MealFiltered mealFiltered;

@@ -1,12 +1,6 @@
 package com.example.myapplication.presentation.view.fragments;
 
 import android.os.Bundle;
-
-import androidx.appcompat.widget.SwitchCompat;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,22 +8,23 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.Toast;
 
-import com.example.myapplication.R;
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.myapplication.data.models.api.domain.MealFiltered;
 import com.example.myapplication.data.models.api.domain.MealSingle;
 import com.example.myapplication.databinding.FragmentFilterBinding;
 import com.example.myapplication.presentation.view.activities.MainActivity;
-import com.example.myapplication.presentation.view.fragments.adapters.CategoryAdapter;
 import com.example.myapplication.presentation.view.fragments.adapters.FilterAdapter;
 import com.example.myapplication.presentation.view.fragments.adapters.MealAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 
@@ -48,6 +43,10 @@ public class FilterFragment extends Fragment implements FilterAdapter.OnTagClick
     private Handler handler = new Handler();
 
     private Runnable searchRunnable;
+
+    private String currentTag;
+
+    private CopyOnWriteArrayList<MealFiltered> filterByTag;
 
 
 
@@ -138,6 +137,16 @@ public class FilterFragment extends Fragment implements FilterAdapter.OnTagClick
             binding.radioButton2.setChecked(false);
             binding.radioButton3.setChecked(true);
             MainActivity.mainViewModel.getIngredients("list");
+        });
+
+        binding.radioButton4.setOnClickListener(v -> {
+            binding.radioButton5.setChecked(false);
+            binding.radioButton4.setChecked(true);
+        });
+
+        binding.radioButton5.setOnClickListener(v -> {
+            binding.radioButton4.setChecked(false);
+            binding.radioButton5.setChecked(true);
         });
     }
 
@@ -239,29 +248,36 @@ public class FilterFragment extends Fragment implements FilterAdapter.OnTagClick
                     tagsRecycleView.setAdapter(filterAdapter);
                 });
             }
-
         });
 
+        MainActivity.singleMealByIdLiveData.observe(getViewLifecycleOwner(), meals -> {
+            if (meals != null && !meals.isEmpty() && currentTag != null) {
+                MealSingle meal = meals.get(0);
+                for (String curr : meal.getTags()) {
+                    if (curr.equals(currentTag)) {
+                        filterByTag.add(new MealFiltered(String.valueOf(meal.getId()), meal.getMealImageUrl(), meal.getMealName()));
+                        MealAdapter filteredAdapter = new MealAdapter(filterByTag, requireActivity().getSupportFragmentManager());
+                        mealRecycleView.setAdapter(filteredAdapter);
+                        break;
+                    }
+                }
+            }
+        });
     }
 
     @Override
     public void onTagClick(String tag) {
-//        List<MealFiltered> currentList = mealAdapter.getMealFilteredList();
-//        List<MealFiltered> filterByTag = new ArrayList<>();
-//
-//        for(MealFiltered mealFiltered : currentList){
-//            MainActivity.mainViewModel.getMealById(mealFiltered.getId());
-//
-//            MainActivity.singleMealByIdLiveData.observe(this, mealSingles -> {
-//                MealSingle mealSingle = mealSingles.get(0);
-//                for(String curr : mealSingle.getTags()){
-//                    if(curr.equals(tag) && !filterByTag.contains(mealFiltered)){
-//                        filterByTag.add(mealFiltered);
-//                    }
-//                }
-//                MealAdapter filteredAdapter = new MealAdapter(filterByTag, requireActivity().getSupportFragmentManager());
-//                mealRecycleView.setAdapter(filteredAdapter);
-//            });
-//        }
+        if (tag.equals(currentTag)) {
+            currentTag = null;
+            mealRecycleView.setAdapter(mealAdapter);
+        } else {
+            currentTag = tag;
+            filterByTag = new CopyOnWriteArrayList<>();
+            List<MealFiltered> currentList = mealAdapter.getMealFilteredList();
+
+            for(MealFiltered mealFiltered : currentList){
+                MainActivity.mainViewModel.getMealById(mealFiltered.getId());
+            }
+        }
     }
 }

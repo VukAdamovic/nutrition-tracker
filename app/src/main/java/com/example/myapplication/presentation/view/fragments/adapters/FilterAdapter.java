@@ -115,13 +115,16 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.FilterView
                 itemView.setOnClickListener(v->{
                     MainActivity.mainViewModel.getMealsByIngredient(ingredient.getName());
                 });
-            }else {
+            } else {
                 itemView.setOnClickListener(v -> {
-//                    String tag = tagsList.get(getAdapterPosition());
-                    onTagClickListener.onTagClick(tag);
-
+                    int position = getBindingAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        tag = tagsList.get(position);
+                        onTagClickListener.onTagClick(tag);
+                    }
                 });
             }
+
         }
 
         public void bindCategory(Category category){
@@ -144,7 +147,6 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.FilterView
 
         public void bindTag(String tag){
             TextView name = itemView.findViewById(R.id.textView48);
-
             name.setText(tag);
         }
     }
