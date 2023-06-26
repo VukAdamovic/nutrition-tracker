@@ -1,6 +1,5 @@
 package com.example.myapplication.presentation.view.fragments.adapters;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.R;
 import com.example.myapplication.data.models.api.domain.Category;
 import com.example.myapplication.data.models.api.domain.Ingredient;
-import com.example.myapplication.data.models.api.domain.MealFiltered;
 import com.example.myapplication.data.models.api.domain.MealSingle;
 import com.example.myapplication.presentation.view.activities.MainActivity;
 
@@ -22,7 +20,7 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.FilterView
 
     private List<Category> categoryList;
 
-    private  List<MealSingle> areaList;
+    private  List<String> areaList;
 
     private List<Ingredient> ingredientList;
 
@@ -36,7 +34,7 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.FilterView
     //Iskoristicu ovaj adapter za 4 situacije
 
     //U datom trenutku samo jedna lista moze biti aktivna, ove ostale moraju biti null
-    public FilterAdapter(List<Category> categoryList, List<MealSingle> areaList, List<Ingredient> ingredientList, List<String> tagsList, OnTagClickListener onTagClickListener) {
+    public FilterAdapter(List<Category> categoryList, List<String> areaList, List<Ingredient> ingredientList, List<String> tagsList, OnTagClickListener onTagClickListener) {
         this.categoryList = categoryList;
         this.areaList = areaList;
         this.ingredientList = ingredientList;
@@ -58,8 +56,8 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.FilterView
             holder.bindCategory(category);
         }
         else if(areaList != null){
-            MealSingle mealSingle = areaList.get(position);
-            holder.bindArea(mealSingle);
+            String area = areaList.get(position);
+            holder.bindArea(area);
         }
         else if(ingredientList != null){
             Ingredient ingredient = ingredientList.get(position);
@@ -91,7 +89,7 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.FilterView
 
         private Category category;
 
-        private MealSingle mealArea;
+        private String area;
 
         private Ingredient ingredient;
 
@@ -109,7 +107,9 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.FilterView
                 });
             }
             else if(areaList != null){
-                //
+                itemView.setOnClickListener(v -> {
+                    MainActivity.mainViewModel.getMealsByArea(area);
+                });
             }
             else if(ingredientList != null){
                 itemView.setOnClickListener(v->{
@@ -133,10 +133,10 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.FilterView
             name.setText(category.getName());
         }
 
-        public void bindArea(MealSingle mealSingle){
-            this.mealArea = mealSingle;
+        public void bindArea(String area){
+            this.area = area;
             TextView name = itemView.findViewById(R.id.textView48);
-            name.setText(mealSingle.getArea());
+            name.setText(area);
         }
 
         public void bindIngredient(Ingredient ingredient){

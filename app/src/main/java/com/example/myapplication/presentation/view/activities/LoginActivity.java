@@ -20,6 +20,7 @@ import com.example.myapplication.application.MyApplication;
 import com.example.myapplication.data.models.entities.UserEntity;
 import com.example.myapplication.data.repositories.local.MealRepository;
 import com.example.myapplication.data.repositories.local.UserRepository;
+import com.example.myapplication.data.repositories.remote.area.AreaRepository;
 import com.example.myapplication.data.repositories.remote.calories.CalorieRepository;
 import com.example.myapplication.data.repositories.remote.category.CategoryRepository;
 import com.example.myapplication.data.repositories.remote.ingredient.IngredientRepository;
@@ -68,7 +69,8 @@ public class LoginActivity extends AppCompatActivity {
                     MealRepositoryRemote mealRepositoryRemote = ((MyApplication) getApplication()).getAppComponent().provideMealRepositoryRemote();
                     IngredientRepository ingredientRepository = ((MyApplication) getApplication()).getAppComponent().provideIngredientRepository();
                     CalorieRepository calorieRepository = ((MyApplication) getApplication()).getAppComponent().provideCalorieRepository();
-                    return (T) new MainViewModel(userRepository, mealRepository, categoryRepository, mealRepositoryRemote, ingredientRepository, calorieRepository);
+                    AreaRepository areaRepository = ((MyApplication) getApplication()).getAppComponent().provideAreaRepository();
+                    return (T) new MainViewModel(userRepository, mealRepository, categoryRepository, mealRepositoryRemote, ingredientRepository, calorieRepository, areaRepository);
                 }
                 throw new IllegalArgumentException("Unknown ViewModel class");
             }

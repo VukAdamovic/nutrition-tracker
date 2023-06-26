@@ -127,6 +127,22 @@ public class MealRepositoryRemoteImpl implements MealRepositoryRemote {
                 });
     }
 
+    @Override
+    public Observable<List<MealFiltered>> getMealsByArea(String area) {
+        return mealService
+                .getMealsByArea(area)
+                .map(new Function<AllMealsFilteredResponse, List<MealFiltered>>() {
+                    @Override
+                    public List<MealFiltered> apply(AllMealsFilteredResponse allMealsFilteredResponse) throws Exception {
+                        List<MealFiltered> mealsByArea = new ArrayList<>();
+                        for (MealFilteredResponse mealFilteredResponse : allMealsFilteredResponse.getAllMeals()) {
+                            mealsByArea.add(new MealFiltered(mealFilteredResponse.getId(), mealFilteredResponse.getThumbnail(), mealFilteredResponse.getName()));
+                        }
+                        return mealsByArea;
+                    }
+                });
+    }
+
 
 //    Privatne metode
 
