@@ -84,7 +84,7 @@ public class SingleMealFragment extends Fragment {
             binding.textView40.setText(TextUtils.join(", ", mealSingle.getTags()));
             binding.textView42.setText(mealSingle.getYouTubeLink());
             binding.textView44.setText(String.valueOf(mealSingle.getCalories()));
-            binding.textView46.setText(TextUtils.join(", ", mealSingle.getIngredientsMeasurements()));
+            binding.textView46.setText(TextUtils.join("\n", mealSingle.getIngredientsMeasurements()));
 
             binding.button7.setOnClickListener(v->{
                 MainActivity mainActivity = (MainActivity) requireActivity();

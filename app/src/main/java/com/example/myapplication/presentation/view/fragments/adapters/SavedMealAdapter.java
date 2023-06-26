@@ -22,7 +22,7 @@ import com.example.myapplication.presentation.view.dialogs.UpdateSavedMealDialog
 
 import java.util.List;
 
-public class SavedMealAdapter extends RecyclerView.Adapter<SavedMealAdapter.SavedMealHolder>{
+public class SavedMealAdapter extends RecyclerView.Adapter<SavedMealAdapter.SavedMealHolder> implements UpdateSavedMealDialog.UpdateSavedMealDialogListener {
 
     private List<MealEntity> mealEntityList;
 
@@ -51,6 +51,11 @@ public class SavedMealAdapter extends RecyclerView.Adapter<SavedMealAdapter.Save
         return mealEntityList.size();
     }
 
+    @Override
+    public void onMealUpdated() {
+        notifyDataSetChanged();
+    }
+
     public class SavedMealHolder extends RecyclerView.ViewHolder{
 
         private MealEntity mealEntity;
@@ -76,8 +81,7 @@ public class SavedMealAdapter extends RecyclerView.Adapter<SavedMealAdapter.Save
             Button deleteBtn = itemView.findViewById(R.id.button6);
 
             updateBtn.setOnClickListener(v -> {
-                UpdateSavedMealDialog dialog = new UpdateSavedMealDialog(mealEntity);
-
+                UpdateSavedMealDialog dialog = new UpdateSavedMealDialog(mealEntity, SavedMealAdapter.this);
                 dialog.show(parentFragment.getChildFragmentManager(), "UpdateSavedMealDialog");
             });
 

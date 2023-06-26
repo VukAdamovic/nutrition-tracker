@@ -16,8 +16,12 @@ import androidx.fragment.app.DialogFragment;
 import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
 import com.example.myapplication.data.models.entities.MealEntity;
+import com.example.myapplication.presentation.view.activities.MainActivity;
 
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class UpdateSavedMealDialog extends DialogFragment {
 
@@ -25,10 +29,14 @@ public class UpdateSavedMealDialog extends DialogFragment {
     private DatePickerDialog datePickerDialog;
     private Button dateButton;
     private Button updateButton;
+    private String selectedDate;
+    private UpdateSavedMealDialogListener listener;
 
-    public UpdateSavedMealDialog(MealEntity meal) {
+    public UpdateSavedMealDialog(MealEntity meal, UpdateSavedMealDialogListener listener) {
         this.meal = meal;
+        this.listener = listener;
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,11 +64,17 @@ public class UpdateSavedMealDialog extends DialogFragment {
         initDatePicker();
         dateButton = view.findViewById(R.id.datePickerButton);
         dateButton.setText(getTodaysDate());
+        selectedDate = getTodaysDate();
 
         dateButton.setOnClickListener(v -> datePickerDialog.show());
 
         updateButton.setOnClickListener(v -> {
-
+            Date date = stringToDate(selectedDate);
+            if(date != null) {
+                MainActivity.mainViewModel.updateMeal(meal.getId(), meal.getMealImageUrl(), date);
+                listener.onMealUpdated();
+                dismiss();
+            }
         });
 
         return view;
@@ -72,6 +86,7 @@ public class UpdateSavedMealDialog extends DialogFragment {
             month = month + 1;
             String date = makeDateString(day, month, year);
             dateButton.setText(date);
+            selectedDate = date;
         };
 
         Calendar cal = Calendar.getInstance();
@@ -129,4 +144,14 @@ public class UpdateSavedMealDialog extends DialogFragment {
         return "JAN";
     }
 
+    private Date stringToDate(String aDate) {
+        if(aDate == null) return null;
+        ParsePosition pos = new ParsePosition(0);
+        SimpleDateFormat simpledateformat = new SimpleDateFormat("MMM dd yyyy");
+        return simpledateformat.parse(aDate, pos);
+    }
+
+    public interface UpdateSavedMealDialogListener {
+        void onMealUpdated();
+    }
 }

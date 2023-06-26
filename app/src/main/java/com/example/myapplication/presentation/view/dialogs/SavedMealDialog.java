@@ -70,7 +70,7 @@ public class SavedMealDialog extends DialogFragment {
 //        tags.setText();
         youtube.setText(meal.getYouTubeLink());
         calories.setText(String.valueOf(meal.getCalories()));
-        ingredients.setText(TextUtils.join(", ", meal.getIngredientsMeasurements()));
+        ingredients.setText(TextUtils.join("\n", meal.getIngredientsMeasurements()));
         hideButton.setVisibility(View.GONE);
 
         builder.setView(view);
