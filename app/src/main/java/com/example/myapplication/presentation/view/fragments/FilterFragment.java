@@ -4,14 +4,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -42,11 +40,21 @@ public class FilterFragment extends Fragment implements FilterAdapter.OnTagClick
 
     private Handler handler = new Handler();
 
+    private Handler sliderHandler = new Handler();
+
     private Runnable searchRunnable;
+
+    private Runnable sliderRunnable;
 
     private String currentTag;
 
     private CopyOnWriteArrayList<MealFiltered> filterByTag;
+
+    private CopyOnWriteArrayList<MealFiltered> filteredListByCalories;
+
+    private float left;
+
+    private float right;
 
 
 
@@ -131,6 +139,27 @@ public class FilterFragment extends Fragment implements FilterAdapter.OnTagClick
 
             }
         });
+
+
+        binding.rangeSlider.addOnChangeListener((slider, value, fromUser) -> {
+            List<Float> values = slider.getValues();
+            left = values.get(0);
+            right = values.get(1);
+            MealAdapter currAdapter = (MealAdapter) mealRecycleView.getAdapter();
+            if (currAdapter != null) {
+                sliderHandler.removeCallbacks(sliderRunnable);
+                sliderRunnable = () -> {
+                    filteredListByCalories.clear(); // Clear the previous list
+                    List<MealFiltered> currentList = currAdapter.getMealFilteredList();
+                    for (MealFiltered mealFiltered : currentList) {
+                        MainActivity.mainViewModel.getMealById(mealFiltered.getId());
+                    }
+                };
+                sliderHandler.postDelayed(sliderRunnable, 500);
+            }
+        });
+
+
 
         //inicijalizacija da ne bude prazna
         binding.radioButton.setChecked(true);
@@ -278,8 +307,8 @@ public class FilterFragment extends Fragment implements FilterAdapter.OnTagClick
         });
 
         MainActivity.singleMealByIdLiveData.observe(getViewLifecycleOwner(), meals -> {
-            if (meals != null && !meals.isEmpty() && currentTag != null) {
-                MealSingle meal = meals.get(0);
+            MealSingle meal = meals.get(0);
+            if (currentTag != null) {
                 for (String curr : meal.getTags()) {
                     if (curr.equals(currentTag)) {
                         filterByTag.add(new MealFiltered(String.valueOf(meal.getId()), meal.getMealImageUrl(), meal.getMealName()));
@@ -288,6 +317,15 @@ public class FilterFragment extends Fragment implements FilterAdapter.OnTagClick
                         break;
                     }
                 }
+            }
+//            MainActivity.mainViewModel.getCaloriesForMeal(meal);
+        });
+
+        MainActivity.currentMealWithCaloriesLiveData.observe(this, meal -> {
+            if (meal.getCalories() >= left && meal.getCalories() <= right) {
+                filteredListByCalories.add(new MealFiltered(String.valueOf(meal.getId()), meal.getMealImageUrl(), meal.getMealName() + " " + meal.getCalories()));
+                MealAdapter filteredAdapter = new MealAdapter(filteredListByCalories, requireActivity().getSupportFragmentManager());
+                mealRecycleView.setAdapter(filteredAdapter);
             }
         });
     }
@@ -300,6 +338,7 @@ public class FilterFragment extends Fragment implements FilterAdapter.OnTagClick
         } else {
             currentTag = tag;
             filterByTag = new CopyOnWriteArrayList<>();
+            filteredListByCalories = new CopyOnWriteArrayList<>();
             List<MealFiltered> currentList = mealAdapter.getMealFilteredList();
 
             for(MealFiltered mealFiltered : currentList){
@@ -307,4 +346,5 @@ public class FilterFragment extends Fragment implements FilterAdapter.OnTagClick
             }
         }
     }
+
 }
