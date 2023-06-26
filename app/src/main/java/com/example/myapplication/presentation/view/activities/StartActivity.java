@@ -19,7 +19,6 @@ import javax.inject.Inject;
 
 public class StartActivity extends AppCompatActivity {
 
-    public static final String KEY_ALREADY_LOGGED_IN = "USER_ID";
 
     private ActivitySplashScreenBinding binding;
 
@@ -38,9 +37,16 @@ public class StartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash_screen);
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            Intent intent = new Intent(StartActivity.this, LoginActivity.class);
-            startActivity(intent);
-            finish();
+            boolean loggedIn= sharedPreferences.getBoolean("LoggedIn",false);
+            if(loggedIn){
+                Intent intent = new Intent(StartActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            } else {
+                Intent intent = new Intent(StartActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
         }, 2000);
 
 

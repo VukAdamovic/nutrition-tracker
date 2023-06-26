@@ -105,7 +105,9 @@ public class LoginActivity extends AppCompatActivity {
         activeUser.observe(this, userEntity -> {
             if(userEntity != null){
                 error.setVisibility(View.INVISIBLE);
+
                 sharedPreferences.edit().putInt("USER_ID", userEntity.getId()).apply();
+                sharedPreferences.edit().putBoolean("LoggedIn", true).apply();
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
