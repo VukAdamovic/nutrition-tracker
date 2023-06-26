@@ -61,7 +61,7 @@ public class SavedMealAdapter extends RecyclerView.Adapter<SavedMealAdapter.Save
             // Postavljanje klika na cijeli element koristeći lambda izraz
             itemView.setOnClickListener(v -> {
                 // Kreiranje instance dijaloga koristeći lambda izraz
-                SavedMealDialog dialog = new SavedMealDialog(mealEntity.getId());
+                SavedMealDialog dialog = new SavedMealDialog(mealEntity);
 
                 // Prikazivanje dijaloga
                 dialog.show(parentFragment.getChildFragmentManager(), "SavedMealDialog");
