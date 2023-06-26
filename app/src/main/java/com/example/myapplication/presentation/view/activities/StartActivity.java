@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.R;
 import com.example.myapplication.databinding.ActivitySplashScreenBinding;
+import com.example.myapplication.presentation.event.MainViewModel;
 
 import java.util.Objects;
 
@@ -17,6 +18,8 @@ public class StartActivity extends AppCompatActivity {
     public static final String KEY_ALREADY_LOGGED_IN = "alreadyLoggedIn";
 
     private ActivitySplashScreenBinding binding;
+
+    private MainViewModel mainViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

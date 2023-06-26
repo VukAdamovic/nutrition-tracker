@@ -117,7 +117,7 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.FilterView
                 });
             }else {
                 itemView.setOnClickListener(v -> {
-                    String tag = tagsList.get(getAdapterPosition());
+//                    String tag = tagsList.get(getAdapterPosition());
                     onTagClickListener.onTagClick(tag);
 
                 });

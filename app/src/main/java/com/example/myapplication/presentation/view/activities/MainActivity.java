@@ -1,6 +1,8 @@
 package com.example.myapplication.presentation.view.activities;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,6 +37,8 @@ import com.example.myapplication.presentation.view.fragments.SettingsFragment;
 import java.util.List;
 import java.util.Objects;
 
+import javax.inject.Inject;
+
 public class MainActivity extends AppCompatActivity {
 
     public static MainViewModel mainViewModel;
@@ -50,10 +54,15 @@ public class MainActivity extends AppCompatActivity {
     public static MutableLiveData<List<MealSingle>> allMealsLiveData;
     public static MutableLiveData<List<Ingredient>> allIngredientsLiveData;
 
+    @Inject
+    SharedPreferences sharedPreferences;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ((MyApplication) getApplication()).getAppComponent().inject(this);
+        Log.d("MainSharedPreferences", "User ID: " + sharedPreferences.getInt("USER_ID", 1000));
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         initViewModel();

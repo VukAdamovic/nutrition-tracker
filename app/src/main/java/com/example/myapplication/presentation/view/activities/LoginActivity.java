@@ -1,7 +1,9 @@
 package com.example.myapplication.presentation.view.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,6 +30,8 @@ import com.example.myapplication.presentation.event.MainViewModel;
 
 import java.util.Objects;
 
+import javax.inject.Inject;
+
 public class LoginActivity extends AppCompatActivity {
 
     private ActivityLoginBinding binding;
@@ -38,9 +42,13 @@ public class LoginActivity extends AppCompatActivity {
 
     public static MutableLiveData<UserEntity> activeUser;
 
+    @Inject
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ((MyApplication) getApplication()).getAppComponent().inject(this);
+
         super.onCreate(savedInstanceState);
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         initViewModel();
@@ -79,12 +87,11 @@ public class LoginActivity extends AppCompatActivity {
         loginBtn.setOnClickListener( v -> {
             String username = binding.editTextText.getText().toString();
             String password = binding.editTextTextPassword.getText().toString();
-
             if(username.equals("") || password.equals("")){
                 error.setText("All fields are required");
                 error.setVisibility(View.VISIBLE);
             } else {
-                MainActivity.mainViewModel.getUserByUsernameAndPassword(username, password);
+                mainViewModel.getUserByUsernameAndPassword(username, password);
             }
 
         });
@@ -96,6 +103,7 @@ public class LoginActivity extends AppCompatActivity {
         activeUser.observe(this, userEntity -> {
             if(userEntity != null){
                 error.setVisibility(View.INVISIBLE);
+                sharedPreferences.edit().putInt("USER_ID", userEntity.getId()).apply();
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();

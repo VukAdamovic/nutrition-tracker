@@ -76,6 +76,8 @@ public class FilterFragment extends Fragment implements FilterAdapter.OnTagClick
             binding.editTextText4.setText("");
         });
 
+        initObservers();
+
         // ubacio sam da bi bilo popunjeno na pocetku neki mealovi deluje mi prazno
         MainActivity.mainViewModel.getMealsByName("");
 
@@ -137,8 +139,6 @@ public class FilterFragment extends Fragment implements FilterAdapter.OnTagClick
             binding.radioButton3.setChecked(true);
             MainActivity.mainViewModel.getIngredients("list");
         });
-
-        initObservers();
     }
 
     private void initObservers() {
