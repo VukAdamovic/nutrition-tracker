@@ -43,6 +43,8 @@ public class MainViewModel extends ViewModel implements MainContract {
     private IngredientRepository ingredientRepository;
     private CalorieRepository calorieRepository;
 
+    private MutableLiveData<List<MealEntity>> allMealsByUserId = new MutableLiveData<>();
+
     @Inject
     public MainViewModel(UserRepository userRepository, MealRepository mealRepository, CategoryRepository categoryRepository,
                          MealRepositoryRemote mealRepositoryRemote, IngredientRepository ingredientRepository, CalorieRepository calorieRepository) {
@@ -158,9 +160,7 @@ public class MainViewModel extends ViewModel implements MainContract {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
                                 meals -> {
-                                    for (MealEntity meal : meals) {
-                                        Log.d("MainViewModel Meal", "Meal: " + meal.getMealName());
-                                    }
+                                    allMealsByUserId.setValue(meals);
                                 },
                                 throwable -> {
                                     Log.e("MainViewModel Meals", "Error: ", throwable);
