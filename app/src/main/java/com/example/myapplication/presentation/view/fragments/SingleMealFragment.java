@@ -2,11 +2,6 @@ package com.example.myapplication.presentation.view.fragments;
 
 import android.graphics.Outline;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,14 +9,18 @@ import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.bumptech.glide.Glide;
-import com.example.myapplication.R;
 import com.example.myapplication.data.models.api.domain.MealFiltered;
-import com.example.myapplication.databinding.FragmentCategoriesBinding;
+import com.example.myapplication.data.models.entities.MealEntity;
 import com.example.myapplication.databinding.FragmentSingleMealBinding;
 import com.example.myapplication.presentation.view.activities.MainActivity;
-import com.example.myapplication.presentation.view.fragments.adapters.MealAdapter;
+
+import java.util.Date;
 
 
 public class SingleMealFragment extends Fragment {
@@ -88,22 +87,24 @@ public class SingleMealFragment extends Fragment {
             binding.textView46.setText(TextUtils.join(", ", mealSingle.getIngredientsMeasurements()));
 
             binding.button7.setOnClickListener(v->{
+                MainActivity mainActivity = (MainActivity) requireActivity();
 
+                MainActivity.mainViewModel.insertMeal(new MealEntity(
+                        mealSingle.getMealName(),
+                        mealSingle.getMealImageUrl(),
+                        mealSingle.getInstructions(),
+                        mealSingle.getYouTubeLink(),
+                        mealSingle.getIngredientsMeasurements(),
+                        mealSingle.getCategory(),
+                        new Date(),
+                        mealSingle.getCalories(),
+                        mainActivity.sharedPreferences.getInt("USER_ID", 9999)
+                ));
+
+                Toast.makeText(requireActivity(), "Meal Saved Successfully!", Toast.LENGTH_SHORT).show();
+
+                requireActivity().getSupportFragmentManager().popBackStack();
             });
         });
     }
-
-//    @Override
-//    public void onDetach() {
-//        super.onDetach();
-//        binding.textView32.setText("");
-//        binding.textView34.setText("");
-//        binding.textView36.setText("");
-//        binding.textView38.setText("");
-//        binding.textView40.setText("");
-//        binding.textView42.setText("");
-//        binding.textView44.setText("");
-//        binding.textView46.setText("");
-//    }
-
 }

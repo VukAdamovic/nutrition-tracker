@@ -19,6 +19,7 @@ import com.example.myapplication.data.models.api.domain.Category;
 import com.example.myapplication.data.models.api.domain.Ingredient;
 import com.example.myapplication.data.models.api.domain.MealFiltered;
 import com.example.myapplication.data.models.api.domain.MealSingle;
+import com.example.myapplication.data.models.entities.MealEntity;
 import com.example.myapplication.data.models.entities.UserEntity;
 import com.example.myapplication.data.repositories.local.MealRepository;
 import com.example.myapplication.data.repositories.local.UserRepository;
@@ -53,12 +54,11 @@ public class MainActivity extends AppCompatActivity {
     public static MutableLiveData<MealSingle> currentMealWithCaloriesLiveData;
     public static MutableLiveData<List<MealSingle>> allMealsLiveData;
     public static MutableLiveData<List<Ingredient>> allIngredientsLiveData;
+    public static MutableLiveData<List<MealEntity>> mealsByUserId;
 
     //remote
 
     public static MutableLiveData<UserEntity> activeUser;
-
-
 
     @Inject
     public SharedPreferences sharedPreferences;
@@ -126,9 +126,9 @@ public class MainActivity extends AppCompatActivity {
         allMealsLiveData = mainViewModel.getAllMeals();
         allIngredientsLiveData = mainViewModel.getAllIngredients();
 
-        //remote
+        //local
         activeUser = mainViewModel.getActiveUser();
-
+        mealsByUserId = mainViewModel.getAllMealsByUserId();
 
     }
 

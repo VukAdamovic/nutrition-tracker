@@ -49,7 +49,7 @@ public class UpdateSavedMealDialog extends DialogFragment {
 
         Glide
                 .with(this)
-                .load("https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg")
+                .load(meal.getMealImageUrl())
                 .into(image);
 
         textViewImage.setText(meal.getMealName());

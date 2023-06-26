@@ -1,8 +1,10 @@
 package com.example.myapplication.presentation.view.fragments.adapters;
 
+import android.graphics.Outline;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewOutlineProvider;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,8 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
 import com.example.myapplication.data.models.entities.MealEntity;
+import com.example.myapplication.presentation.view.activities.MainActivity;
 import com.example.myapplication.presentation.view.dialogs.SavedMealDialog;
 import com.example.myapplication.presentation.view.dialogs.UpdateSavedMealDialog;
 
@@ -77,8 +81,35 @@ public class SavedMealAdapter extends RecyclerView.Adapter<SavedMealAdapter.Save
                 dialog.show(parentFragment.getChildFragmentManager(), "UpdateSavedMealDialog");
             });
 
-            imageView.setImageResource(R.drawable.background);
+            deleteBtn.setOnClickListener(v -> {
+                MainActivity.mainViewModel.deleteMeal(mealEntity.getId());
+                removeAt(getBindingAdapterPosition());
+            });
+
+
+            imageView.setClipToOutline(true);
+            imageView.setOutlineProvider(new ViewOutlineProvider() {
+                @Override
+                public void getOutline(View view, Outline outline) {
+                    // Use view.getContext().getResources()
+                    outline.setRoundRect(0, 0, view.getWidth(), view.getHeight(), 10 * view.getContext().getResources().getDisplayMetrics().density);
+                }
+            });
+
+            Glide.with(itemView)
+                    .load(mealEntity.getMealImageUrl())
+                    .placeholder(R.drawable.background)
+                    .into(imageView);
+
             mealNameTextView.setText(mealEntity.getMealName());
+        }
+
+        public void removeAt(int position) {
+            if (position != RecyclerView.NO_POSITION) { // Check if item still exists
+                mealEntityList.remove(position);
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(position, mealEntityList.size());
+            }
         }
     }
 }
