@@ -7,6 +7,23 @@
     android:background="@drawable/background"
     android:alpha="1">
 
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="85dp"
+        android:layout_marginTop="68dp"
+        android:layout_marginEnd="85dp"
+        android:layout_marginBottom="80dp"
+        android:fontFamily="@font/codaextrabold"
+        android:text="NutriTrack"
+        android:textColor="@color/our_white"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="261dp"
@@ -82,13 +99,16 @@
             android:id="@+id/textView51"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
             android:layout_marginTop="25dp"
+            android:layout_marginEnd="50dp"
             android:layout_marginBottom="30dp"
+            android:fontFamily="@font/codaregular"
             android:text="Poruka"
-            android:visibility="invisible"
+
             android:textColor="@color/our_red"
             android:textSize="18sp"
-            android:fontFamily="@font/codaregular"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -97,22 +117,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="85dp"
-        android:layout_marginTop="68dp"
-        android:layout_marginEnd="85dp"
-        android:layout_marginBottom="80dp"
-        android:fontFamily="@font/codaextrabold"
-        android:text="NutriTrack"
-        android:textColor="@color/our_white"
-        android:textSize="36sp"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

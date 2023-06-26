@@ -16,6 +16,7 @@ import com.example.myapplication.modules.MealModule;
 import com.example.myapplication.modules.UserModule;
 import com.example.myapplication.presentation.view.activities.LoginActivity;
 import com.example.myapplication.presentation.view.activities.MainActivity;
+import com.example.myapplication.presentation.view.activities.StartActivity;
 
 import javax.inject.Singleton;
 
@@ -26,6 +27,8 @@ import dagger.Component;
 @Component(modules = {CoreModule.class, UserModule.class, MealModule.class, CategoryModule.class, IngredientModule.class, CaloriesModule.class})
 public interface AppComponent {
     void inject(MyApplication app);
+
+    void inject(StartActivity startActivity);
 
     void inject(LoginActivity loginActivity);
 

@@ -106,7 +106,7 @@
                 android:text="Poruka"
                 android:textSize="13sp"
                 android:fontFamily="@font/codaregular"
-                android:textColor="@color/our_white"
+                android:textColor="@color/our_red"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

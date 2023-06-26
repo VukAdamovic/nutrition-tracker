@@ -75,6 +75,8 @@ public class LoginActivity extends AppCompatActivity {
         };
 
         mainViewModel = new ViewModelProvider(this, factory).get(MainViewModel.class);
+//        mainViewModel.adduser(new UserEntity(0, "mitar", "12345"));
+//        mainViewModel.adduser(new UserEntity(0, "vuk", "12345"));
 
         initObservers();
     }
@@ -108,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             }else{
-                error.setText("Invalid Username or Password");
+                error.setText("Invalid Credentials");
                 error.setVisibility(View.VISIBLE);
             }
         });

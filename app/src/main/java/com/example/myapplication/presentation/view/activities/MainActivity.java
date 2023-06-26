@@ -54,8 +54,14 @@ public class MainActivity extends AppCompatActivity {
     public static MutableLiveData<List<MealSingle>> allMealsLiveData;
     public static MutableLiveData<List<Ingredient>> allIngredientsLiveData;
 
+    //remote
+
+    public static MutableLiveData<UserEntity> activeUser;
+
+
+
     @Inject
-    SharedPreferences sharedPreferences;
+    public SharedPreferences sharedPreferences;
 
 
 
@@ -119,6 +125,11 @@ public class MainActivity extends AppCompatActivity {
         currentMealWithCaloriesLiveData = mainViewModel.getCurrentMealWithCalories();
         allMealsLiveData = mainViewModel.getAllMeals();
         allIngredientsLiveData = mainViewModel.getAllIngredients();
+
+        //remote
+        activeUser = mainViewModel.getActiveUser();
+
+
     }
 
 
