@@ -17,7 +17,7 @@ import com.example.myapplication.R;
 import com.example.myapplication.data.models.api.domain.MealFiltered;
 import com.example.myapplication.presentation.view.fragments.SingleMealFragment;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Getter;
@@ -29,12 +29,15 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.MealViewHolder
 
     private List<MealFiltered> mealFilteredList;
 
+    private List<MealFiltered> originalList;
+
     private FragmentManager fragmentManager;
 
 
     public MealAdapter(List<MealFiltered> mealFilteredList, FragmentManager fragmentManager) {
         this.mealFilteredList = mealFilteredList;
         this.fragmentManager = fragmentManager;
+        this.originalList = new ArrayList<>(mealFilteredList);
     }
 
     @NonNull
@@ -56,12 +59,25 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.MealViewHolder
     }
 
     public void sortAscending() {
-        Collections.sort(mealFilteredList, (MealFiltered o1, MealFiltered o2) -> o1.getName().compareTo(o2.getName()));
+        mealFilteredList.sort((MealFiltered o1, MealFiltered o2) -> o1.getName().compareTo(o2.getName()));
         notifyDataSetChanged();
     }
 
     public void sortDescending() {
-        Collections.sort(mealFilteredList, (MealFiltered o1, MealFiltered o2) -> o2.getName().compareTo(o1.getName()));
+        mealFilteredList.sort((MealFiltered o1, MealFiltered o2) -> o2.getName().compareTo(o1.getName()));
+        notifyDataSetChanged();
+    }
+
+    public void filter(String text) {
+        List<MealFiltered> filteredList = new ArrayList<>();
+        for (MealFiltered item : originalList) {
+            // Adjust the if condition based on what property of MealFiltered you want to compare the text with.
+            if (item.getName().toLowerCase().contains(text.toLowerCase())) {
+                filteredList.add(item);
+            }
+        }
+
+        mealFilteredList = filteredList; // Assuming 'mealFilteredList' is the list that gets displayed
         notifyDataSetChanged();
     }
 

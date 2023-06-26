@@ -111,6 +111,27 @@ public class FilterFragment extends Fragment implements FilterAdapter.OnTagClick
             }
         });
 
+        binding.editTextText5.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                handler.removeCallbacks(searchRunnable); // Assuming 'handler' and 'searchRunnable' are available here
+
+                searchRunnable = () -> mealAdapter.filter(charSequence.toString());
+
+                handler.postDelayed(searchRunnable, 500);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
         //inicijalizacija da ne bude prazna
         binding.radioButton.setChecked(true);
         MainActivity.mainViewModel.getCategories();
