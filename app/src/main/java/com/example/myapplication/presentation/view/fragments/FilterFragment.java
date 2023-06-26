@@ -142,11 +142,17 @@ public class FilterFragment extends Fragment implements FilterAdapter.OnTagClick
         binding.radioButton4.setOnClickListener(v -> {
             binding.radioButton5.setChecked(false);
             binding.radioButton4.setChecked(true);
+            if (mealAdapter != null) {
+                mealAdapter.sortAscending();
+            }
         });
 
         binding.radioButton5.setOnClickListener(v -> {
             binding.radioButton4.setChecked(false);
             binding.radioButton5.setChecked(true);
+            if (mealAdapter != null) {
+                mealAdapter.sortDescending();
+            }
         });
     }
 

@@ -1,6 +1,5 @@
 package com.example.myapplication.presentation.view.fragments.adapters;
 
-import android.app.Activity;
 import android.graphics.Outline;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,6 +17,7 @@ import com.example.myapplication.R;
 import com.example.myapplication.data.models.api.domain.MealFiltered;
 import com.example.myapplication.presentation.view.fragments.SingleMealFragment;
 
+import java.util.Collections;
 import java.util.List;
 
 import lombok.Getter;
@@ -56,9 +55,16 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.MealViewHolder
         return mealFilteredList.size();
     }
 
-    public void setMealFilteredList(List<MealFiltered> meals) {
-        this.mealFilteredList = meals;
+    public void sortAscending() {
+        Collections.sort(mealFilteredList, (MealFiltered o1, MealFiltered o2) -> o1.getName().compareTo(o2.getName()));
+        notifyDataSetChanged();
     }
+
+    public void sortDescending() {
+        Collections.sort(mealFilteredList, (MealFiltered o1, MealFiltered o2) -> o2.getName().compareTo(o1.getName()));
+        notifyDataSetChanged();
+    }
+
 
 
     public class MealViewHolder extends RecyclerView.ViewHolder {
