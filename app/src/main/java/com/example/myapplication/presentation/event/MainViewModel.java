@@ -161,6 +161,7 @@ public class MainViewModel extends ViewModel implements MainContract {
         );
     }
 
+
     @Override
     public void getMealsByUserId(int userId) {
         subscriptions.add(

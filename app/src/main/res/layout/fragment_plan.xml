@@ -48,6 +48,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
+            android:background="@drawable/recycle_view_stroke"
             android:layout_width="320dp"
             android:layout_height="230dp"
             android:layout_marginTop="20dp"
@@ -71,14 +72,15 @@
 
         <LinearLayout
             android:id="@+id/linearLayout2"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:gravity="center"
+            android:layout_margin="7dp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="438dp">
+            app:layout_constraintTop_toBottomOf="@+id/button11">
 
             <TextView
                 android:id="@+id/textView55"
@@ -91,13 +93,12 @@
                 android:textColor="@color/our_white"
                 android:textSize="13sp" />
 
-            <ToggleButton
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/toggleButton2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="6dp"
-                android:layout_weight="1"
-                android:text="ToggleButton" />
+                android:layout_weight="3" />
 
             <TextView
                 android:id="@+id/textView56"
@@ -114,15 +115,16 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView2"
             android:layout_width="320dp"
-            android:layout_height="100dp"
+            android:layout_height="75dp"
             android:layout_marginTop="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewApiOrMenu"
             android:layout_width="320dp"
-            android:layout_height="match_parent"
+            android:layout_height="350dp"
             android:layout_marginTop="35dp"
             android:layout_marginBottom="35dp"
             app:layout_constraintBottom_toBottomOf="parent"
