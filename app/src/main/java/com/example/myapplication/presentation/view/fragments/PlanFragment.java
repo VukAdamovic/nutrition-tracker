@@ -92,8 +92,8 @@ public class PlanFragment extends Fragment {
 
         MainActivity.allFilteredMealsByCategoryLiveData.observe(this, meals -> {
             planAdapter = new PlanAdapter(meals, requireActivity().getSupportFragmentManager());
-            planAdapter.setOnPlanValuesPassListener((day, type) -> {
-                Log.d("PlanFragment", "Day and Type: " + day + " " + type);
+            planAdapter.setOnPlanValuesPassListener((day, type, mealFiltered) -> {
+                Log.d("PlanFragment", "Day and Type: " + day + " " + type + " " + mealFiltered.getId());
             });
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
             recyclerViewMealsByCategory.setLayoutManager(layoutManager);
@@ -108,8 +108,8 @@ public class PlanFragment extends Fragment {
             }
 
             planAdapter = new PlanAdapter(mealFilteredList, requireActivity().getSupportFragmentManager());
-            planAdapter.setOnPlanValuesPassListener((day, type) -> {
-                Log.d("PlanFragment", "Day and Type: " + day + " " + type);
+            planAdapter.setOnPlanValuesPassListener((day, type, mealFiltered) -> {
+                Log.d("PlanFragment", "Day and Type: " + day + " " + type + " " + mealFiltered.getId());
             });
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
             recyclerViewMealsByCategory.setLayoutManager(layoutManager);

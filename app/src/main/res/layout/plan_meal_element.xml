@@ -56,5 +56,21 @@
             android:textAlignment="center"
             android:textColor="@color/our_white"
             android:textSize="14sp" />
+
+
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView52"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:fontFamily="@font/codaextrabold"
+        android:text="X"
+        android:textColor="@color/our_white"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

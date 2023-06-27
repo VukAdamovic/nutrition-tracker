@@ -65,9 +65,9 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.PlanViewHolder
             super(itemView);
             this.fragmentManager = fragmentManager;
             itemView.setOnClickListener(v -> {
-                PlanDialog dialog = new PlanDialog(mealFiltered, (day, type) -> {
+                PlanDialog dialog = new PlanDialog(mealFiltered, (day, type, mealFiltered) -> {
                     if (passListener != null) {
-                        passListener.onPlanValuesPass(day, type);
+                        passListener.onPlanValuesPass(day, type, mealFiltered);
                     }
                 });
                 dialog.show(fragmentManager, "category_dialog");
@@ -97,6 +97,6 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.PlanViewHolder
     }
 
     public interface OnPlanValuesPassListener {
-        void onPlanValuesPass(String day, String type);
+        void onPlanValuesPass(String day, String type, MealFiltered mealFiltered);
     }
 }

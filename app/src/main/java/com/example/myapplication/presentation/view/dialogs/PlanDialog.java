@@ -51,7 +51,7 @@ public class PlanDialog extends DialogFragment {
             String selectedType = radioButtonType.getText().toString();
 
             if (listener != null) {
-                listener.onPlanSelected(selectedDay, selectedType);
+                listener.onPlanSelected(selectedDay, selectedType, mealFiltered);
             }
 
             dismiss();
@@ -65,6 +65,6 @@ public class PlanDialog extends DialogFragment {
     }
 
     public interface OnPlanSelectedListener {
-        void onPlanSelected(String day, String type);
+        void onPlanSelected(String day, String type, MealFiltered mealFiltered);
     }
 }
