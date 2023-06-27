@@ -1,11 +1,13 @@
 package com.example.myapplication.presentation.view.fragments;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.SwitchCompat;
@@ -41,6 +43,8 @@ public class PlanFragment extends Fragment {
 
     private RecyclerView recyclerViewMealsByCategory;
 
+    private EditText email;
+
     private PlanAdapter planAdapter;
 
     private String day;
@@ -68,6 +72,7 @@ public class PlanFragment extends Fragment {
         recyclerViewWeeklyPlan = binding.recyclerView;
         recyclerViewCategories = binding.recyclerView2;
         recyclerViewMealsByCategory = binding.recyclerViewApiOrMenu;
+        email = binding.editTextText6;
 
         initObservers();
 
@@ -92,6 +97,14 @@ public class PlanFragment extends Fragment {
                 return;
             }
 
+            String emailStr = email.getText().toString();
+
+            // Check if the email is valid
+            if (!android.util.Patterns.EMAIL_ADDRESS.matcher(emailStr).matches()) {
+                showToastMessage("Invalid email address.");
+                return;
+            }
+
             List<PlanMeal> planMeals = planMakerAdapter.getPlanMeals();
             HashSet<String> daysInPlan = new HashSet<>();
 
@@ -112,13 +125,25 @@ public class PlanFragment extends Fragment {
                             .append("\n\n");
                 }
 
+                StringBuilder url = new StringBuilder("https://www.nutritracker.com/tracker");
+
+                for (int i = 0; i < planMeals.size(); i++) {
+                    if (i == 0) {
+                        url.append("?id").append(i).append("=").append(Uri.encode(String.valueOf(planMeals.get(i).getId())));
+                    } else {
+                        url.append("&id").append(i).append("=").append(Uri.encode(String.valueOf(planMeals.get(i).getId())));
+                    }
+                }
+
+
                 emailBody.append("\nOpen the app: ")
-                        .append("https://yourappurl"); // Replace with your app's URL or deep link
+                        .append(url);
 
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("message/rfc822");
                 intent.putExtra(Intent.EXTRA_SUBJECT, "Meal Plan");
                 intent.putExtra(Intent.EXTRA_TEXT, emailBody.toString());
+                intent.putExtra(Intent.EXTRA_EMAIL, new String[]{emailStr});
                 try {
                     startActivity(Intent.createChooser(intent, "Send mail..."));
                 } catch (android.content.ActivityNotFoundException ex) {

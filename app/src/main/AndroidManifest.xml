@@ -30,7 +30,19 @@
             android:name=".presentation.view.activities.MainActivity"
             android:windowSoftInputMode="adjustPan"
             />
+        <activity android:name=".presentation.view.activities.DeepLinkActivity"
+            android:exported="true">
+            <intent-filter android:label="Meal Plan">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
+                <data
+                    android:scheme="https"
+                    android:host="www.nutritracker.com"
+                    android:pathPrefix="/tracker" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
