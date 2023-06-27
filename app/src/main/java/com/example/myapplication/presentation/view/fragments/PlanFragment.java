@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.text.HtmlCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,6 +24,16 @@ import com.example.myapplication.presentation.view.activities.MainActivity;
 import com.example.myapplication.presentation.view.fragments.adapters.FilterAdapter;
 import com.example.myapplication.presentation.view.fragments.adapters.PlanAdapter;
 import com.example.myapplication.presentation.view.fragments.adapters.PlanMakerAdapter;
+
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
+import com.google.firebase.dynamiclinks.DynamicLink;
+import com.google.firebase.dynamiclinks.DynamicLink.AndroidParameters;
+import com.google.firebase.dynamiclinks.DynamicLink.IosParameters;
+import com.google.firebase.dynamiclinks.DynamicLink.SocialMetaTagParameters;
+import com.google.firebase.dynamiclinks.DynamicLink.NavigationInfoParameters;
+import com.google.firebase.dynamiclinks.*;
+import com.google.firebase.dynamiclinks.ShortDynamicLink;
+import com.google.firebase.dynamiclinks.ShortDynamicLink.Suffix;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -125,7 +136,7 @@ public class PlanFragment extends Fragment {
                             .append("\n\n");
                 }
 
-                StringBuilder url = new StringBuilder("https://www.nutritracker.com/tracker");
+                StringBuilder url = new StringBuilder("https://nutritrackermealplan");
 
                 for (int i = 0; i < planMeals.size(); i++) {
                     if (i == 0) {

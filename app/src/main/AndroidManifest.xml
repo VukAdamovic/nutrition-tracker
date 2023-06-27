@@ -39,8 +39,7 @@
 
                 <data
                     android:scheme="https"
-                    android:host="www.nutritracker.com"
-                    android:pathPrefix="/tracker" />
+                    android:host="nutritrackermealplan" />
             </intent-filter>
         </activity>
     </application>
