@@ -18,29 +18,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
             android:backgroundTint="#d9d9d9"
             android:ems="10"
             android:hint="Search by meal name"
             android:inputType="text"
             android:textColor="@color/our_white"
             android:textColorHint="#BFd9d9d9"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="Search"
-                android:fontFamily="@font/codaregular"
-                android:textColor="@color/our_white"
-                android:background="@drawable/custom_button"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextText3" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -49,10 +38,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="107dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="107dp"
-        android:text="SAVED MEALS"
         android:fontFamily="@font/codaextrabold"
+        android:text="SAVED MEALS"
         android:textColor="@color/our_white"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"

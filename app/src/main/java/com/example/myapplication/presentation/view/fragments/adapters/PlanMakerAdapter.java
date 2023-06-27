@@ -69,6 +69,7 @@ public class PlanMakerAdapter extends  RecyclerView.Adapter<PlanMakerAdapter.Pla
             TextView mealNameTextView = itemView.findViewById(R.id.textView53);
             TextView obrokTextView = itemView.findViewById(R.id.textView57);
             TextView kalorijeTextView = itemView.findViewById(R.id.textView58);
+            TextView deleteElement = itemView.findViewById(R.id.textView52);
 
             imageView.setClipToOutline(true);
             imageView.setOutlineProvider(new ViewOutlineProvider() {
@@ -86,6 +87,11 @@ public class PlanMakerAdapter extends  RecyclerView.Adapter<PlanMakerAdapter.Pla
             mealNameTextView.setText(planMeal.getName());
             obrokTextView.setText(planMeal.getMealType());
             kalorijeTextView.setText(String.valueOf(planMeal.getCalories()));
+
+            deleteElement.setOnClickListener(view -> {
+                planMeals.remove(planMeal);
+                notifyDataSetChanged();
+            });
         }
     }
 
