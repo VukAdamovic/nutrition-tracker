@@ -187,7 +187,7 @@ public class PlanFragment extends Fragment {
                 Log.d("PlanFragment", "Day and Type: " + day + " " + type + " " + mealFiltered.getId());
                 this.type = type;
                 this.day = day;
-                MainActivity.mainViewModel.getMealById(mealFiltered.getId());
+                MainActivity.mainViewModel.getMealsByName(mealFiltered.getName());
             });
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
             recyclerViewMealsByCategory.setLayoutManager(layoutManager);
@@ -213,6 +213,9 @@ public class PlanFragment extends Fragment {
             day = null;
         });
         MainActivity.singleMealByIdLiveData.observe(this, mealSingles -> {
+            MainActivity.mainViewModel.getCaloriesForMeal(mealSingles.get(0));
+        });
+        MainActivity.allMealsByNameLiveData.observe(this, mealSingles -> {
             MainActivity.mainViewModel.getCaloriesForMeal(mealSingles.get(0));
         });
     }
