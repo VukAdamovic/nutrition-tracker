@@ -56,10 +56,10 @@ public class ChartFragment extends Fragment {
 
 
 
+
     public ChartFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -77,6 +77,17 @@ public class ChartFragment extends Fragment {
         numMeals = new ArrayList<>();
         caloriesMeals = new ArrayList<>();
 
+
+        float sharedCalories =((MainActivity) requireActivity()).sharedPreferences.getFloat("CALORIES", 0);
+        if(sharedCalories == 0){
+            binding.textView60.setText("Daily Calories 'Go calculate first" );
+        }else {
+            binding.textView60.setText("Daily Calories '" + sharedCalories +"'" );
+        }
+
+
+
+
         MainActivity mainActivity = (MainActivity) requireActivity();
         MainActivity.mainViewModel.getMealsLastSevenDays(mainActivity.sharedPreferences.getInt("USER_ID",-1), new Date());
     }
@@ -87,6 +98,10 @@ public class ChartFragment extends Fragment {
         MainActivity.mealsInLastSevenDays.observe(this, mealEntities -> {
             HashMap<String, List<MealEntity>> mealsByDate = new HashMap<>();
             SimpleDateFormat dateFormat = new SimpleDateFormat("EEE", new Locale("sr","RS"));
+
+            //Obrisi predhodne podatke iz liste
+            numMeals.clear();
+            caloriesMeals.clear();
 
             // Grupisanje obroka po datumu
             for (MealEntity meal : mealEntities) {
@@ -139,6 +154,9 @@ public class ChartFragment extends Fragment {
 
             sortedMealsByDate.putAll(mealsByDate);
 
+            //Cisti prethodne podatke koje si imao i setuj trenutne
+            chartNumMeals.clear();
+            chartNumCalories.clear();
 
             //Gore je sve za logiku ovde punis pieChart-ove za borj jela
 
@@ -185,7 +203,7 @@ public class ChartFragment extends Fragment {
 
             //inicijalizacija za donji chart
             PieDataSet pieDataSet2 = new PieDataSet(caloriesMeals, "Number of meals per day");
-            pieDataSet2.setColors(colors);
+//            pieDataSet2.setColors(colors);
             pieDataSet2.setSliceSpace(2f);
             pieDataSet2.setSelectionShift(10f);
             pieDataSet2.setValueTextColor(Color.WHITE);
@@ -203,6 +221,26 @@ public class ChartFragment extends Fragment {
             chartNumCalories.getDescription().setEnabled(false);
             chartNumCalories.getLegend().setEnabled(false);
             chartNumCalories.setTouchEnabled(false);
+
+
+            //Provera da li prelazi dnevni unos klaorija
+            float sharedCalories =((MainActivity) requireActivity()).sharedPreferences.getFloat("CALORIES", 0);
+
+            List<Integer> sliceColors = new ArrayList<>();
+            for (int i = 0; i < caloriesMeals.size(); i++) {
+                PieEntry entry = caloriesMeals.get(i);
+                String entryLabel = entry.getLabel();
+
+                // Parsiranje kalorija iz oznake
+                double entryCalories = Double.parseDouble(entryLabel.substring(entryLabel.lastIndexOf("-") + 1).trim());
+
+                if (sharedCalories > entryCalories) {
+                    sliceColors.add(Color.GREEN);
+                } else {
+                    sliceColors.add(Color.RED);
+                }
+            }
+            pieDataSet2.setColors(sliceColors);
         });
     }
 }
