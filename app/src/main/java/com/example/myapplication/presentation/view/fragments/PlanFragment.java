@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +21,7 @@ import com.example.myapplication.presentation.view.fragments.adapters.PlanAdapte
 import com.example.myapplication.presentation.view.fragments.adapters.PlanMakerAdapter;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 
@@ -41,11 +41,11 @@ public class PlanFragment extends Fragment {
 
     private PlanAdapter planAdapter;
 
-    private LiveData<List<PlanMeal>> planMealsLiveData;
-
     private String day;
 
     private String type;
+
+    private boolean openedFragment;
 
 
 
@@ -57,6 +57,7 @@ public class PlanFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentPlanBinding.inflate(inflater, container, false);
+        openedFragment = true;
         initListeners();
         return binding.getRoot();
     }
@@ -84,7 +85,25 @@ public class PlanFragment extends Fragment {
         });
 
         binding.button11.setOnClickListener(v -> {
+            if(planMakerAdapter == null) {
+                Log.d("PlanFragment", "No PlanMeal data available");
+                return;
+            }
 
+            List<PlanMeal> planMeals = planMakerAdapter.getPlanMeals();
+            HashSet<String> daysInPlan = new HashSet<>();
+
+            for (PlanMeal planMeal : planMeals) {
+                daysInPlan.add(planMeal.getMealDay());
+            }
+
+            if(daysInPlan.size() < 7) {
+                // Not all days of the week have entries
+                Log.d("PlanFragment", "Not all days of the week have entries");
+            } else {
+                // All days of the week have entries
+                Log.d("PlanFragment", "All days of the week have entries");
+            }
         });
 
         toggleSearch.setChecked(true);
@@ -129,6 +148,7 @@ public class PlanFragment extends Fragment {
         });
 
         MainActivity.currentMealWithCaloriesLiveData.observe(this, mealSingle -> {
+            if (day == null || type == null) return;
             if (recyclerViewWeeklyPlan.getAdapter() != null) {
                 planMakerAdapter = (PlanMakerAdapter) recyclerViewWeeklyPlan.getAdapter();
                 List<PlanMeal> newPlanMeals = new ArrayList<>(planMakerAdapter.getPlanMeals());
@@ -142,6 +162,8 @@ public class PlanFragment extends Fragment {
                 recyclerViewWeeklyPlan.setLayoutManager(layoutManager);
                 recyclerViewWeeklyPlan.setAdapter(planMakerAdapter);
             }
+            type = null;
+            day = null;
         });
         MainActivity.singleMealByIdLiveData.observe(this, mealSingles -> {
             MainActivity.mainViewModel.getCaloriesForMeal(mealSingles.get(0));

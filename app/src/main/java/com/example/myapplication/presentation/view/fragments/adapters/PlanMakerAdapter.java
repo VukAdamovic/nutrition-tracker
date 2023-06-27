@@ -84,8 +84,10 @@ public class PlanMakerAdapter extends  RecyclerView.Adapter<PlanMakerAdapter.Pla
                     .load(planMeal.getImageUrl())
                     .into(imageView);
 
+            String dayType = planMeal.getMealDay() + " - " + planMeal.getMealType();
+
             mealNameTextView.setText(planMeal.getName());
-            obrokTextView.setText(planMeal.getMealType());
+            obrokTextView.setText(dayType);
             kalorijeTextView.setText(String.valueOf(planMeal.getCalories()));
 
             deleteElement.setOnClickListener(view -> {
