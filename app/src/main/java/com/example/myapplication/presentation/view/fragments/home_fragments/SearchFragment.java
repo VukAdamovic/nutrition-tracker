@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
@@ -35,6 +36,7 @@ public class SearchFragment extends Fragment {
     private SwitchCompat toggleSearch;
     private Handler handler = new Handler();
     private Runnable searchRunnable;
+    private ProgressBar progressBar;
 
 
     public SearchFragment() {
@@ -124,5 +126,13 @@ public class SearchFragment extends Fragment {
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setAdapter(mealAdapter);
         });
+    }
+
+    private void showProgressDialog() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void hideProgressDialog() {
+        progressBar.setVisibility(View.GONE);
     }
 }

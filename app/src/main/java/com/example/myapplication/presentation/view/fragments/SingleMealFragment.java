@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +29,8 @@ public class SingleMealFragment extends Fragment {
     private MealFiltered mealFiltered;
     private FragmentSingleMealBinding binding;
 
+    private ProgressBar progressBar;
+
 
     public SingleMealFragment(MealFiltered mealFiltered) {
         this.mealFiltered = mealFiltered;
@@ -44,6 +47,7 @@ public class SingleMealFragment extends Fragment {
 
     private void initListeners(){
         TextView exit = binding.textView31;
+        progressBar = binding.progressBar2;
 
         exit.setOnClickListener(v -> {
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
@@ -51,6 +55,7 @@ public class SingleMealFragment extends Fragment {
         });
 
         initObservers();
+        showProgressDialog();
         MainActivity.mainViewModel.getMealById(mealFiltered.getId());
     }
 
@@ -60,6 +65,7 @@ public class SingleMealFragment extends Fragment {
         });
 
         MainActivity.currentMealWithCaloriesLiveData.observe(this, mealSingle -> {
+            hideProgressDialog();
 
 
             binding.textView32.setText(mealSingle.getMealName());
@@ -106,5 +112,13 @@ public class SingleMealFragment extends Fragment {
                 requireActivity().getSupportFragmentManager().popBackStack();
             });
         });
+    }
+
+    private void showProgressDialog() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void hideProgressDialog() {
+        progressBar.setVisibility(View.GONE);
     }
 }
