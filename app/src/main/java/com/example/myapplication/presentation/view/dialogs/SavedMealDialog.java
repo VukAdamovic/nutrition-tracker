@@ -40,8 +40,10 @@ public class SavedMealDialog extends DialogFragment {
         TextView mealName = view.findViewById(R.id.textView32);
         ImageView imageView = view.findViewById(R.id.imageView6);
         TextView category = view.findViewById(R.id.textView34);
+        TextView areaHeader = view.findViewById(R.id.textView35);
         TextView area = view.findViewById(R.id.textView36);
         TextView instructions = view.findViewById(R.id.textView38);
+        TextView tagsHeader = view.findViewById(R.id.textView39);
         TextView tags = view.findViewById(R.id.textView40);
         TextView youtube = view.findViewById(R.id.textView42);
         TextView calories = view.findViewById(R.id.textView44);
@@ -72,6 +74,10 @@ public class SavedMealDialog extends DialogFragment {
         calories.setText(String.valueOf(meal.getCalories()));
         ingredients.setText(TextUtils.join("\n", meal.getIngredientsMeasurements()));
         hideButton.setVisibility(View.INVISIBLE);
+        areaHeader.setVisibility(View.GONE);
+        area.setVisibility(View.GONE);
+        tagsHeader.setVisibility(View.GONE);
+        tags.setVisibility(View.GONE);
 
         builder.setView(view);
         return builder.create();
