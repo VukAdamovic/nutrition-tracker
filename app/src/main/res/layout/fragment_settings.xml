@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -32,10 +32,11 @@
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout6"
             android:layout_width="300dp"
             android:layout_height="375dp"
+            android:layout_marginTop="15dp"
             android:background="@drawable/glass"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView47">
@@ -63,6 +64,7 @@
                 android:hint="New Password"
                 android:inputType="textPassword"
                 android:textColor="@color/our_white"
+                android:fontFamily="@font/codaregular"
                 android:textColorHint="#BFd9d9d9"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -73,12 +75,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:backgroundTint="#d9d9d9"
                 android:ems="10"
                 android:hint="Confirm New Password"
                 android:inputType="textPassword"
+                android:backgroundTint="#d9d9d9"
                 android:textColor="@color/our_white"
                 android:textColorHint="#BFd9d9d9"
+                android:fontFamily="@font/codaregular"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword2" />
@@ -103,10 +106,10 @@
                 android:layout_marginTop="35dp"
                 android:layout_marginEnd="122dp"
                 android:layout_marginBottom="39dp"
-                android:text="Poruka"
-                android:textSize="13sp"
                 android:fontFamily="@font/codaregular"
+                android:text="Poruka"
                 android:textColor="@color/our_red"
+                android:textSize="13sp"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -116,8 +119,167 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="300dp"
+            android:layout_height="400dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="67dp"
+            android:background="@drawable/glass"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout6">
+
+
+            <TextView
+                android:id="@+id/textView59"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="35dp"
+                android:fontFamily="@font/codaextrabold"
+                android:text="Calculate Calories"
+                android:textColor="@color/our_white"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView59">
+
+
+                <EditText
+                    android:id="@+id/editTextNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:backgroundTint="#d9d9d9"
+                    android:ems="10"
+                    android:fontFamily="@font/codaregular"
+                    android:hint="Age"
+                    android:inputType="numberSigned"
+                    android:textAlignment="center"
+                    android:textColor="@color/our_white"
+                    android:textColorHint="#BFd9d9d9" />
+
+                <EditText
+                    android:id="@+id/editTextNumber2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:backgroundTint="#d9d9d9"
+                    android:ems="10"
+                    android:fontFamily="@font/codaregular"
+                    android:hint="Height"
+                    android:inputType="numberSigned"
+                    android:textAlignment="center"
+                    android:textColor="@color/our_white"
+                    android:textColorHint="#BFd9d9d9" />
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/editTextNumber3"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:backgroundTint="#d9d9d9"
+                android:ems="10"
+                android:fontFamily="@font/codaregular"
+                android:hint="Weight"
+                android:inputType="numberSigned"
+                android:textAlignment="center"
+                android:textColor="@color/our_white"
+                android:textColorHint="#BFd9d9d9"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextNumber3">
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    tools:layout_editor_absoluteX="74dp"
+                    tools:layout_editor_absoluteY="222dp">
+
+                    <RadioButton
+                        android:id="@+id/radioButton17"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/codaregular"
+                        android:text="Male"
+                        android:textColor="@color/our_white" />
+
+                    <RadioButton
+                        android:id="@+id/radioButton18"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/codaregular"
+                        android:text="Female"
+                        android:textColor="@color/our_white" />
+                </RadioGroup>
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:layout_editor_absoluteX="74dp"
+                    tools:layout_editor_absoluteY="222dp">
+
+                    <RadioButton
+                        android:id="@+id/radioButton19"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/codaregular"
+                        android:text="Active"
+                        android:textColor="@color/our_white" />
+
+                    <RadioButton
+                        android:id="@+id/radioButton20"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/codaregular"
+                        android:text="No Active"
+                        android:textColor="@color/our_white" />
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button4"
+                android:background="@drawable/custom_button"
+                android:textColor="@color/our_white"
+                android:textSize="13sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:text="Calculate"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

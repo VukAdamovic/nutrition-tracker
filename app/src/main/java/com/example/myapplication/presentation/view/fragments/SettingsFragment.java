@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -82,6 +83,40 @@ public class SettingsFragment extends Fragment {
             startActivity(intent);
             requireActivity().finish();
         });
+
+        binding.button4.setOnClickListener(v -> {
+            String ageText = binding.editTextNumber.getText().toString().trim();
+            String heightText = binding.editTextNumber2.getText().toString().trim();
+            String weightText = binding.editTextNumber3.getText().toString().trim();
+            RadioButton maleRadioBtn = binding.radioButton17;
+            RadioButton femaleRadioBtn = binding.radioButton18;
+            RadioButton activeRadioBtn = binding.radioButton19;
+            RadioButton noActiveRadioBtn = binding.radioButton20;
+
+            if (ageText.isEmpty() || heightText.isEmpty() || weightText.isEmpty()) {
+                Toast.makeText(getContext(), "All fields are required", Toast.LENGTH_SHORT).show();
+            } else {
+                int age = Integer.parseInt(ageText);
+                int height = Integer.parseInt(heightText);
+                int weight = Integer.parseInt(weightText);
+
+                if (!maleRadioBtn.isChecked() && !femaleRadioBtn.isChecked()){
+                    Toast.makeText(getContext(), "Select Gender", Toast.LENGTH_SHORT).show();
+                } else if (!activeRadioBtn.isChecked() && !noActiveRadioBtn.isChecked()){
+                    Toast.makeText(getContext(), "Select your daily activity", Toast.LENGTH_SHORT).show();
+                } else {
+                    String gender = maleRadioBtn.isChecked() ? "muškarac" : "žena";
+                    String activity = activeRadioBtn.isChecked() ? "aktivno" : "neaktivno";
+
+                    double calorieIntake = calculateCalorieIntake(age, height, weight, gender, activity);
+
+                    MainActivity mainActivity = (MainActivity) requireActivity();
+                    mainActivity.sharedPreferences.edit().putFloat("CALORIES", (float) calorieIntake).apply();
+                    Toast.makeText(getContext(), "Calorie Intake: " + calorieIntake, Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
     }
 
     private void initObservers(){
@@ -90,5 +125,25 @@ public class SettingsFragment extends Fragment {
             binding.editTextTextPassword2.setText("");
             binding.editTextTextPassword3.setText("");
         });
+    }
+
+
+    private double calculateCalorieIntake(int age, int height, int weight, String gender, String activity) {
+        double bmr;
+        double calorieIntake;
+
+        if (gender.equals("muškarac")) {
+            bmr = 10 * weight + 6.25 * height - 5 * age + 5;
+        } else {
+            bmr = 10 * weight + 6.25 * height - 5 * age - 161;
+        }
+
+        if (activity.equals("aktivno")) {
+            calorieIntake = bmr * 1.55;
+        } else {
+            calorieIntake = bmr * 1.2;
+        }
+
+        return calorieIntake;
     }
 }
