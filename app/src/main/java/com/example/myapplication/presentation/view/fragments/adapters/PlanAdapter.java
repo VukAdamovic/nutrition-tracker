@@ -27,6 +27,8 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.PlanViewHolder
 
     private FragmentManager fragmentManager;
 
+    private OnPlanValuesPassListener passListener;
+
     public PlanAdapter(List<MealFiltered> mealFilteredList, FragmentManager fragmentManager) {
         this.mealFilteredList = mealFilteredList;
         this.fragmentManager = fragmentManager;
@@ -50,6 +52,9 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.PlanViewHolder
         return mealFilteredList.size();
     }
 
+    public void setOnPlanValuesPassListener(OnPlanValuesPassListener passListener) {
+        this.passListener = passListener;
+    }
 
     public class PlanViewHolder extends RecyclerView.ViewHolder{
 
@@ -60,9 +65,14 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.PlanViewHolder
             super(itemView);
             this.fragmentManager = fragmentManager;
             itemView.setOnClickListener(v -> {
-                PlanDialog dialog = new PlanDialog(mealFiltered);
+                PlanDialog dialog = new PlanDialog(mealFiltered, (day, type) -> {
+                    if (passListener != null) {
+                        passListener.onPlanValuesPass(day, type);
+                    }
+                });
                 dialog.show(fragmentManager, "category_dialog");
             });
+
         }
 
         public void bind(MealFiltered mealFiltered){
@@ -84,5 +94,9 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.PlanViewHolder
                     .into(imageView);
             mealNameTextView.setText(mealFiltered.getName());
         }
+    }
+
+    public interface OnPlanValuesPassListener {
+        void onPlanValuesPass(String day, String type);
     }
 }

@@ -19,8 +19,11 @@ public class PlanDialog extends DialogFragment {
 
     private MealFiltered mealFiltered;
 
-    public PlanDialog(MealFiltered mealFiltered) {
+    private OnPlanSelectedListener listener;
+
+    public PlanDialog(MealFiltered mealFiltered, OnPlanSelectedListener listener) {
         this.mealFiltered = mealFiltered;
+        this.listener = listener;
     }
 
     @Override
@@ -39,10 +42,29 @@ public class PlanDialog extends DialogFragment {
         radioButtonBreakfast.setChecked(true);
 
         addButton.setOnClickListener(v -> {
+            int selectedDayId = radioGroupDay.getCheckedRadioButtonId();
+            RadioButton radioButtonDay = view.findViewById(selectedDayId);
+            String selectedDay = radioButtonDay.getText().toString();
+
+            int selectedTypeId = radioGroupType.getCheckedRadioButtonId();
+            RadioButton radioButtonType = view.findViewById(selectedTypeId);
+            String selectedType = radioButtonType.getText().toString();
+
+            if (listener != null) {
+                listener.onPlanSelected(selectedDay, selectedType);
+            }
 
             dismiss();
         });
 
         return view;
+    }
+
+    public void setOnPlanSelectedListener(OnPlanSelectedListener listener) {
+        this.listener = listener;
+    }
+
+    public interface OnPlanSelectedListener {
+        void onPlanSelected(String day, String type);
     }
 }

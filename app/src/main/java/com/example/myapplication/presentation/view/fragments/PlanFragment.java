@@ -1,29 +1,26 @@
 package com.example.myapplication.presentation.view.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.example.myapplication.R;
 import com.example.myapplication.data.models.api.domain.MealFiltered;
 import com.example.myapplication.data.models.entities.MealEntity;
 import com.example.myapplication.databinding.FragmentPlanBinding;
 import com.example.myapplication.presentation.view.activities.MainActivity;
 import com.example.myapplication.presentation.view.fragments.adapters.FilterAdapter;
-import com.example.myapplication.presentation.view.fragments.adapters.MealAdapter;
 import com.example.myapplication.presentation.view.fragments.adapters.PlanAdapter;
 import com.example.myapplication.presentation.view.fragments.adapters.PlanMakerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 
 public class PlanFragment extends Fragment {
@@ -65,19 +62,24 @@ public class PlanFragment extends Fragment {
 
         SwitchCompat toggleSearch = binding.toggleButton2;
 
-        //Popunjvam da ne bude prazno na pocetku
         MainActivity.mainViewModel.getCategories();
         MainActivity.mainViewModel.getMealsByCategory("Chicken");
 
         toggleSearch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if(isChecked) { // saved
+            if(isChecked) {
                 MainActivity.mainViewModel.getCategories();
                 MainActivity.mainViewModel.getMealsByCategory("Chicken");
-            } else { // za api
+            } else {
                 MainActivity mainActivity = (MainActivity) requireActivity();
                 MainActivity.mainViewModel.getMealsByUserId(mainActivity.sharedPreferences.getInt("USER_ID", -1));
             }
         });
+
+        binding.button11.setOnClickListener(v -> {
+
+        });
+
+        toggleSearch.setChecked(true);
     }
 
     private void initObservers(){
@@ -90,6 +92,9 @@ public class PlanFragment extends Fragment {
 
         MainActivity.allFilteredMealsByCategoryLiveData.observe(this, meals -> {
             planAdapter = new PlanAdapter(meals, requireActivity().getSupportFragmentManager());
+            planAdapter.setOnPlanValuesPassListener((day, type) -> {
+                Log.d("PlanFragment", "Day and Type: " + day + " " + type);
+            });
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
             recyclerViewMealsByCategory.setLayoutManager(layoutManager);
             recyclerViewMealsByCategory.setAdapter(planAdapter);
@@ -97,11 +102,15 @@ public class PlanFragment extends Fragment {
 
         MainActivity.allMealsByUserId.observe(this, mealEntities -> {
             List<MealFiltered> mealFilteredList = new ArrayList<>();
+
             for(MealEntity meal : mealEntities){
                 mealFilteredList.add(new MealFiltered(String.valueOf(meal.getId()), meal.getMealImageUrl(), meal.getMealName()));
             }
 
             planAdapter = new PlanAdapter(mealFilteredList, requireActivity().getSupportFragmentManager());
+            planAdapter.setOnPlanValuesPassListener((day, type) -> {
+                Log.d("PlanFragment", "Day and Type: " + day + " " + type);
+            });
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
             recyclerViewMealsByCategory.setLayoutManager(layoutManager);
             recyclerViewMealsByCategory.setAdapter(planAdapter);
