@@ -1,10 +1,9 @@
 plugins {
     id 'com.android.application'
-    id 'com.google.gms.google-services'
 }
 
 android {
-    namespace "com.example.myapplication"
+    namespace 'com.example.myapplication'
     compileSdk 33
 
     defaultConfig {
@@ -25,6 +24,7 @@ android {
     }
 
     buildFeatures {
+
         viewBinding true
     }
 }
@@ -112,13 +112,4 @@ dependencies {
     //Charts
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
-    //Firebase
-    // Your existing dependencies
-
-    implementation platform('com.google.firebase:firebase-bom:32.1.1')  // Firebase Bill of Materials (BoM)
-    implementation 'com.google.firebase:firebase-analytics'  // Firebase Analytics
-    implementation 'com.google.firebase:firebase-dynamic-links:21.1.0' // Firebase Dynamic Links
-
-    // Add the dependencies for any other desired Firebase products
-    // https://firebase.google.com/docs/android/setup#available-libraries
 }
