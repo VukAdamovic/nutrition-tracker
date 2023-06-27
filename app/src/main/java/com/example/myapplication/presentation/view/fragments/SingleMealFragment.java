@@ -17,18 +17,20 @@ import androidx.fragment.app.FragmentManager;
 
 import com.bumptech.glide.Glide;
 import com.example.myapplication.data.models.api.domain.MealFiltered;
+import com.example.myapplication.data.models.api.domain.MealSingle;
 import com.example.myapplication.data.models.entities.MealEntity;
 import com.example.myapplication.databinding.FragmentSingleMealBinding;
 import com.example.myapplication.presentation.view.activities.MainActivity;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 public class SingleMealFragment extends Fragment {
 
     private MealFiltered mealFiltered;
     private FragmentSingleMealBinding binding;
-
     private ProgressBar progressBar;
 
 
@@ -45,6 +47,19 @@ public class SingleMealFragment extends Fragment {
         return binding.getRoot();
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        List<MealSingle> lista = new ArrayList<>();
+        lista.add(new MealSingle());
+        MainActivity.singleMealByIdLiveData.setValue(lista);
+        MainActivity.currentMealWithCaloriesLiveData.setValue(new MealSingle());
+        MainActivity.singleMealByIdLiveData.removeObservers(getViewLifecycleOwner());
+        MainActivity.currentMealWithCaloriesLiveData.removeObservers(getViewLifecycleOwner());
+        binding = null;
+    }
+
+
     private void initListeners(){
         TextView exit = binding.textView31;
         progressBar = binding.progressBar2;
@@ -60,11 +75,11 @@ public class SingleMealFragment extends Fragment {
     }
 
     private void initObservers() {
-        MainActivity.singleMealByIdLiveData.observe(this, meals -> {
+        MainActivity.singleMealByIdLiveData.observe(getViewLifecycleOwner(), meals -> {
             MainActivity.mainViewModel.getCaloriesForMeal(meals.get(0));
         });
 
-        MainActivity.currentMealWithCaloriesLiveData.observe(this, mealSingle -> {
+        MainActivity.currentMealWithCaloriesLiveData.observe(getViewLifecycleOwner(), mealSingle -> {
             hideProgressDialog();
 
 

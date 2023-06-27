@@ -1,6 +1,7 @@
 package com.example.myapplication.data.models.api.domain;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Getter;
@@ -42,5 +43,18 @@ public class MealSingle {
         this.area = area;
         this.tags = tags;
         this.calories = calories;
+    }
+
+    public MealSingle() {
+        this.id = 0;
+        this.mealName = "";
+        this.mealImageUrl = "";
+        this.instructions = "";
+        this.youTubeLink = "";
+        this.ingredientsMeasurements = new ArrayList<>();
+        this.category = "";
+        this.area = "";
+        this.tags = new ArrayList<>();
+        this.calories = 0.0;
     }
 }
