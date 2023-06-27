@@ -86,7 +86,7 @@ public class ChartFragment extends Fragment {
     private void initObservers(){
         MainActivity.mealsInLastSevenDays.observe(this, mealEntities -> {
             HashMap<String, List<MealEntity>> mealsByDate = new HashMap<>();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("EEE", Locale.getDefault());
+            SimpleDateFormat dateFormat = new SimpleDateFormat("EEE", new Locale("sr","RS"));
 
             // Grupisanje obroka po datumu
             for (MealEntity meal : mealEntities) {
@@ -107,7 +107,7 @@ public class ChartFragment extends Fragment {
             LocalDate danPreTrenutnog = trenutniDatum.minusDays(1);
             LocalDate sedamDanaUnazad = trenutniDatum.minusDays(7);
 
-            DateTimeFormatter format = DateTimeFormatter.ofPattern("EEE");
+            DateTimeFormatter format = DateTimeFormatter.ofPattern("EEE", new Locale("sr","RS"));
 
             Comparator<String> dayOfWeekComparator = new Comparator<String>() {
                 @Override

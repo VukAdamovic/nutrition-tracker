@@ -77,8 +77,8 @@ public class LoginActivity extends AppCompatActivity {
         };
 
         mainViewModel = new ViewModelProvider(this, factory).get(MainViewModel.class);
-//        mainViewModel.adduser(new UserEntity(0, "mitar", "12345"));
-//        mainViewModel.adduser(new UserEntity(0, "vuk", "12345"));
+        mainViewModel.adduser(new UserEntity(0, "mitar", "12345"));
+        mainViewModel.adduser(new UserEntity(0, "vuk", "12345"));
 
         initObservers();
     }
