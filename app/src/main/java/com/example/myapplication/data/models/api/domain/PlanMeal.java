@@ -16,13 +16,16 @@ public class PlanMeal {
 
     private String mealType;
 
+    private String mealDay;
+
     private double calories;
 
-    public PlanMeal(Integer id, String name, String imageUrl, String mealType, double calories) {
+    public PlanMeal(Integer id, String name, String imageUrl, String mealType, String mealDay, double calories) {
         this.id = id;
         this.name = name;
         this.imageUrl = imageUrl;
         this.mealType = mealType;
+        this.mealDay = mealDay;
         this.calories = calories;
     }
 }

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.data.models.api.domain.MealFiltered;
+import com.example.myapplication.data.models.api.domain.PlanMeal;
 import com.example.myapplication.data.models.entities.MealEntity;
 import com.example.myapplication.databinding.FragmentPlanBinding;
 import com.example.myapplication.presentation.view.activities.MainActivity;
@@ -94,6 +95,25 @@ public class PlanFragment extends Fragment {
             planAdapter = new PlanAdapter(meals, requireActivity().getSupportFragmentManager());
             planAdapter.setOnPlanValuesPassListener((day, type, mealFiltered) -> {
                 Log.d("PlanFragment", "Day and Type: " + day + " " + type + " " + mealFiltered.getId());
+                MainActivity.currentMealWithCaloriesLiveData.observe(this, mealSingle -> {
+                    if (recyclerViewWeeklyPlan.getAdapter() != null) {
+                        planMakerAdapter = (PlanMakerAdapter) recyclerViewWeeklyPlan.getAdapter();
+                        List<PlanMeal> newPlanMeals = new ArrayList<>(planMakerAdapter.getPlanMeals());
+                        newPlanMeals.add(new PlanMeal(mealFiltered.getId(), mealFiltered.getName(), mealFiltered.getThumbnail(), type, day, mealSingle.getCalories()));
+                        planMakerAdapter.setPlanMeals(newPlanMeals);
+                    } else {
+                        List<PlanMeal> planMeals = new ArrayList<>();
+                        planMeals.add(new PlanMeal(mealFiltered.getId(), mealFiltered.getName(), mealFiltered.getThumbnail(), type, day, mealSingle.getCalories()));
+                        planMakerAdapter = new PlanMakerAdapter(planMeals, this);
+                        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+                        recyclerViewWeeklyPlan.setLayoutManager(layoutManager);
+                        recyclerViewWeeklyPlan.setAdapter(planMakerAdapter);
+                    }
+                });
+                MainActivity.singleMealByIdLiveData.observe(this, mealSingles -> {
+                    MainActivity.mainViewModel.getCaloriesForMeal(mealSingles.get(0));
+                });
+                MainActivity.mainViewModel.getMealById(mealFiltered.getId());
             });
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
             recyclerViewMealsByCategory.setLayoutManager(layoutManager);
@@ -110,6 +130,25 @@ public class PlanFragment extends Fragment {
             planAdapter = new PlanAdapter(mealFilteredList, requireActivity().getSupportFragmentManager());
             planAdapter.setOnPlanValuesPassListener((day, type, mealFiltered) -> {
                 Log.d("PlanFragment", "Day and Type: " + day + " " + type + " " + mealFiltered.getId());
+                MainActivity.currentMealWithCaloriesLiveData.observe(this, mealSingle -> {
+                    if (recyclerViewWeeklyPlan.getAdapter() != null) {
+                        planMakerAdapter = (PlanMakerAdapter) recyclerViewWeeklyPlan.getAdapter();
+                        List<PlanMeal> newPlanMeals = new ArrayList<>(planMakerAdapter.getPlanMeals());
+                        newPlanMeals.add(new PlanMeal(mealFiltered.getId(), mealFiltered.getName(), mealFiltered.getThumbnail(), type, day, mealSingle.getCalories()));
+                        planMakerAdapter.setPlanMeals(newPlanMeals);
+                    } else {
+                        List<PlanMeal> planMeals = new ArrayList<>();
+                        planMeals.add(new PlanMeal(mealFiltered.getId(), mealFiltered.getName(), mealFiltered.getThumbnail(), type, day, mealSingle.getCalories()));
+                        planMakerAdapter = new PlanMakerAdapter(planMeals, this);
+                        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+                        recyclerViewWeeklyPlan.setLayoutManager(layoutManager);
+                        recyclerViewWeeklyPlan.setAdapter(planMakerAdapter);
+                    }
+                });
+                MainActivity.singleMealByIdLiveData.observe(this, mealSingles -> {
+                    MainActivity.mainViewModel.getCaloriesForMeal(mealSingles.get(0));
+                });
+                MainActivity.mainViewModel.getMealById(mealFiltered.getId());
             });
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
             recyclerViewMealsByCategory.setLayoutManager(layoutManager);

@@ -44,6 +44,15 @@ public class PlanMakerAdapter extends  RecyclerView.Adapter<PlanMakerAdapter.Pla
         holder.bind(planMeals.get(position));
     }
 
+    public List<PlanMeal> getPlanMeals() {
+        return planMeals;
+    }
+
+    public void setPlanMeals(List<PlanMeal> planMeals) {
+        this.planMeals = planMeals;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return  planMeals.size();
