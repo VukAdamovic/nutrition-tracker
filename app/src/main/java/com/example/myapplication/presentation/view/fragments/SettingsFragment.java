@@ -111,8 +111,9 @@ public class SettingsFragment extends Fragment {
                     double calorieIntake = calculateCalorieIntake(age, height, weight, gender, activity);
 
                     MainActivity mainActivity = (MainActivity) requireActivity();
-                    mainActivity.sharedPreferences.edit().putFloat("CALORIES", (float) calorieIntake).apply();
-                    Toast.makeText(getContext(), "Calorie Intake: " + calorieIntake, Toast.LENGTH_LONG).show();
+                    float roundedCalorieIntake = Math.round(calorieIntake);
+                    mainActivity.sharedPreferences.edit().putFloat("CALORIES", roundedCalorieIntake).apply();
+                    Toast.makeText(getContext(), "Calorie Intake: " + roundedCalorieIntake, Toast.LENGTH_LONG).show();
                 }
             }
         });
