@@ -20,6 +20,7 @@ import com.example.myapplication.presentation.view.activities.MainActivity;
 import com.example.myapplication.presentation.view.dialogs.SavedMealDialog;
 import com.example.myapplication.presentation.view.dialogs.UpdateSavedMealDialog;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SavedMealAdapter extends RecyclerView.Adapter<SavedMealAdapter.SavedMealHolder> implements UpdateSavedMealDialog.UpdateSavedMealDialogListener {
@@ -28,9 +29,23 @@ public class SavedMealAdapter extends RecyclerView.Adapter<SavedMealAdapter.Save
 
     private Fragment parentFragment;
 
+    private List<MealEntity> originalList;
+
     public SavedMealAdapter(List<MealEntity> mealEntityList, Fragment parentFragment) {
         this.mealEntityList = mealEntityList;
         this.parentFragment = parentFragment;
+        this.originalList = new ArrayList<>(mealEntityList);
+    }
+
+    public void filter(String text) {
+        List<MealEntity> filteredList = new ArrayList<>();
+        for (MealEntity item : originalList) {
+            if (item.getMealName().toLowerCase().contains(text.toLowerCase())) {
+                filteredList.add(item);
+            }
+        }
+        mealEntityList = filteredList;
+        notifyDataSetChanged();
     }
 
     @NonNull
