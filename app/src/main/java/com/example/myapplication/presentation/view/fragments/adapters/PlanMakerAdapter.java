@@ -51,20 +51,8 @@ public class PlanMakerAdapter extends  RecyclerView.Adapter<PlanMakerAdapter.Pla
 
     public class PlanMakerViewHolder extends RecyclerView.ViewHolder{
 
-
         public PlanMakerViewHolder(@NonNull View itemView, Fragment parentFragment) {
             super(itemView);
-
-            // Postavljanje klika na cijeli element koristeći lambda izraz
-            itemView.setOnClickListener(v -> {
-
-
-                // Kreiranje instance dijaloga koristeći lambda izraz
-//                SavedMealDialog dialog = new SavedMealDialog(mealEntity);
-
-                // Prikazivanje dijaloga
-//                dialog.show(parentFragment.getChildFragmentManager(), "SavedMealDialog");
-            });
         }
 
         public void bind(PlanMeal planMeal){

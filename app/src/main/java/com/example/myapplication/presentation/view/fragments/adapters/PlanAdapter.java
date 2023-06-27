@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
 import com.example.myapplication.data.models.api.domain.MealFiltered;
+import com.example.myapplication.presentation.view.dialogs.CategoryDialog;
+import com.example.myapplication.presentation.view.dialogs.PlanDialog;
 import com.example.myapplication.presentation.view.fragments.SingleMealFragment;
 
 import java.util.List;
@@ -51,12 +53,15 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.PlanViewHolder
 
     public class PlanViewHolder extends RecyclerView.ViewHolder{
 
+        private FragmentManager fragmentManager;
         private MealFiltered mealFiltered;
 
         public PlanViewHolder(@NonNull View itemView, FragmentManager fragmentManager) {
             super(itemView);
+            this.fragmentManager = fragmentManager;
             itemView.setOnClickListener(v -> {
-                //zoves onaj dialog
+                PlanDialog dialog = new PlanDialog(mealFiltered);
+                dialog.show(fragmentManager, "category_dialog");
             });
         }
 
@@ -78,7 +83,6 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.PlanViewHolder
                     .load(mealFiltered.getThumbnail())
                     .into(imageView);
             mealNameTextView.setText(mealFiltered.getName());
-
         }
     }
 }

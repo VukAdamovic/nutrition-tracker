@@ -71,11 +71,11 @@ public class PlanFragment extends Fragment {
 
         toggleSearch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if(isChecked) { // saved
-                MainActivity mainActivity = (MainActivity) requireActivity();
-                MainActivity.mainViewModel.getMealsByUserId(mainActivity.sharedPreferences.getInt("USER_ID", -1));
-            } else { // za api
                 MainActivity.mainViewModel.getCategories();
                 MainActivity.mainViewModel.getMealsByCategory("Chicken");
+            } else { // za api
+                MainActivity mainActivity = (MainActivity) requireActivity();
+                MainActivity.mainViewModel.getMealsByUserId(mainActivity.sharedPreferences.getInt("USER_ID", -1));
             }
         });
     }
@@ -106,7 +106,5 @@ public class PlanFragment extends Fragment {
             recyclerViewMealsByCategory.setLayoutManager(layoutManager);
             recyclerViewMealsByCategory.setAdapter(planAdapter);
         });
-
-        //
     }
 }
