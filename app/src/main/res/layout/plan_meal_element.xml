@@ -19,44 +19,49 @@
 
         <ImageView
             android:id="@+id/imageView7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
+            android:layout_marginStart="1dp"
             tools:srcCompat="@tools:sample/avatars" />
 
-        <TextView
-            android:id="@+id/textView53"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:fontFamily="@font/codaregular"
-            android:text="Ime"
-            android:textAlignment="center"
-            android:textColor="@color/our_white"
-            android:textSize="14sp" />
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textView57"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/codaregular"
-            android:text="Obrok"
-            android:textAlignment="center"
-            android:textColor="@color/our_white"
-            android:textSize="14sp" />
+            <TextView
+                android:id="@+id/textView53"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/codaregular"
+                android:text="Ime"
+                android:textColor="@color/our_white"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/textView57"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/codaregular"
+                android:text="Obrok"
+                android:textColor="@color/our_white"
+                android:textSize="14sp" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/textView58"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_marginEnd="30dp"
             android:fontFamily="@font/codaregular"
             android:text="Kalorije"
-            android:textAlignment="center"
             android:textColor="@color/our_white"
             android:textSize="14sp" />
-
 
     </LinearLayout>
 

@@ -36,7 +36,7 @@ public class CalorieRepositoryImpl implements CalorieRepository {
                             for (CalorieResponse calorieResponse : calorieResponses) {
                                 total += Double.parseDouble(calorieResponse.getCalories());
                             }
-                            return total;
+                            return (double) ((int)total);
                         } else {
                             return 0.0;
                         }
