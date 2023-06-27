@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -31,6 +32,8 @@ public class MenuFragment extends Fragment {
 
     private Runnable searchRunnable;
 
+    private ProgressBar progressBar;
+
     public MenuFragment() {}
 
     @Override
@@ -44,7 +47,9 @@ public class MenuFragment extends Fragment {
     private void initListeners(){
         recyclerView = binding.menuRecycleView;
         search = binding.editTextText3;
+        progressBar = binding.progressBar3;
         MainActivity mainActivity = (MainActivity) requireActivity();
+        showProgressDialog();
         MainActivity.mainViewModel.getMealsByUserId(mainActivity.sharedPreferences.getInt("USER_ID", 9999));
         initObservers();
 
@@ -73,11 +78,20 @@ public class MenuFragment extends Fragment {
 
     private void initObservers() {
         MainActivity.mealsByUserId.observe(this, meals -> {
+            hideProgressDialog();
             savedMealAdapter = new SavedMealAdapter(meals, getParentFragment());
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setAdapter(savedMealAdapter);
         });
+    }
+
+    private void showProgressDialog() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void hideProgressDialog() {
+        progressBar.setVisibility(View.GONE);
     }
 
 }
