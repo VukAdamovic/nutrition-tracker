@@ -1,10 +1,12 @@
 package com.example.myapplication.presentation.view.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
@@ -86,7 +88,7 @@ public class PlanFragment extends Fragment {
 
         binding.button11.setOnClickListener(v -> {
             if(planMakerAdapter == null) {
-                Log.d("PlanFragment", "No PlanMeal data available");
+                showToastMessage("There must be at least one meal per day.");
                 return;
             }
 
@@ -97,14 +99,34 @@ public class PlanFragment extends Fragment {
                 daysInPlan.add(planMeal.getMealDay());
             }
 
-            if(daysInPlan.size() < 7) {
-                // Not all days of the week have entries
-                Log.d("PlanFragment", "Not all days of the week have entries");
+            if (daysInPlan.size() < 7) {
+                showToastMessage("There must be at least one meal per day.");
             } else {
-                // All days of the week have entries
-                Log.d("PlanFragment", "All days of the week have entries");
+                StringBuilder emailBody = new StringBuilder();
+                for (PlanMeal planMeal : planMeals) {
+                    emailBody.append("Day: ").append(planMeal.getMealDay())
+                            .append("\nType: ").append(planMeal.getMealType())
+                            .append("\nMeal: ").append(planMeal.getName())
+                            .append("\nCalories: ").append(planMeal.getCalories())
+                            .append("\nMeal Image: ").append(planMeal.getImageUrl())
+                            .append("\n\n");
+                }
+
+                emailBody.append("\nOpen the app: ")
+                        .append("https://yourappurl"); // Replace with your app's URL or deep link
+
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("message/rfc822");
+                intent.putExtra(Intent.EXTRA_SUBJECT, "Meal Plan");
+                intent.putExtra(Intent.EXTRA_TEXT, emailBody.toString());
+                try {
+                    startActivity(Intent.createChooser(intent, "Send mail..."));
+                } catch (android.content.ActivityNotFoundException ex) {
+                    Toast.makeText(getContext(), "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
+
 
         toggleSearch.setChecked(true);
     }
@@ -168,5 +190,9 @@ public class PlanFragment extends Fragment {
         MainActivity.singleMealByIdLiveData.observe(this, mealSingles -> {
             MainActivity.mainViewModel.getCaloriesForMeal(mealSingles.get(0));
         });
+    }
+
+    private void showToastMessage(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 }
